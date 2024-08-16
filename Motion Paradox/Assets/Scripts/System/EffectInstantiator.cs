@@ -100,4 +100,5 @@ public enum EffectType
 	MuzzleFlash,
 	BulletTracer,
 	BloodDripping,
+	Explosion
 }

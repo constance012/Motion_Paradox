@@ -28,9 +28,9 @@ public class DamageText : MonoBehaviour
 	// Style scales.
 	private static readonly Dictionary<DamageTextStyle, float> _styleScales = new Dictionary<DamageTextStyle, float>()
 	{
-		[DamageTextStyle.Small] = .15f,
-		[DamageTextStyle.Normal] = .2f,
-		[DamageTextStyle.Critical] = .25f
+		[DamageTextStyle.Small] = .3f,
+		[DamageTextStyle.Normal] = .35f,
+		[DamageTextStyle.Critical] = .4f
 	};
 
 	// Private fields.

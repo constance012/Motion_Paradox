@@ -117,7 +117,7 @@ MonoBehaviour:
     mixerGroup: {fileID: 7328141874142692742, guid: 401043ebed57e5741be2dc4b91eca06f, type: 2}
     volume: 1
     pitch: 1
-    loop: 0
+    loop: 1
     source: {fileID: 0}
   - name: Dialogue Typing
     audioType: 0
@@ -142,7 +142,7 @@ MonoBehaviour:
     clips:
     - {fileID: 8300000, guid: 1007ce5beb39bf74ebbba56cc75a205c, type: 3}
     mixerGroup: {fileID: -5071581020908855552, guid: 401043ebed57e5741be2dc4b91eca06f, type: 2}
-    volume: 1
+    volume: 0.8
     pitch: 1
     loop: 0
     source: {fileID: 0}
@@ -163,6 +163,26 @@ MonoBehaviour:
     - {fileID: 8300000, guid: b51ee39f83862184c9d79adec5d15a49, type: 3}
     - {fileID: 8300000, guid: e246cb1f436764e4e82e5a6ef5bc1eeb, type: 3}
     - {fileID: 8300000, guid: aa7ec5ab52b827c46803914081706a86, type: 3}
+    mixerGroup: {fileID: -5071581020908855552, guid: 401043ebed57e5741be2dc4b91eca06f, type: 2}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Reloading
+    audioType: 0
+    clips:
+    - {fileID: 8300000, guid: 407a1e07da513fb4d97f3195ff4711f8, type: 3}
+    mixerGroup: {fileID: -5071581020908855552, guid: 401043ebed57e5741be2dc4b91eca06f, type: 2}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Dry Fire
+    audioType: 0
+    clips:
+    - {fileID: 8300000, guid: 9dc7e5df3fa62b145bac71792f1a189f, type: 3}
+    - {fileID: 8300000, guid: 4b5df664b4c26e34390a8c42b9339dc0, type: 3}
+    - {fileID: 8300000, guid: bb2ce47854b4cf548a69d1f05fa3400b, type: 3}
     mixerGroup: {fileID: -5071581020908855552, guid: 401043ebed57e5741be2dc4b91eca06f, type: 2}
     volume: 1
     pitch: 1

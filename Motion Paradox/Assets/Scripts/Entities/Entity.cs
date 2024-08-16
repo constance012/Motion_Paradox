@@ -15,6 +15,9 @@ public abstract class Entity : MonoBehaviour
 	[SerializeField] protected Stats stats;
 	[SerializeField] protected float damageFlashTime;
 
+	[Header("Health Bar"), Space]
+	[SerializeField] protected HealthBar healthBar;
+
 	// Protected fields.
 	protected Material _mat;
 	protected float _currentHealth;
@@ -22,6 +25,7 @@ public abstract class Entity : MonoBehaviour
 	protected virtual void Start()
 	{
 		_currentHealth = stats.GetDynamicStat(Stat.MaxHealth);
+		healthBar.SetMaxHealth(_currentHealth);
 	}
 
 	public virtual void TakeDamage(float amount, bool weakpointHit, Vector3 attackerPos = default, float knockBackStrength = 0f)
@@ -30,11 +34,10 @@ public abstract class Entity : MonoBehaviour
 		
 		_currentHealth -= amount;
 		_currentHealth = Mathf.Max(0f, _currentHealth);
+		healthBar.SetCurrentHealth(_currentHealth);
 
 		DamageTextStyle style = weakpointHit ? DamageTextStyle.Critical : DamageTextStyle.Normal;
 		DamageText.Generate(dmgTextPrefab, dmgTextLoc.position, style, amount.ToString());
-
-		EffectInstantiator.Instance.Instantiate<ParticleSystem>(EffectType.CreatureImpact, transform.position, transform.right);
 
 		StartCoroutine(TriggerDamageFlash());
 		StartCoroutine(BeingKnockedBack(attackerPos, knockBackStrength));
@@ -43,10 +46,7 @@ public abstract class Entity : MonoBehaviour
 			Die();
 	}
 
-	public virtual void Die()
-	{
-		EffectInstantiator.Instance.Instantiate<ParticleSystem>(EffectType.CreatureDeath, transform.position, Quaternion.identity);
-	}
+	public abstract void Die();
 
 	protected IEnumerator TriggerDamageFlash()
 	{
@@ -74,7 +74,7 @@ public abstract class Entity : MonoBehaviour
 		movementBehaviour.StopAllCoroutines();
 
 		Vector2 direction = transform.position - attackerPos;
-		float knockBackStrength = strength * (1f - stats.GetDynamicStat(Stat.KnockBackRes));
+		float knockBackStrength = strength * (1f - stats.GetStaticStat(Stat.KnockBackRes));
 
 		Vector2 force = direction.normalized * knockBackStrength;
 

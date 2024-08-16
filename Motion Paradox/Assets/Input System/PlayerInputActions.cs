@@ -71,6 +71,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TakeScreenshot"",
+                    ""type"": ""Button"",
+                    ""id"": ""2e055359-a2db-49d9-be03-2ef983311d52"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -172,6 +181,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""BackToMenu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5f9288f1-8837-4860-8826-ff79c0f38404"",
+                    ""path"": ""<Keyboard>/backquote"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""TakeScreenshot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -202,6 +222,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
         m_Player_Reload = m_Player.FindAction("Reload", throwIfNotFound: true);
         m_Player_BackToMenu = m_Player.FindAction("BackToMenu", throwIfNotFound: true);
+        m_Player_TakeScreenshot = m_Player.FindAction("TakeScreenshot", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -268,6 +289,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Interact;
     private readonly InputAction m_Player_Reload;
     private readonly InputAction m_Player_BackToMenu;
+    private readonly InputAction m_Player_TakeScreenshot;
     public struct PlayerActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -277,6 +299,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
         public InputAction @Reload => m_Wrapper.m_Player_Reload;
         public InputAction @BackToMenu => m_Wrapper.m_Player_BackToMenu;
+        public InputAction @TakeScreenshot => m_Wrapper.m_Player_TakeScreenshot;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -301,6 +324,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @BackToMenu.started += instance.OnBackToMenu;
             @BackToMenu.performed += instance.OnBackToMenu;
             @BackToMenu.canceled += instance.OnBackToMenu;
+            @TakeScreenshot.started += instance.OnTakeScreenshot;
+            @TakeScreenshot.performed += instance.OnTakeScreenshot;
+            @TakeScreenshot.canceled += instance.OnTakeScreenshot;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -320,6 +346,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @BackToMenu.started -= instance.OnBackToMenu;
             @BackToMenu.performed -= instance.OnBackToMenu;
             @BackToMenu.canceled -= instance.OnBackToMenu;
+            @TakeScreenshot.started -= instance.OnTakeScreenshot;
+            @TakeScreenshot.performed -= instance.OnTakeScreenshot;
+            @TakeScreenshot.canceled -= instance.OnTakeScreenshot;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -353,5 +382,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnInteract(InputAction.CallbackContext context);
         void OnReload(InputAction.CallbackContext context);
         void OnBackToMenu(InputAction.CallbackContext context);
+        void OnTakeScreenshot(InputAction.CallbackContext context);
     }
 }

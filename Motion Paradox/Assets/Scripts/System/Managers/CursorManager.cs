@@ -24,7 +24,7 @@ public class CursorManager : Singleton<CursorManager>
 	
 	private void Start()
 	{
-		SwitchCursorTexture(CursorTextureType.Default);
+		SwitchCursorTexture(CursorTextureType.Crosshair);
 	}
 
 	public void SwitchCursorTexture(CursorTextureType type, CursorMode mode = CursorMode.Auto)

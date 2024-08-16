@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerStats : Entity
 {
-	[Header("Player Stats"), Space]
-	[SerializeField] private float invincibilityTime;
+	[Header("Events"), Space]
+	public UnityEvent onPlayerDies;
 
 	public static bool IsDeath { get; set; }
+	public bool CanBeHealed => _currentHealth < stats.GetDynamicStat(Stat.MaxHealth);
 
 	// Private fields.
 	private float _invincibilityTime;
@@ -18,16 +20,14 @@ public class PlayerStats : Entity
 
 	private void Awake()
 	{
-		_mat = this.GetComponentInChildren<SpriteRenderer>("Graphics/Player Sprite").material;
+		_mat = this.GetComponentInChildren<SpriteRenderer>("Graphic/Player Sprite").material;
 	}
 
 	protected override void Start()
 	{
 		base.Start();
 
-		//GameManager.Instance.InitializeHealthBar(maxHealth);
-
-		_invincibilityTime = invincibilityTime;
+		_invincibilityTime = stats.GetStaticStat(Stat.InvincibilityTime);
 		IsDeath = false;
 	}
 
@@ -43,10 +43,10 @@ public class PlayerStats : Entity
 		{
 			base.TakeDamage(amount, weakpointHit, attackerPos, knockBackStrength);
 
-			CameraShaker.Instance.ShakeCamera(2.5f, .15f);
-			//GameManager.Instance.UpdateCurrentHealth(_currentHealth);
+			CameraShaker.Instance.ShakeCamera(2.5f, .3f);
+			EffectInstantiator.Instance.Instantiate<ParticleSystem>(EffectType.CreatureImpact, transform.position, Random.insideUnitCircle.normalized);
 
-			_invincibilityTime = invincibilityTime;
+			_invincibilityTime = stats.GetStaticStat(Stat.InvincibilityTime);
 		}
 	}
 
@@ -57,7 +57,7 @@ public class PlayerStats : Entity
 			_currentHealth += amount;
 			_currentHealth = Mathf.Min(_currentHealth, stats.GetDynamicStat(Stat.MaxHealth));
 
-			//GameManager.Instance.UpdateCurrentHealth(_currentHealth);
+			healthBar.SetCurrentHealth(_currentHealth);
 
 			DamageText.Generate(dmgTextPrefab, dmgTextLoc.position, DamageText.HealingColor, DamageTextStyle.Normal, amount.ToString());
 		}
@@ -65,11 +65,12 @@ public class PlayerStats : Entity
 
 	public override void Die()
 	{
-		base.Die();
+		EffectInstantiator.Instance.Instantiate<ParticleSystem>(EffectType.CreatureDeath, transform.position, Quaternion.identity);
 
 		IsDeath = true;
+		onPlayerDies?.Invoke();
 		
-		GameManager.Instance.GameOver();
+		GameManager.Instance.ShowGameOverScreen();
 		gameObject.SetActive(false);
 	}
 }

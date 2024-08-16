@@ -7,19 +7,17 @@ using CSTGames.Utility;
 public class Stats : ScriptableObject
 {
 	[Header("Stats"), Space]
-	[Tooltip("Static stats are GLOBAL stats shared between objects, which CAN NOT be modified by upgrades.")]
-	public SerializedDictionary<Stat, float> staticStats = new SerializedDictionary<Stat, float>();
-
 	[Tooltip("Dynamic stats are GLOBAL stats shared between objects, which CAN be modified by upgrades.")]
 	public SerializedDictionary<Stat, float> dynamicStats = new SerializedDictionary<Stat, float>();
+
+	[Tooltip("Static stats are GLOBAL stats shared between objects, which CAN NOT be modified by upgrades.")]
+	public SerializedDictionary<Stat, float> staticStats = new SerializedDictionary<Stat, float>();
 
 	// Private fields.
 	private readonly List<StatsUpgrade> _appliedUpgrades = new List<StatsUpgrade>();
 	private readonly HashSet<Stat> _toStringIgnoreStats = new HashSet<Stat>()
 	{
-		Stat.ManaCost,
-		Stat.LifeStealRatio,
-		Stat.HealEfficiencyLossRatio,
+		Stat.InvincibilityTime,
 		Stat.ProjectileSpeed,
 		Stat.ProjectileLifeTime,
 		Stat.ProjectileTrackingRigidity,
@@ -115,7 +113,6 @@ public enum Stat
 {
 	// Dynamic.
 	MaxHealth,
-	MaxMana,
 	Damage,
 	AttackSpeed,
 	MoveSpeed,
@@ -123,9 +120,7 @@ public enum Stat
 	// Static.
 	KnockBackStrength,
 	KnockBackRes,
-	ManaCost,
-	LifeStealRatio,
-	HealEfficiencyLossRatio,
+	InvincibilityTime,
 	ProjectileSpeed,
 	ProjectileTrackingRigidity,
 	ProjectileLifeTime

@@ -5,24 +5,27 @@ public class PlayerController : MonoBehaviour
 	[Header("References"), Space]
 	[SerializeField] private Rigidbody2D rb2D;
 	[SerializeField] private Animator animator;
+	[SerializeField] private Stats stats;
 
 	[Header("Movement Settings"), Space]
-	[SerializeField] private float maxSpeed;
 	[SerializeField] private float acceleration;
 	[SerializeField] private float deceleration;
 
 	public static Vector2 Position { get; private set; }
 
-	// Private fields.
+	// Private fields.d
 	private Vector2 _movementDirection;
 	private Vector2 _previousDirection;
+	private float _maxSpeed;
 	private float _currentSpeed;
+
+	private void Start()
+	{
+		_maxSpeed = stats.GetDynamicStat(Stat.MoveSpeed);
+	}
 
 	private void Update()
 	{
-		if (GameManager.Instance.GameDone)
-			return;
-
 		_movementDirection = InputManager.Instance.Read2DVector(KeybindingActions.MoveLeft);
 
 		if (_movementDirection.sqrMagnitude > .01f)
@@ -31,9 +34,6 @@ public class PlayerController : MonoBehaviour
 	
 	private void FixedUpdate()
 	{
-		if (GameManager.Instance.GameDone)
-			return;
-
 		UpdateVelocity();
 
 		Position = rb2D.position;
@@ -43,10 +43,15 @@ public class PlayerController : MonoBehaviour
 	{
 		animator.SetFloat("Speed", rb2D.velocity.sqrMagnitude);
 
+		if (rb2D.velocity.sqrMagnitude >= .04f)
+			TimeManager.LocalTimeScale = Mathf.InverseLerp(_maxSpeed, 0f, _currentSpeed);
+		else
+			TimeManager.LocalTimeScale = 1f;
+
 		if (_movementDirection.sqrMagnitude > .01f)
 		{
 			_currentSpeed += acceleration * Time.deltaTime;
-			_currentSpeed = Mathf.Min(maxSpeed, _currentSpeed);
+			_currentSpeed = Mathf.Min(_maxSpeed, _currentSpeed);
 			
 			rb2D.velocity = _movementDirection * _currentSpeed;
 		}

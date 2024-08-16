@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyAI : MonoBehaviour
+public abstract class EnemyAI : MonoBehaviour
 {
-
 	[Header("References"), Space]
-	[SerializeField] private Rigidbody2D rb2D;
+	[SerializeField] protected Rigidbody2D rb2D;
 
 	[Header("Stats"), Space]
-	[SerializeField] private Stats stats;
+	[SerializeField] protected Stats stats;
 
 	[Header("Repel Settings"), Space]
 	[SerializeField] private float repelRange;
@@ -29,15 +28,9 @@ public class EnemyAI : MonoBehaviour
 		_alertedEnemies.Remove(rb2D);
 	}
 
-	private void FixedUpdate()
-	{
-		if (PlayerStats.IsDeath)
-			return;
+	protected abstract void FixedUpdate();
 
-		CheckFlip();
-	}
-
-	private void CheckFlip()
+	protected void CheckFlip()
 	{
 		float sign = Mathf.Sign(PlayerController.Position.x -  rb2D.position.x);
 		bool mustFlip = (_facingRight && sign < 0f) || (!_facingRight && sign > 0f);
@@ -54,7 +47,7 @@ public class EnemyAI : MonoBehaviour
 	/// </summary>
 	/// <param name="direction"></param>
 	/// <returns></returns>
-	private Vector2 CalculateVelocity(Vector2 direction)
+	protected Vector2 CalculateVelocity(Vector2 direction)
 	{
 		// Enemies will try to avoid each other.
 		Vector2 repelForce = Vector2.zero;
@@ -71,7 +64,7 @@ public class EnemyAI : MonoBehaviour
 			}
 		}
 
-		Vector2 velocity = direction * stats.GetDynamicStat(Stat.MoveSpeed);
+		Vector2 velocity = direction * stats.GetDynamicStat(Stat.MoveSpeed) * TimeManager.LocalTimeScale;
 		velocity += repelForce.normalized * repelAmplitude;
 
 		return velocity;

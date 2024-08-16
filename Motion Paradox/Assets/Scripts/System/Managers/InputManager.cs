@@ -11,6 +11,9 @@ using UnityDebug = UnityEngine.Debug;
 public class InputManager : Singleton<InputManager>
 {
 	public EventHandler onBackToMenuAction;
+	public EventHandler onAttackAction;
+	public EventHandler onReloadAction;
+	public EventHandler onTakeScreenshotAction;
 
 	// Private fields.
 	private PlayerInputActions _playerInputActions;
@@ -32,6 +35,21 @@ public class InputManager : Singleton<InputManager>
 	private void BackToMenu_performed(InputAction.CallbackContext context)
 	{
 		onBackToMenuAction?.Invoke(this, EventArgs.Empty);
+	}
+
+	private void Attack_performed(InputAction.CallbackContext context)
+	{
+		onAttackAction?.Invoke(this, EventArgs.Empty);
+	}
+
+	private void Reload_performed(InputAction.CallbackContext context)
+	{
+		onReloadAction?.Invoke(this, EventArgs.Empty);
+	}
+
+	private void TakeScreenshot_performed(InputAction.CallbackContext context)
+	{
+		onTakeScreenshotAction?.Invoke(this, EventArgs.Empty);
 	}
 	#endregion
 
@@ -72,6 +90,9 @@ public class InputManager : Singleton<InputManager>
 		_playerInputActions.Player.Enable();
 
 		_playerInputActions.Player.BackToMenu.performed += BackToMenu_performed;
+		_playerInputActions.Player.Attack.performed += Attack_performed;
+		_playerInputActions.Player.Reload.performed += Reload_performed;
+		_playerInputActions.Player.TakeScreenshot.performed += TakeScreenshot_performed;
 
 		_inputActions ??= new Dictionary<KeybindingActions, InputAction>()
 		{

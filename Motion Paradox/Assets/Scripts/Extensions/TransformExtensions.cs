@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public static class TransformExtensions
 {
@@ -32,5 +33,14 @@ public static class TransformExtensions
 		}
 
 		transform.localScale = scale;
+	}
+
+	public static void DestroyAllChildren(this Transform transform, Action<UnityEngine.Object> destroyer)
+	{
+		int childCount = transform.childCount;
+		for (int i = 0; i < childCount; i++)
+		{
+			destroyer(transform.GetChild(i).gameObject);
+		}
 	}
 }

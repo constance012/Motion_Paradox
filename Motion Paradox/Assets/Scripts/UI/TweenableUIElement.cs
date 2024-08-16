@@ -50,6 +50,9 @@ public sealed class TweenableUIElement : MonoBehaviour, IPointerEnterHandler, IP
 	[HideInInspector] public Graphic _graphic;
 	[HideInInspector] public CanvasGroup _canvasGroup;
 
+	// Indexer.
+	public UITweener this[int index] => tweeners[index];
+
 	// Private fields.
 	private static bool _dotweenInitialized = false;
 	private bool _setActiveInProgress;

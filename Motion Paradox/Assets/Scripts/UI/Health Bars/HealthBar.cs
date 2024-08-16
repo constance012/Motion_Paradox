@@ -1,93 +1,104 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
+﻿using System.Threading.Tasks;
 using DG.Tweening;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
-	[Header("UI References"), Space]
-	[SerializeField] private Slider mainSlider;
-	[SerializeField] private Slider fxSlider;
-	[Space, SerializeField] private TextMeshProUGUI displayText;
+	[Header("Health Segments"), Space]
+	[SerializeField] private GameObject segmentPrefab;
+	[SerializeField] private Sprite evenSegmentSprite;
+	[SerializeField] private Sprite oddSegmentSprite;
+	[SerializeField] private Sprite emptySegmentSprite;
 
-	[Header("Colors and Gradients"), Space]
-	[SerializeField] private Gradient healthGradient;
-	[Space, SerializeField] private Color healthIncreaseColor;
-	[SerializeField] private Color healthDecreaseColor;
+	[Header("Segments Settings"), Space]
+	[SerializeField] private Transform segmentParent;
+	[SerializeField] private Color emptyingColor;
+	[SerializeField] private Color fillingColor;
 
-	[Header("Effect Settings"), Space]
-	[SerializeField] private float fxDelay;
-	[SerializeField] private float fxDuration;
-
-	public bool IsPreviousEffectActive => _fxTween.IsActive();
+	[Header("Flashing Effect Settings"), Space]
+	[SerializeField] private float duration;
+	[SerializeField] private int overshoot;
+	[SerializeField, Range(-1f, 1f)] private float period;
 
 	// Private fields.
-	private Image _mainFillRect;
-	private Image _fxFillRect;
-	private Tween _fxTween;
+	private Image[] _segments;
+	private int _previousHealth;
 
 	protected virtual void Awake()
 	{
-		_mainFillRect = mainSlider.fillRect.GetComponent<Image>();
-		_fxFillRect = fxSlider.fillRect.GetComponent<Image>();
+		segmentParent.DestroyAllChildren(Destroy);
 	}
 
 	public void SetCurrentHealth(float current)
 	{
-		// Health decreasing.
-		if (current <= mainSlider.value)
+		int currentInt = (int)current;
+
+		for (int i = 0; i < _segments.Length; i++)
 		{
-			_fxFillRect.color = healthDecreaseColor;
-
-			mainSlider.value = current;
-			_mainFillRect.color = healthGradient.Evaluate(mainSlider.normalizedValue);
+			if (i < currentInt)
+				_segments[i].sprite = (i % 2 == 0) ? evenSegmentSprite : oddSegmentSprite;
+			else
+				_segments[i].sprite = emptySegmentSprite;
 		}
-
-		// Health increasing.
-		else
-		{
-			_fxFillRect.color = healthIncreaseColor;
-			fxSlider.value = current;
-		}
-
-		displayText.text = $"{current:0} / {mainSlider.maxValue:0}";
-
-		if (IsPreviousEffectActive)
-			_fxTween.Kill(true);
-
-		_fxTween = PerformEffect();
 	}
 
-	public void SetMaxHealth(float max, bool initialize = true)
+	public async void SetCurrentHealthWithEffect(float current)
 	{
-		mainSlider.maxValue = max;
-		fxSlider.maxValue = max;
+		int currentInt = (int)current;
+
+		Task[] modifiedSegments = new Task[Mathf.Abs(_previousHealth - currentInt)];
+
+		if (currentInt < _previousHealth)
+		{
+			for (int i = currentInt; i < _previousHealth; i++)
+			{
+				modifiedSegments[i - currentInt] = EmptyingSegment(i);
+			}
+		}
+		else
+		{
+			for (int i = _previousHealth; i < currentInt; i++)
+			{
+				modifiedSegments[i - _previousHealth] = FillingSegment(i);
+			}
+		}
 		
-		if (initialize)
-		{
-			mainSlider.value = max;
-			fxSlider.value = max;
+		_previousHealth = currentInt;
+		await Task.WhenAll(modifiedSegments);
+	}
 
-			_mainFillRect.color = healthGradient.Evaluate(mainSlider.normalizedValue);
-			displayText.text = $"{max:0} / {max:0}";
+	public void SetMaxHealth(float max)
+	{
+		int maxInt = (int)max;
+		_previousHealth = maxInt;
+		_segments = new Image[maxInt];
+
+		for (int i = 0; i < _segments.Length; i++)
+		{
+			Image segment = Instantiate(segmentPrefab, segmentParent).GetComponent<Image>();
+			segment.sprite = (i % 2 == 0) ? evenSegmentSprite : oddSegmentSprite;
+			
+			_segments[i] = segment;
 		}
 	}
 
-	private Tween PerformEffect()
+	private async Task EmptyingSegment(int index)
 	{
-		if (_fxFillRect.color == healthIncreaseColor)
-		{
-			Sequence sequence = DOTween.Sequence();
+		await PerformEffect(index, emptyingColor)
+			 .OnComplete(() => _segments[index].sprite = emptySegmentSprite)
+			 .AsyncWaitForCompletion();
+	}
 
-			sequence.Append(mainSlider.DOValue(fxSlider.value, fxDuration).SetEase(Ease.OutCubic))
-					.Join(_mainFillRect.DOColor(healthGradient.Evaluate(fxSlider.normalizedValue), fxDuration))
-					.SetDelay(fxDelay);
+	private async Task FillingSegment(int index)
+	{
+		_segments[index].sprite = (index % 2 == 0) ? evenSegmentSprite : oddSegmentSprite;
+		await PerformEffect(index, fillingColor).AsyncWaitForCompletion();
+	}
 
-			return sequence;
-		}
-		else
-		{
-			return fxSlider.DOValue(mainSlider.value, fxDuration).SetEase(Ease.OutCubic).SetDelay(fxDelay);
-		}
+	private Tween PerformEffect(int index, Color color)
+	{
+		return _segments[index].DOColor(color, duration)
+							   .SetEase(Ease.Flash, overshoot, period);
 	}
 }

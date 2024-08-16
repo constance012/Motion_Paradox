@@ -31,7 +31,7 @@ public class Item : IdentifiableSO
 		return unclamp - maxPerStack;
 	}
 
-	public virtual bool Use(bool forced = false)
+	public virtual bool Use(Transform player, bool forced = false)
 	{
 		Debug.Log("Using " + displayName);
 		return canBeUsed;
