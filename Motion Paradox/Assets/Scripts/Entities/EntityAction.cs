@@ -23,11 +23,10 @@ public abstract class EntityAction : MonoBehaviour
 	protected abstract void TryAttack();
 	protected abstract IEnumerator DoAttack();
 
-	protected void StopPreviousCoroutine()
+	protected void StopPreviousAttack()
 	{
-		if (_attackCoroutine != null)
+		if (this.TryStopCoroutine(_attackCoroutine))
 		{
-			StopCoroutine(_attackCoroutine);
 			movementScript.enabled = true;
 		}
 	}

@@ -15,7 +15,6 @@ public abstract class EnemyAI : MonoBehaviour
 
 	// Private fields.
 	private static HashSet<Rigidbody2D> _alertedEnemies;
-	private bool _facingRight = true;
 
 	private void Start()
 	{
@@ -29,18 +28,6 @@ public abstract class EnemyAI : MonoBehaviour
 	}
 
 	protected abstract void FixedUpdate();
-
-	protected void CheckFlip()
-	{
-		float sign = Mathf.Sign(PlayerController.Position.x -  rb2D.position.x);
-		bool mustFlip = (_facingRight && sign < 0f) || (!_facingRight && sign > 0f);
-
-		if (mustFlip)
-		{
-			transform.Rotate(Vector3.up * 180f);
-			_facingRight = !_facingRight;
-		}
-	}
 
 	/// <summary>
 	/// Calculate the final velocity after applying repel force against other enemies nearby.

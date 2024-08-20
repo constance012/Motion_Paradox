@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,6 +23,7 @@ public class HealthBar : MonoBehaviour
 	[SerializeField, Range(-1f, 1f)] private float period;
 
 	// Private fields.
+	private HashSet<Tween> _activeTweens = new HashSet<Tween>();
 	private Image[] _segments;
 	private int _previousHealth;
 
@@ -30,7 +32,7 @@ public class HealthBar : MonoBehaviour
 		segmentParent.DestroyAllChildren(Destroy);
 	}
 
-	public void SetCurrentHealth(float current)
+	public void SetCurrentHealthNoEffect(float current)
 	{
 		int currentInt = (int)current;
 
@@ -43,10 +45,11 @@ public class HealthBar : MonoBehaviour
 		}
 	}
 
-	public async void SetCurrentHealthWithEffect(float current)
+	public async void SetCurrentHealth(float current)
 	{
-		int currentInt = (int)current;
+		KillActiveTweens();
 
+		int currentInt = (int)current;
 		Task[] modifiedSegments = new Task[Mathf.Abs(_previousHealth - currentInt)];
 
 		if (currentInt < _previousHealth)
@@ -85,20 +88,39 @@ public class HealthBar : MonoBehaviour
 
 	private async Task EmptyingSegment(int index)
 	{
-		await PerformEffect(index, emptyingColor)
-			 .OnComplete(() => _segments[index].sprite = emptySegmentSprite)
-			 .AsyncWaitForCompletion();
+		Tween tween = PerformEffect(index, emptyingColor)
+			 		 .OnComplete(() => _segments[index].sprite = emptySegmentSprite)
+			 		 .OnKill(() => _segments[index].sprite = emptySegmentSprite);
+		
+		_activeTweens.Add(tween);
+
+		await tween.AsyncWaitForCompletion();
 	}
 
 	private async Task FillingSegment(int index)
 	{
 		_segments[index].sprite = (index % 2 == 0) ? evenSegmentSprite : oddSegmentSprite;
-		await PerformEffect(index, fillingColor).AsyncWaitForCompletion();
+
+		Tween tween = PerformEffect(index, fillingColor);
+		_activeTweens.Add(tween);
+
+		await tween.AsyncWaitForCompletion();
 	}
 
 	private Tween PerformEffect(int index, Color color)
 	{
 		return _segments[index].DOColor(color, duration)
 							   .SetEase(Ease.Flash, overshoot, period);
+	}
+
+	private void KillActiveTweens()
+	{
+		foreach (Tween tween in _activeTweens)
+		{
+			if (tween.IsActive())
+				tween.Kill(true);
+		}
+
+		_activeTweens.Clear();
 	}
 }

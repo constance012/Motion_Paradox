@@ -28,6 +28,11 @@ public class EnemyStats : Entity
 		AudioManager.Instance.Play("Explosion");
 		CameraShaker.Instance.ShakeCamera(4f, .2f);
 
+		DestroyGameObject();
+	}
+
+	public void DestroyGameObject()
+	{
 		Destroy(healthBar.gameObject);
 		Destroy(gameObject);
 	}

@@ -3,7 +3,8 @@ using UnityEngine;
 
 public enum CursorTextureType { Default, Crosshair }
 
-public class CursorManager : Singleton<CursorManager>
+[AddComponentMenu("Singletons/Cursor Manager")]
+public sealed class CursorManager : Singleton<CursorManager>
 {
 	[Serializable]
 	public struct CustomCursor

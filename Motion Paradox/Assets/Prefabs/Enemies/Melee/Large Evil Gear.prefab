@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: stats
       value: 
       objectReference: {fileID: 11400000, guid: c1ed20c7b46de7548853a4991cdb072c, type: 2}
+    - target: {fileID: 1034477533521585799, guid: 01a6165c54ebe4a43a8a3115dfe82018, type: 3}
+      propertyPath: turnSpeed
+      value: 80
+      objectReference: {fileID: 0}
     - target: {fileID: 1100724392022692082, guid: 01a6165c54ebe4a43a8a3115dfe82018, type: 3}
       propertyPath: stats
       value: 
@@ -22,11 +26,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1100724392022692082, guid: 01a6165c54ebe4a43a8a3115dfe82018, type: 3}
       propertyPath: recoverTime
-      value: 2
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 1100724392022692082, guid: 01a6165c54ebe4a43a8a3115dfe82018, type: 3}
       propertyPath: attackRadius
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1289326072640739008, guid: 01a6165c54ebe4a43a8a3115dfe82018, type: 3}
       propertyPath: m_AnchorMax.y

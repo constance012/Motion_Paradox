@@ -2,12 +2,17 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
 using WebGLScreenshot = WebGLScreenshotTool;
+using System;
 
-public class GameManager : Singleton<GameManager>
+[AddComponentMenu("Singletons/Game Manager")]
+public sealed class GameManager : Singleton<GameManager>
 {
 	[Header("References"), Space]
 	[SerializeField] private CanvasGroup gameOverScreen;
 	[SerializeField] private CanvasGroup victoryScreen;
+	
+	public EventHandler onGameOver;
+	public EventHandler onGameVictory;
 
 	public bool GameDone { get; private set; }
 
@@ -45,6 +50,10 @@ public class GameManager : Singleton<GameManager>
 		GameDone = true;
 		TimeManager.LocalTimeScale = 1f;
 
+		CursorManager.Instance.SwitchCursorTexture(CursorTextureType.Default);
+
+		onGameOver?.Invoke(this, EventArgs.Empty);
+
 		gameOverScreen.DOFade(1f, .75f)
 					  .OnComplete(() => gameOverScreen.Toggle(true));
 	}
@@ -53,6 +62,10 @@ public class GameManager : Singleton<GameManager>
 	{
 		GameDone = true;
 		TimeManager.LocalTimeScale = 1f;
+
+		CursorManager.Instance.SwitchCursorTexture(CursorTextureType.Default);
+
+		onGameVictory?.Invoke(this, EventArgs.Empty);
 
 		victoryScreen.DOFade(1f, .75f)
 					  .OnComplete(() => victoryScreen.Toggle(true));

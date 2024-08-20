@@ -1,7 +1,7 @@
 using UnityEngine;
 using CSTGames.Utility;
 
-[CreateAssetMenu(fileName = "New Item", menuName = "Inventory/New Base Item")]
+[CreateAssetMenu(menuName = "Items/Base Item", fileName = "New Item")]
 public class Item : IdentifiableSO
 {
 	[Header("Category"), Space]
@@ -16,20 +16,6 @@ public class Item : IdentifiableSO
 	[Header("Specials"), Space]
 	public bool canBeUsed;
 	public bool autoUse;
-
-	public bool FullyStacked => quantity == maxPerStack;
-
-	/// <summary>
-	/// Update the quantity of this item, returns an indicator of redundance as a signed interger.
-	/// </summary>
-	/// <param name="delta"></param>
-	/// <returns> Negative if there's no redundance, 0 if enough to fill the stack, and positive if exceeds the stack.</returns>
-	public int UpdateQuantity(int delta)
-	{
-		int unclamp = quantity + delta;
-		quantity = Mathf.Clamp(unclamp, 0, maxPerStack);
-		return unclamp - maxPerStack;
-	}
 
 	public virtual bool Use(Transform player, bool forced = false)
 	{

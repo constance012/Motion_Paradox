@@ -92,7 +92,7 @@ public abstract class Interactable : MonoBehaviour
 		else
 			_popupLabel.transform.position = transform.position;
 
-		_mat.SetFloat("_Thickness", .5f);
+		_mat.SetFloat("_Thickness", .4f);
 
 		// TODO - derived classes implement their own way to trigger interaction.
 	}

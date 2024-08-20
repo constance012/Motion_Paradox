@@ -7,6 +7,26 @@ public sealed class MeleeEnemyAction : EnemyAction
 	[SerializeField] private float chargeForce;
 	[SerializeField] private float recoverTime;
 
+	// Private fields.
+	private Vector2 _chargeVelocity;
+
+	private void FixedUpdate()
+	{
+		if (!movementScript.enabled)
+		{
+			_chargeVelocity = Vector2.Lerp(_chargeVelocity, Vector2.zero, Time.deltaTime);
+			
+			if (TimeManager.LocalTimeScale > 0f)
+			{
+				rb2d.velocity = _chargeVelocity * TimeManager.LocalTimeScale;
+			}
+			else
+			{
+				rb2d.velocity = Vector2.zero;
+			}
+		}
+	}
+	
 	private void OnTriggerEnter2D(Collider2D other)
 	{
 		Entity target = other.GetComponentInParent<Entity>();
@@ -25,7 +45,8 @@ public sealed class MeleeEnemyAction : EnemyAction
 			movementScript.enabled = false;
 
 			Vector2 chargeDirection = (PlayerController.Position- rb2d.position).normalized;
-			rb2d.AddForce(chargeDirection * chargeForce * TimeManager.LocalTimeScale, ForceMode2D.Impulse);
+			rb2d.AddForce(chargeDirection * chargeForce, ForceMode2D.Impulse);
+			_chargeVelocity = rb2d.velocity;
 
 			_attackInterval = BaseAttackInterval;
 

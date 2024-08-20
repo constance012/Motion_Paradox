@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Consumable", menuName = "Inventory/Consumable")]
+[CreateAssetMenu(menuName = "Items/Healing Item", fileName = "New Healing Item")]
 public class HealingItem : Item
 {
 	[Header("Healing amount"), Space]

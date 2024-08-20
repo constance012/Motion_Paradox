@@ -1,7 +1,8 @@
 using UnityEngine;
 using Cinemachine;
 
-public class CameraShaker : Singleton<CameraShaker>
+[AddComponentMenu("Singletons/Camera Shaker")]
+public sealed class CameraShaker : Singleton<CameraShaker>
 {
 	[Header("References"), Space]
 	[SerializeField] private CinemachineVirtualCamera virtualCamera;

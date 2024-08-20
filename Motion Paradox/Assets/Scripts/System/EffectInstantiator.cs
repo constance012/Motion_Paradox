@@ -1,7 +1,7 @@
 using UnityEngine;
 using AYellowpaper.SerializedCollections;
-using Unity.Mathematics;
 
+[AddComponentMenu("Singletons/Effect Instantiator")]
 public sealed class EffectInstantiator : Singleton<EffectInstantiator>
 {
 	[Header("Effect Prefabs"), Space]

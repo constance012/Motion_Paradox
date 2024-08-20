@@ -1,5 +1,5 @@
 using System.Linq;
-using System;
+using UnityEngine;
 
 namespace CSTGames.Utility
 {
@@ -10,20 +10,20 @@ namespace CSTGames.Utility
 	{
 		public static string AddWhitespaceBeforeCapital(this string str)
 		{
-			return String.Concat(str.Select(x => Char.IsUpper(x) ? " " + x : x.ToString()))
+			return string.Concat(str.Select(x => char.IsUpper(x) ? " " + x : x.ToString()))
 									.TrimStart(' ');
 		}
 
 		public static string AddHyphenBeforeNumber(this string str)
 		{
-			return String.Concat(str.Select(x => Char.IsDigit(x) ? "-" + x : x.ToString()))
+			return string.Concat(str.Select(x => char.IsDigit(x) ? "-" + x : x.ToString()))
 									.TrimStart('-');
 		}
 
 		public static string ClearWhitespaces(this string str)
 		{
 			return new string(str.ToCharArray()
-				.Where(c => !Char.IsWhiteSpace(c))
+				.Where(c => !char.IsWhiteSpace(c))
 				.ToArray());
 		}
 	}
@@ -51,7 +51,7 @@ namespace CSTGames.Utility
 
 			// If the oldMax == oldMin, then just clamps the value directly within the new range.
 			if (oldRange == 0f)
-				return Math.Clamp(targetValue, newMin, newMax);
+				return Mathf.Clamp(targetValue, newMin, newMax);
 			else
 				return ((targetValue - oldMin) * newRange / oldRange) + newMin;
 		}
@@ -73,9 +73,14 @@ namespace CSTGames.Utility
 			int newRange = newMax - newMin;
 
 			if (oldRange == 0)
-				return Math.Clamp(targetValue, newMin, newMax);
+				return Mathf.Clamp(targetValue, newMin, newMax);
 			else
 				return ((targetValue - oldMin) * newRange / oldRange) + newMin;
 		}
+	}
+
+	public static class RandomUtils
+	{
+		public static float RandomSign => Mathf.Sign(Random.value * 2f - 1f);
 	}
 }

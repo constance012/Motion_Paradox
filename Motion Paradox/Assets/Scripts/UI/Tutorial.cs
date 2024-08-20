@@ -7,6 +7,9 @@ public class Tutorial : MonoBehaviour
 
 	private void Start()
 	{
+		#if UNITY_EDITOR
+			disappearTime = 3f;
+		#endif
 		Destroy(gameObject, disappearTime);
 	}
 }

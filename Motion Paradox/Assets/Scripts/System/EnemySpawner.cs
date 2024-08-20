@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using CSTGames.Utility;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -8,42 +9,74 @@ public class EnemySpawner : MonoBehaviour
 	
 	[Header("Enemy Prefabs"), Space]
 	[SerializeField] private List<GameObject> enemyPrefabs;
+	[SerializeField, Min(1)] private int maxEnemies;
 
-	[Header("Spawn Settings"), Space]
+	[Header("Spawn Area"), Space]
+	[SerializeField] private Vector2 spawnArea;
+	[SerializeField] private float areaExtent;
+
+	[Header("Spawn Delay"), Space]
 	[SerializeField] private float initialDelay;
 	[SerializeField] private float spawnDelay;
-	[SerializeField] private float offscreenOffset;
 
 	// Private fields.
 	private float _delay;
-	private float _cameraExtent;
 
 	private void Start()
 	{
 		_delay = initialDelay;
-		_cameraExtent = Camera.main.orthographicSize;
+		
+		#if UNITY_EDITOR
+			_delay = spawnDelay;
+		#endif
+
+		GameManager.Instance.onGameVictory += (sender, e) => DestroyAllEnemies();
 	}
 
 	private void Update()
 	{
 		_delay -= Time.deltaTime * TimeManager.LocalTimeScale;
+
 		if (_delay <= 0f)
 		{
-			Spawn();
+			TrySpawnEnemies();
 		}
 	}
 
-	private void Spawn()
+	private void DestroyAllEnemies()
 	{
-		float spawnExtent = _cameraExtent * Screen.width / Screen.height + offscreenOffset;
-		
-		float x = spawnExtent * Mathf.Sign(Random.value * 2f - 1f);
-		float y = spawnExtent * Mathf.Sign(Random.value * 2f - 1f);
-		int index = Random.Range(0, enemyPrefabs.Count);
+		foreach (Transform enemy in container)
+		{
+			enemy.GetComponent<EnemyStats>().DestroyGameObject();
+		}
 
-		GameObject enemy = Instantiate(enemyPrefabs[index], new Vector2(x, y), Quaternion.identity);
-		enemy.transform.SetParent(container);
+		gameObject.SetActive(false);
+	}
 
-		_delay = spawnDelay;
+	private void TrySpawnEnemies()
+	{
+		if (transform.childCount < maxEnemies)
+		{
+			float startX = spawnArea.x * RandomUtils.RandomSign;
+			float startY = spawnArea.y * RandomUtils.RandomSign;
+
+			float x = Random.Range(startX, startX + areaExtent * Mathf.Sign(startX));
+			float y = Random.Range(startY, startY + areaExtent * Mathf.Sign(startY));
+
+			int index = Random.Range(0, enemyPrefabs.Count);
+
+			GameObject enemy = Instantiate(enemyPrefabs[index], new Vector2(x, y), Quaternion.identity);
+			enemy.transform.SetParent(container);
+
+			_delay = spawnDelay;
+		}
+	}
+
+	private void OnDrawGizmosSelected()
+	{
+		Gizmos.color = Color.yellow;
+
+		Gizmos.DrawWireCube(transform.position, spawnArea * 2f);
+		Gizmos.DrawWireCube(transform.position, spawnArea * 2f + areaExtent * 2f * Vector2.one);
 	}
 }

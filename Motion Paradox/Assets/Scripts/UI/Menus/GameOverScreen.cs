@@ -9,6 +9,9 @@ public class GameOverScreen : MonoBehaviour
 	// Callback method when the player dies.
 	public void SetTimeLeftText()
 	{
-		timeLeftText.text = $"only <color=#250300>{TimeManager.PortalTimerLeft:mm\\:ss}</color> left before the portal activates";
+		if (!TimeManager.IsPortalTimerUp)
+			timeLeftText.text = $"only <color=#250300>{TimeManager.PortalTimerLeft:mm\\:ss}</color> left before the portal activates";
+		else
+			timeLeftText.text = $"the portal is activated, but <color=#250300>no one</color> passes through";
 	}
 }

@@ -2,7 +2,8 @@
 using UnityEngine;
 using UnityRandom = UnityEngine.Random;
 
-public class AudioManager : PersistentSingleton<AudioManager>
+[AddComponentMenu("Singletons/Audio Manager")]
+public sealed class AudioManager : PersistentSingleton<AudioManager>
 {
 	[Header("Audio Array"), Space]
 	public Audio[] audioArray;

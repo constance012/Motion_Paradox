@@ -2,13 +2,15 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 using UnityEngine.InputSystem.Utilities;
 using UnityDebug = UnityEngine.Debug;
 
 /// <summary>
 /// Manages inputs from various devices and sources, using the NEW input system.
 /// </summary>
-public class InputManager : Singleton<InputManager>
+[AddComponentMenu("Singletons/Input Manager")]
+public sealed class InputManager : Singleton<InputManager>
 {
 	public EventHandler onBackToMenuAction;
 	public EventHandler onAttackAction;
@@ -66,6 +68,40 @@ public class InputManager : Singleton<InputManager>
 
 		return bindings[index].ToDisplayString();
 	}
+	#endregion
+
+	#region Get keys and mouse buttons methods.
+	public Vector2 ScrollDelta => Mouse.current.scroll.ReadValue().normalized;
+
+	public bool GetMouseButtonDown(MouseButton button)
+	{
+		return GetMouseButtonControl(button).wasPressedThisFrame;
+	}
+
+	public bool GetMouseButtonHeld(MouseButton button)
+	{
+		return GetMouseButtonControl(button).isPressed;
+	}
+
+	public bool GetMouseButtonUp(MouseButton button)
+	{
+		return GetMouseButtonControl(button).wasReleasedThisFrame;
+	}
+	
+	public bool GetKeyDown(Key key)
+	{
+		return Keyboard.current[key].wasPressedThisFrame;
+	}
+
+	public bool GetKeyHeld(Key key)
+	{
+		return Keyboard.current[key].isPressed;
+	}
+
+	public bool GetKeyUp(Key key)
+	{
+		return Keyboard.current[key].wasReleasedThisFrame;
+	}
 
 	public bool WasPressedThisFrame(KeybindingActions action)
 	{
@@ -110,6 +146,19 @@ public class InputManager : Singleton<InputManager>
 		};
 	}
 
+	private ButtonControl GetMouseButtonControl(MouseButton button)
+	{
+		return button switch
+		{
+			MouseButton.Left => Mouse.current.leftButton,
+			MouseButton.Right => Mouse.current.rightButton,
+			MouseButton.Middle => Mouse.current.middleButton,
+			MouseButton.Forward => Mouse.current.forwardButton,
+			MouseButton.Backward => Mouse.current.backButton,
+			_ => Mouse.current.leftButton,  // Default will be the left mouse button.
+		};
+	}
+
 	private void Dispose()
 	{
 		_playerInputActions.Player.BackToMenu.performed -= BackToMenu_performed;
@@ -132,4 +181,13 @@ public enum KeybindingActions
 	Interact,
 	Pause,
 	BackToMenu,
+}
+
+public enum MouseButton
+{
+	Left,
+	Right,
+	Middle,
+	Forward,
+	Backward
 }

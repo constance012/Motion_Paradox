@@ -242,7 +242,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 0
 --- !u!114 &1034477533521585799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -259,6 +259,7 @@ MonoBehaviour:
   stats: {fileID: 0}
   repelRange: 2
   repelAmplitude: 3
+  turnSpeed: 70
 --- !u!114 &1100724392022692082
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -310,6 +311,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2156198064468933331}
   - component: {fileID: 7265119661035533503}
+  - component: {fileID: 6494922787788817296}
   m_Layer: 6
   m_Name: Enemy Sprite
   m_TagString: Untagged
@@ -372,7 +374,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -216529695
   m_SortingLayer: 2
-  m_SortingOrder: 2
+  m_SortingOrder: 3
   m_Sprite: {fileID: -887250632, guid: 41abcd8661679fe4ea54edad15339095, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -384,6 +386,26 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6494922787788817296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4639513633508860226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2cc85340c7d1b24291204e9ac6c44d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotateAngle: {x: 0, y: 0, z: 720}
+  spinSpeedRange: {x: 150, y: 250}
+  rotateMode: 1
+  loopType: 1
+  easeType: 13
+  delay: 0
+  updateType: 0
+  ignoreTimescale: 0
 --- !u!1 &5944961961698618506
 GameObject:
   m_ObjectHideFlags: 0
