@@ -9,10 +9,10 @@ public abstract class EntityAction : MonoBehaviour
 	[SerializeField] protected Stats stats;
 
 	// Properties.
-	protected float BaseAttackInterval => 1f / stats.GetDynamicStat(Stat.AttackSpeed);
+	protected virtual float BaseAttackInterval => 1f / stats.GetDynamicStat(Stat.AttackSpeed);
 
 	// Protected fields.
-	protected Coroutine _attackCoroutine;
+	protected BetterCoroutine _attackCoroutine = new();
 	protected float _attackInterval;
 
 	protected virtual void Update()
@@ -25,9 +25,7 @@ public abstract class EntityAction : MonoBehaviour
 
 	protected void StopPreviousAttack()
 	{
-		if (this.TryStopCoroutine(_attackCoroutine))
-		{
-			movementScript.enabled = true;
-		}
+		_attackCoroutine.StopCurrent(this);
+		movementScript.enabled = true;
 	}
 }

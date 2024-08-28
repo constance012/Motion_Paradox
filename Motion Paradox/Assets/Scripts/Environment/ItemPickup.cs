@@ -3,12 +3,13 @@ using DG.Tweening;
 
 public class ItemPickup : Interactable
 {
-	[Header("Current Item Info"), Space]
-	[Tooltip("The scriptable object represents this item.")]
-	public Item itemSO;
-
 	[Header("References"), Space]
+	public Item itemSO;
 	[SerializeField] private Rigidbody2D rb2D;
+
+	[Header("Life Time"), Space]
+	[Tooltip("The life time of this item after it's dropped, enter -1 to for infinite life time.")]
+	[SerializeField] private float lifeTime;
 
 	[Header("Fly Settings"), Space]
 	[SerializeField] protected float flyDistance;
@@ -41,6 +42,8 @@ public class ItemPickup : Interactable
 
 	protected override void CheckForInteraction(float mouseDistance, float playerDistance)
 	{
+		CheckForLifeTime();		
+
 		if (playerDistance <= flyDistance)
 			FlyTowardsPlayer();
 
@@ -54,6 +57,16 @@ public class ItemPickup : Interactable
 		if (InputManager.Instance.WasPressedThisFrame(KeybindingActions.Interact) && _delay > 0f)
 			TryPickup(true);
     }
+
+	private void CheckForLifeTime()
+	{
+		if (lifeTime != -1f)
+		{
+			lifeTime -= Time.deltaTime;
+			if (lifeTime <= 0f)
+				DestroyGameObject();
+		}
+	}
 
     private void FlyTowardsPlayer()
 	{
@@ -103,18 +116,26 @@ public class ItemPickup : Interactable
 			if (_currentItem.autoUse && _currentItem.Use(player, forced))
 			{
 				_pickedUp = true;
-				
-				transform.DOScale(0f, .2f).OnComplete(() => {
-					if (_popupLabel != null)
-						Destroy(_popupLabel.gameObject);
-					Destroy(gameObject);
-				});
+				DestroyGameObject();
 			}
 			else
 			{
 				_delay = pickUpFailDelay;
 			}
 		}
+	}
+
+	private void DestroyGameObject()
+	{
+		transform.DOScale(0f, .2f)
+				.OnComplete(() =>
+				{
+					if (_popupLabel != null)
+						Destroy(_popupLabel.gameObject);
+					Destroy(gameObject);
+				});
+
+		lifeTime = -1f;
 	}
 
     protected override void OnDrawGizmosSelected()

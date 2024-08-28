@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
-using WebGLScreenshot = WebGLScreenshotTool;
 using System;
 
 [AddComponentMenu("Singletons/Game Manager")]
@@ -19,7 +18,6 @@ public sealed class GameManager : Singleton<GameManager>
 	private void Start()
 	{
 		InputManager.Instance.onBackToMenuAction += (sender, e) => ReturnToMenu();
-		InputManager.Instance.onTakeScreenshotAction += (sender, e) => WebGLScreenshot.WebGLScreenshotTool.instance.TakeScreenshot();
 
 		AudioManager.Instance.Play("Ambience");
 
@@ -34,6 +32,8 @@ public sealed class GameManager : Singleton<GameManager>
 	{
 		GameDone = false;
 
+		DOTween.KillAll();
+		DOTween.ClearCachedTweens();
 		SceneManager.LoadSceneAsync("Scenes/Game");
 	}
 
@@ -42,6 +42,9 @@ public sealed class GameManager : Singleton<GameManager>
 	/// </summary>
 	public void ReturnToMenu()
 	{
+		DOTween.Clear();
+		CursorManager.Instance.SwitchCursorTexture(CursorTextureType.Default);
+		
 		SceneManager.LoadSceneAsync("Scenes/Menu");
 	}
 

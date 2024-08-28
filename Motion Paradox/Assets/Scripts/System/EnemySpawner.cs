@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using CSTGames.Utility;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -12,8 +11,7 @@ public class EnemySpawner : MonoBehaviour
 	[SerializeField, Min(1)] private int maxEnemies;
 
 	[Header("Spawn Area"), Space]
-	[SerializeField] private Vector2 spawnArea;
-	[SerializeField] private float areaExtent;
+	[SerializeField] private float spawnRadius;
 
 	[Header("Spawn Delay"), Space]
 	[SerializeField] private float initialDelay;
@@ -57,26 +55,24 @@ public class EnemySpawner : MonoBehaviour
 	{
 		if (transform.childCount < maxEnemies)
 		{
-			float startX = spawnArea.x * RandomUtils.RandomSign;
-			float startY = spawnArea.y * RandomUtils.RandomSign;
+			Vector2 spawnPos = Random.insideUnitCircle.normalized * spawnRadius;
 
-			float x = Random.Range(startX, startX + areaExtent * Mathf.Sign(startX));
-			float y = Random.Range(startY, startY + areaExtent * Mathf.Sign(startY));
-
-			int index = Random.Range(0, enemyPrefabs.Count);
-
-			GameObject enemy = Instantiate(enemyPrefabs[index], new Vector2(x, y), Quaternion.identity);
+			GameObject enemy = Instantiate(SelectRandomEnemy(), spawnPos, Quaternion.identity);
 			enemy.transform.SetParent(container);
 
 			_delay = spawnDelay;
 		}
 	}
 
+	private GameObject SelectRandomEnemy()
+	{
+		int index = Random.Range(0, enemyPrefabs.Count);
+		return enemyPrefabs[index];
+	}
+
 	private void OnDrawGizmosSelected()
 	{
 		Gizmos.color = Color.yellow;
-
-		Gizmos.DrawWireCube(transform.position, spawnArea * 2f);
-		Gizmos.DrawWireCube(transform.position, spawnArea * 2f + areaExtent * 2f * Vector2.one);
+		Gizmos.DrawWireSphere(transform.position, spawnRadius);
 	}
 }

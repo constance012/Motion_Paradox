@@ -150,6 +150,7 @@ MonoBehaviour:
   hasInteracted: 0
   itemSO: {fileID: 0}
   rb2D: {fileID: 6994718978722962409}
+  lifeTime: -1
   flyDistance: 2
   flySpeed: 7
   pickUpMinDistance: 0.5

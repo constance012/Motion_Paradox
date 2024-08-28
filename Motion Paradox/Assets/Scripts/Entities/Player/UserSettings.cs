@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 /// <summary>
 /// A static wrapper class for easily manipulating PlayerPref keys.
@@ -23,46 +24,42 @@ public static class UserSettings
 		get { return PlayerPrefs.GetFloat("SoundVolume", 1f); }
 		set { PlayerPrefs.SetFloat("SoundVolume", value); }
 	}
+
+	public static float AmbienceVolume
+	{
+		get { return PlayerPrefs.GetFloat("AmbienceVolume", 1f); }
+		set { PlayerPrefs.SetFloat("AmbienceVolume", value); }
+	}
+
+	public static float ToMixerDecibel(float amount) => Mathf.Log10(amount) * 20f;
 	#endregion
 
 
 	#region Graphics Settings
 	public static int QualityLevel
 	{
-		get { return PlayerPrefs.GetInt("QualityLevel", 3); }
+		get { return PlayerPrefs.GetInt("QualityLevel", 1); }
 		set { PlayerPrefs.SetInt("QualityLevel", value); }
 	}
 
-	public static int ResolutionIndex
+	public static int TargetFramerate
 	{
-		get { return PlayerPrefs.GetInt("ResolutionIndex", 7); }
-		set { PlayerPrefs.SetInt("ResolutionIndex", value); }
+		get { return PlayerPrefs.GetInt("TargetFramerate", 60); }
+		set { PlayerPrefs.SetInt("TargetFramerate", value); }
 	}
 
-	public static bool IsFullscreen
+	public static int UseVsync
 	{
-		get { return PlayerPrefs.GetInt("IsFullscreen", 0) == 1; }
-		set { PlayerPrefs.SetInt("IsFullscreen", value ? 1 : 0); }
-	}
-
-	public static float TargetFramerate
-	{
-		get { return PlayerPrefs.GetFloat("TargetFramerate", 120f); }
-		set { PlayerPrefs.SetFloat("TargetFramerate", value); }
-	}
-
-	public static bool UseVsync
-	{
-		get { return PlayerPrefs.GetInt("UseVsync", 0) == 1; }
-		set { PlayerPrefs.SetInt("UseVsync", value ? 1 : 0); }
+		get { return PlayerPrefs.GetInt("UseVsync", 0); }
+		set { PlayerPrefs.SetInt("UseVsync", value); }
 	}
 	#endregion
 
-	#region Controls Settings
-	public static string SelectedKeyset
+	#region Gameplay Settings
+	public static float AimSpeed
 	{
-		get { return PlayerPrefs.GetString("SelectedKeyset", "Default"); }
-		set { PlayerPrefs.SetString("SelectedKeyset", value); }
+		get { return PlayerPrefs.GetFloat("AimSpeed", 3f); }
+		set { PlayerPrefs.SetFloat("AimSpeed", value); }
 	}
 	#endregion
 
@@ -78,32 +75,30 @@ public static class UserSettings
 				MasterVolume = 1f;
 				MusicVolume = 1f;
 				SoundVolume = 1f;
+				AmbienceVolume = 1f;
 				break;
 
 			case SettingSection.Graphics:
-				QualityLevel = 3;
-				ResolutionIndex = 7;
-				IsFullscreen = false;
-				TargetFramerate = 120f;
-				UseVsync = false;
+				QualityLevel = 1;
+				TargetFramerate = 60;
+				UseVsync = 0;
 				break;
 
-			case SettingSection.Controls:
-				SelectedKeyset = "Default";
+			case SettingSection.Gameplay:
+				AimSpeed = 3f;
 				break;
 
 			case SettingSection.All:
 				MasterVolume = 1f;
 				MusicVolume = 1f;
 				SoundVolume = 1f;
+				AmbienceVolume = 1f;
 
 				QualityLevel = 3;
-				ResolutionIndex = 7;
-				IsFullscreen = false;
-				TargetFramerate = 120f;
-				UseVsync = false;
+				TargetFramerate = 60;
+				UseVsync = 0;
 
-				SelectedKeyset = "Default";
+				AimSpeed = 3f;
 				break;
 		}
 	}
@@ -124,5 +119,5 @@ public static class UserSettings
 			PlayerPrefs.DeleteKey(keyName);
 	}
 
-	public enum SettingSection { Audio, Graphics, Controls, All}
+	public enum SettingSection { Audio, Graphics, Gameplay, All }
 }

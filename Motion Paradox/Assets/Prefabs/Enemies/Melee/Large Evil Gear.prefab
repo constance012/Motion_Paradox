@@ -26,7 +26,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1100724392022692082, guid: 01a6165c54ebe4a43a8a3115dfe82018, type: 3}
       propertyPath: recoverTime
-      value: 2.5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1100724392022692082, guid: 01a6165c54ebe4a43a8a3115dfe82018, type: 3}
       propertyPath: attackRadius

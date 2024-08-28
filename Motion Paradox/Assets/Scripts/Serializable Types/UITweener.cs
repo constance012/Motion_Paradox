@@ -49,7 +49,7 @@ public class UITweener
 
 	public TweenableUIElement TweenableUI { get; set; }
 
-	private Tween _tween;
+	private TweenPool _tweenPool;
 
 	public void ValidateDefaultValues(int index)
 	{
@@ -58,59 +58,57 @@ public class UITweener
 		overshoot = 1.70158f;
 	}
 
-	public void KillIfActive()
-	{
-		if (_tween.IsActive())
-			_tween.Kill(true);
-	}
-
 	public Tween CreateTween(bool forwards, bool standalone = true)
 	{
-		KillIfActive();
+		_tweenPool ??= new TweenPool();
+		_tweenPool.KillActiveTweens(true);
 
 		Vector3 targetValue = forwards ? endValue : startValue;
+		Tween tween = null;
 
 		switch (tweenType)
 		{
 			case UITweeningType.Scale:
-				_tween = TweenableUI._rectTransform.DOScale(targetValue, duration);
+				tween = TweenableUI._rectTransform.DOScale(targetValue, duration);
 				break;
 
 			case UITweeningType.SizeDelta:
-				_tween = TweenableUI._rectTransform.DOSizeDelta(targetValue, duration, snapToInteger);
+				tween = TweenableUI._rectTransform.DOSizeDelta(targetValue, duration, snapToInteger);
 				break;
 
 			case UITweeningType.Move:
-				_tween = TweenableUI._rectTransform.DOAnchorPos(targetValue, duration, snapToInteger);
+				tween = TweenableUI._rectTransform.DOAnchorPos(targetValue, duration, snapToInteger);
 				break;
 
 			case UITweeningType.Rotate:
-				_tween = TweenableUI._rectTransform.DORotate(targetValue, duration, rotateMode);
+				tween = TweenableUI._rectTransform.DORotate(targetValue, duration, rotateMode);
 				break;
 
 			case UITweeningType.FadeCanvasGroup:
-				_tween = TweenableUI._canvasGroup.DOFade(targetValue.x, duration);
+				tween = TweenableUI._canvasGroup.DOFade(targetValue.x, duration);
 				break;
 			
 			case UITweeningType.FadeGraphic:
-				_tween = TweenableUI._graphic.DOFade(targetValue.x, duration);
+				tween = TweenableUI._graphic.DOFade(targetValue.x, duration);
 				break;
 
 			case UITweeningType.Color:
-				_tween = TweenableUI._graphic.DOColor(TweenableUI.Vector3ToColor(targetValue), duration);
+				tween = TweenableUI._graphic.DOColor(TweenableUI.Vector3ToColor(targetValue), duration);
 				break;
 		}
 
-		_tween.SetRelative(tweenInRelativeSpace)
+		tween.SetRelative(tweenInRelativeSpace)
 			 .SetLoops(loopCount, loopType)
 			 .SetEase(easeType, overshoot, period)
 			 .SetSpeedBased(isSpeedBased)
 			 .SetUpdate(updateType, ignoreTimeScale);
 
 		if (standalone)
-			_tween.SetDelay(delay);
+			tween.SetDelay(delay);
 
-		return _tween;
+		_tweenPool.Add(tween);
+
+		return tween;
 	}
 }
 

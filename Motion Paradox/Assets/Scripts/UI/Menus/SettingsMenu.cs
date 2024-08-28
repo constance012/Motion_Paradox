@@ -1,64 +1,96 @@
+using System;
 using UnityEngine;
 using UnityEngine.Audio;
-using UnityEngine.UI;
-using TMPro;
 
-public class SettingsMenu : MonoBehaviour
+public sealed class SettingsMenu : MonoBehaviour
 {
+	[Header("Menu References"), Space]
+	[SerializeField] private TweenableUIElement settingsMenu;
+	[SerializeField] private TweenableUIElement mainMenu;
+
 	[Header("Audio Mixer"), Space]
 	[SerializeField] private AudioMixer mixer;
 
-	[Header("UI References"), Space]
-	[SerializeField] private Slider _masterSlider;
-	[SerializeField] private Slider _musicSlider;
-	[SerializeField] private Slider _soundSlider;
+	[Header("Slider Groups"), Space]
+	[SerializeField] private SliderGroup musicSlider;
+	[SerializeField] private SliderGroup soundSlider;
+	[SerializeField] private SliderGroup ambienceSlider;
+	[SerializeField] private SliderGroup aimSpeedSlider;
 
-	// Private fields
-	private TextMeshProUGUI _musicText;
-	private TextMeshProUGUI _soundText;
-	private TextMeshProUGUI _masterText;
-
-	private void Awake()
-	{
-		_musicText = _musicSlider.GetComponentInChildren<TextMeshProUGUI>();
-		_soundText = _soundSlider.GetComponentInChildren<TextMeshProUGUI>();
-		_masterText = _masterSlider.GetComponentInChildren<TextMeshProUGUI>();
-	}
+	[Header("Directional Selectors"), Space]
+	[SerializeField] private DirectionalSelector qualitySelector;
+	[SerializeField] private DirectionalSelector framerateSelector;
+	[SerializeField] private DirectionalSelector vsyncSelector;
 
 	private void OnEnable()
 	{
 		ReloadUI();
 	}
 
-	#region Callback Method for UI.
-	public void SetMasterVolume(float amount)
+	#region Callback Methods for UI.
+	public async void OpenMainMenu()
 	{
-		mixer.SetFloat("masterVol", GetVolume(amount));
-
-		_masterText.text = $"Master: {ConvertDecibelToText(amount)}";
-		UserSettings.MasterVolume = amount;
+		await settingsMenu.SetActive(false);
+		await mainMenu.SetActive(true);
 	}
 
 	public void SetMusicVolume(float amount)
 	{
-		mixer.SetFloat("musicVol", GetVolume(amount));
+		mixer.SetFloat("musicVol", UserSettings.ToMixerDecibel(amount));
 
-		_musicText.text = $"Music: {ConvertDecibelToText(amount)}";
+		musicSlider.DisplayText = ConvertDecibelToText(amount);
 		UserSettings.MusicVolume = amount;
 	}
 
 	public void SetSoundVolume(float amount)
 	{
-		mixer.SetFloat("soundVol", GetVolume(amount));
+		mixer.SetFloat("soundVol", UserSettings.ToMixerDecibel(amount));
 
-		_soundText.text = $"Sound: {ConvertDecibelToText(amount)}";
+		soundSlider.DisplayText = ConvertDecibelToText(amount);
 		UserSettings.SoundVolume = amount;
+	}
+
+	public void SetAmbienceVolume(float amount)
+	{
+		mixer.SetFloat("ambienceVol", UserSettings.ToMixerDecibel(amount));
+
+		ambienceSlider.DisplayText = ConvertDecibelToText(amount);
+		UserSettings.AmbienceVolume = amount;
 	}
 
 	public void SetQualityLevel(int index)
 	{
 		QualitySettings.SetQualityLevel(index);
 		UserSettings.QualityLevel = index;
+	}
+
+	public void SetTargetFramerate(string value)
+	{
+		try
+		{
+			int fps = Convert.ToInt32(value);
+			Application.targetFrameRate = Convert.ToInt32(fps);
+			UserSettings.TargetFramerate = fps;
+		}
+		catch (FormatException)
+		{
+			Application.targetFrameRate = 60;
+			UserSettings.TargetFramerate = 60;
+		}
+	}
+
+	public void SetVsync(int useVsync)
+	{
+		Debug.Log($"Use Vsync: {Convert.ToBoolean(useVsync)}.");
+		QualitySettings.vSyncCount = useVsync;
+		UserSettings.UseVsync = useVsync;
+	}
+
+	public void SetAimSpeed(float amount)
+	{
+		float value = amount / 10f;
+		aimSpeedSlider.DisplayText = value.ToString("0.0");
+		UserSettings.AimSpeed = value;
 	}
 
 	public void ResetToDefault()
@@ -73,22 +105,27 @@ public class SettingsMenu : MonoBehaviour
 	{
 		return (amount * 100f).ToString("0");
 	}
-
-	private float GetVolume(float amount) => Mathf.Log10(amount) * 20f;
 	#endregion
 
-	public void ReloadUI()
+	private void ReloadUI()
 	{
-		float masterVol = UserSettings.MasterVolume;
 		float musicVol = UserSettings.MusicVolume;
 		float soundVol = UserSettings.SoundVolume;
+		float ambienceVol = UserSettings.AmbienceVolume;
+		float aimSpeed = UserSettings.AimSpeed;
 
-		_masterSlider.value = masterVol;
-		_musicSlider.value = musicVol;
-		_soundSlider.value = soundVol;
+		musicSlider.Value = musicVol;
+		soundSlider.Value = soundVol;
+		ambienceSlider.Value = ambienceVol;
+		aimSpeedSlider.Value = aimSpeed * 10f;
 
-		_masterText.text = $"Master: {ConvertDecibelToText(masterVol)}";
-		_musicText.text = $"Music: {ConvertDecibelToText(musicVol)}";
-		_soundText.text = $"Sound: {ConvertDecibelToText(soundVol)}";
+		musicSlider.DisplayText = ConvertDecibelToText(musicVol);
+		soundSlider.DisplayText = ConvertDecibelToText(soundVol);
+		ambienceSlider.DisplayText = ConvertDecibelToText(ambienceVol);
+		aimSpeedSlider.DisplayText = aimSpeed.ToString("0.0");
+
+		qualitySelector.Index = UserSettings.QualityLevel;
+		framerateSelector.Value = UserSettings.TargetFramerate.ToString();
+		vsyncSelector.Index = UserSettings.UseVsync;
 	}
 }

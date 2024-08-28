@@ -24,15 +24,15 @@ public sealed class EnemyAnimation : MonoBehaviour
 	private void Start()
 	{
 		_tween = transform.DOLocalRotate(rotateAngle, spinSpeedRange.RandomBetweenEnds(), RotateMode.FastBeyond360)
-				 .SetLoops(-1, loopType)
-				 .SetEase(easeType)
-				 .SetSpeedBased(true)
-				 .SetUpdate(updateType, ignoreTimescale)
-				 .SetDelay(delay);
+				 		  .SetLoops(-1, loopType)
+						  .SetEase(easeType)
+						  .SetSpeedBased(true)
+						  .SetUpdate(updateType, ignoreTimescale)
+						  .SetDelay(delay);
 	}
 
 	private void OnDestroy()
 	{
-		_tween.Kill(true);
+		_tween.Kill();
 	}
 }

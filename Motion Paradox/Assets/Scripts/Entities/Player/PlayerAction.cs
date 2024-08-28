@@ -6,6 +6,8 @@ public class PlayerAction : EntityAction
 	[Header("References"), Space]
 	[SerializeField] private HandheldWeapon weapon;
 
+	protected override float BaseAttackInterval => weapon.FireInterval;
+
 	private void Start()
 	{
 		InputManager.Instance.onAttackAction += (sender, e) => TryAttack();
@@ -20,7 +22,7 @@ public class PlayerAction : EntityAction
 		if (_attackInterval <= 0f && weapon.CanBeUsed())
 		{
 			StopPreviousAttack();
-			_attackCoroutine = StartCoroutine(DoAttack());	
+			_attackCoroutine.StartNew(this, DoAttack());
 		}
 	}
 

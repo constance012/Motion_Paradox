@@ -7,12 +7,15 @@ public class Gun : IdentifiableSO
 	public GameObject normalBulletPrefab;
 	public GameObject piercingBulletPrefab;
 
-	[Header("Spreading"), Space]
+	[Header("Spreading and Recoil"), Space]
 	public float verticleSpread;
+	public float recoilStrength;
+	public float recoilDuration;
 
 	[Header("Ammunition"), Space]
 	public int maxAmmo;
 	public int piercingShotFrequency;
+	public float fireRate;
 	public float reloadInterval;
 	[HideInInspector] public bool _isReloading;
 
@@ -75,7 +78,7 @@ public class Gun : IdentifiableSO
 		bullet.transform.right = CalculateBulletDirection(firePoint.right);
 		bullet.GetComponent<ProjectileBase>().Initialize(firePoint, stats, null);
 
-		EffectInstantiator.Instance.Instantiate<ParticleSystem>(EffectType.MuzzleFlash, firePoint.position, firePoint.rotation);
+		EffectInstantiator.Instance.Instantiate<ParticleSystem>(EffectType.MuzzleFlash, firePoint);
 		CameraShaker.Instance.ShakeCamera(isPiercingShot ? 4f : 2f, .3f);
 
 		AudioManager.Instance.SetVolume("Gunshot", .5f, isPiercingShot);

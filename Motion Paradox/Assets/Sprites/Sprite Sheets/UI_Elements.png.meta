@@ -408,6 +408,48 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Crosshair_Surrounding_Corner
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 30
+        width: 2
+        height: 2
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f2f3ce15995f974489b1ad200fb5bf8d
+      internalID: 2078872658
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Crosshair_Center
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 28
+        width: 2
+        height: 2
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 983887951c5215044b99951e46d94c65
+      internalID: 1726369332
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -419,7 +461,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      Button_Pointer_1: -376632778
+      Button_Pointer_2: 252556020
+      Button_Pointer_3: 123581908
+      Button_Pointer_4: -749154295
+      Button_Pointer_5: 1201405157
       Continue_Cue: 273358658
+      Crosshair_Center: 1726369332
+      Crosshair_Surrounding_Corner: 2078872658
       Dialogue_Box: -580825743
       Emit_Portrait: 1469957619
       Enemy_HP_Even: 585214879
@@ -429,6 +478,7 @@ TextureImporter:
       Player_HP_Odd: 1925011001
       Portrait_Frame: -2053684333
       Speaker_Name_Box: -1881267618
+      UI_Elements_0: -525848485
       UI_Heart: 1532557065
       UI_Normal_Bullet: 1057338196
       UI_Piercing_Bullet: -1335779438

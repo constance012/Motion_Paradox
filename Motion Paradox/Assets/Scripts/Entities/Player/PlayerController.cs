@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
 
 	private void Update()
 	{
-		_movementDirection = InputManager.Instance.Read2DVector(KeybindingActions.MoveLeft);
+		_movementDirection = InputManager.Instance.ReadValue<Vector2>(KeybindingActions.Movement);
 
 		if (_movementDirection.sqrMagnitude > .01f)
 			_previousDirection = _movementDirection;

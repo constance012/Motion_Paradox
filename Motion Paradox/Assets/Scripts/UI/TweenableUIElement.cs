@@ -45,7 +45,6 @@ public sealed class TweenableUIElement : MonoBehaviour, IPointerEnterHandler, IP
 	[SerializeField] private TweenCallbackPeriod callbackPeriod;
 
 	// Hidden public fields.
-	[HideInInspector] public Sequence _sequence;
 	[HideInInspector] public RectTransform _rectTransform;
 	[HideInInspector] public Graphic _graphic;
 	[HideInInspector] public CanvasGroup _canvasGroup;
@@ -54,9 +53,9 @@ public sealed class TweenableUIElement : MonoBehaviour, IPointerEnterHandler, IP
 	public UITweener this[int index] => tweeners[index];
 
 	// Private fields.
+	private TweenPool _tweenPool;
 	private static bool _dotweenInitialized = false;
 	private bool _setActiveInProgress;
-	private bool _isAtEndValues;
 
 	private void OnValidate()
 	{
@@ -88,16 +87,20 @@ public sealed class TweenableUIElement : MonoBehaviour, IPointerEnterHandler, IP
 			SetStartValues();
 	}
 
-	private async void OnEnable()
+	public async void OnEnable()
 	{
 		if (tweenOnEnable && !_setActiveInProgress)
-			await StartTweening(true);
+			await AsyncStartTweening(true);
 	}
 
 	private async void OnDisable()
 	{
-		if (tweenOnMouseHover && !_setActiveInProgress && _isAtEndValues)
-			await StartTweening(false);
+		await _tweenPool.RewindAndKillActiveTweens(true);
+	}
+
+	private async void OnDestroy()
+	{
+		await _tweenPool.RewindAndKillActiveTweens(true);
 	}
 
 	private void Start()
@@ -108,36 +111,39 @@ public sealed class TweenableUIElement : MonoBehaviour, IPointerEnterHandler, IP
 	public async void OnPointerEnter(PointerEventData e)
 	{
 		if (tweenOnMouseHover && !_setActiveInProgress)
-			await StartTweening(true);
+			await AsyncStartTweening(true);
 	}
 
 	public async void OnPointerExit(PointerEventData e)
 	{
 		if (tweenOnMouseHover && !_setActiveInProgress)
-			await StartTweening(false);
+			await AsyncStartTweening(false);
 	}
 	
-	public async void SetActive(bool active)
+	public async Task SetActive(bool active)
 	{
 		_setActiveInProgress = true;
 
 		if (active)
 		{
 			gameObject.SetActive(true);
-			await StartTweening(true);
+			await AsyncStartTweening(true);
 		}
 		else
-			await StartTweening(false);
+			await AsyncStartTweening(false);
 
 		_setActiveInProgress = false;
 	}
 
-	public async Task StartTweening(bool forwards)
+	public async void StartTweening(bool forwards)
 	{
-		if (_sequence.IsActive())
-			_sequence.Kill(true);
+		await AsyncStartTweening(forwards);
+	}
 
-		_isAtEndValues = forwards;
+	public async Task AsyncStartTweening(bool forwards)
+	{
+		await _tweenPool.RewindAndKillActiveTweens(true);
+
 		bool applyCallback = (forwards && callbackPeriod == TweenCallbackPeriod.AfterForwardTween) ||
 							 (!forwards && callbackPeriod == TweenCallbackPeriod.AfterBackwardTween);
 
@@ -145,13 +151,15 @@ public sealed class TweenableUIElement : MonoBehaviour, IPointerEnterHandler, IP
 			return;
 		else if (tweeners.Count == 1)
 		{
-			await tweeners[0].CreateTween(forwards)
-							 .OnComplete(applyCallback ? (() => onCompleteCallback?.Invoke()) : null)
-							 .AsyncWaitForCompletion();
+			Tween tween = tweeners[0].CreateTween(forwards)
+									 .OnComplete(applyCallback ? (() => onCompleteCallback?.Invoke()) : null);
+
+			_tweenPool.Add(tween);
+			await tween.AsyncWaitForCompletion();
 		}
 		else
 		{
-			_sequence = DOTween.Sequence();
+			Sequence sequence = DOTween.Sequence();
 
 			foreach (UITweener tweener in tweeners)
 			{
@@ -160,22 +168,24 @@ public sealed class TweenableUIElement : MonoBehaviour, IPointerEnterHandler, IP
 				if (tweener.playAlongPreviousTweener)
 				{
 					Debug.Log($"Joining tween {tweener.name}");
-					_sequence.Join(tween);
+					sequence.Join(tween);
 				}
 				else
 				{
-					_sequence.AppendInterval(tweener.delay);
-					_sequence.Append(tween);
+					sequence.AppendInterval(tweener.delay);
+					sequence.Append(tween);
 				}
 			}
 
-			await _sequence.SetRelative(tweenInRelativeSpace)
-						   .SetLoops(loopCount, loopType)
-						   .SetEase(easeType, overshoot, period)
-						   .PrependInterval(delay)
-						   .SetUpdate(updateType, ignoreTimeScale)
-						   .OnComplete(applyCallback ? (() => onCompleteCallback?.Invoke()) : null)
-						   .AsyncWaitForCompletion();
+			sequence.SetRelative(tweenInRelativeSpace)
+					.SetLoops(loopCount, loopType)
+					.SetEase(easeType, overshoot, period)
+					.PrependInterval(delay)
+					.SetUpdate(updateType, ignoreTimeScale)
+					.OnComplete(applyCallback ? (() => onCompleteCallback?.Invoke()) : null);
+			
+			_tweenPool.Add(sequence);
+			await sequence.AsyncWaitForCompletion();
 		}
 	}
 
@@ -214,12 +224,7 @@ public sealed class TweenableUIElement : MonoBehaviour, IPointerEnterHandler, IP
 					if (tweener.useCurrentValueAsStart)
 						tweener.startValue = _rectTransform.anchoredPosition;
 					else if (tweener.overrideStartValue)
-					{
-						if (tweener.tweenInRelativeSpace)
-							_rectTransform.DOAnchorPos(tweener.startValue, 0f).SetRelative(true);
-						else
-							_rectTransform.anchoredPosition = tweener.startValue;
-					}
+						_rectTransform.anchoredPosition = tweener.startValue;
 					break;
 				
 				case UITweeningType.Rotate:
@@ -258,6 +263,7 @@ public sealed class TweenableUIElement : MonoBehaviour, IPointerEnterHandler, IP
 		if (gameObjectToTween == null)
 			gameObjectToTween = gameObject;
 
+		_tweenPool = new TweenPool();
 		_rectTransform = gameObjectToTween.GetComponent<RectTransform>();
 		
 		foreach (UITweener tweener in tweeners)

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
@@ -23,13 +22,19 @@ public class HealthBar : MonoBehaviour
 	[SerializeField, Range(-1f, 1f)] private float period;
 
 	// Private fields.
-	private HashSet<Tween> _activeTweens = new HashSet<Tween>();
+	private TweenPool _tweenPool;
 	private Image[] _segments;
 	private int _previousHealth;
 
 	protected virtual void Awake()
 	{
+		_tweenPool = new TweenPool();
 		segmentParent.DestroyAllChildren(Destroy);
+	}
+
+	private void OnDestroy()
+	{
+		_tweenPool.KillActiveTweens(true);
 	}
 
 	public void SetCurrentHealthNoEffect(float current)
@@ -47,7 +52,7 @@ public class HealthBar : MonoBehaviour
 
 	public async void SetCurrentHealth(float current)
 	{
-		KillActiveTweens();
+		_tweenPool.KillActiveTweens(true);
 
 		int currentInt = (int)current;
 		Task[] modifiedSegments = new Task[Mathf.Abs(_previousHealth - currentInt)];
@@ -92,7 +97,7 @@ public class HealthBar : MonoBehaviour
 			 		 .OnComplete(() => _segments[index].sprite = emptySegmentSprite)
 			 		 .OnKill(() => _segments[index].sprite = emptySegmentSprite);
 		
-		_activeTweens.Add(tween);
+		_tweenPool.Add(tween);
 
 		await tween.AsyncWaitForCompletion();
 	}
@@ -102,7 +107,7 @@ public class HealthBar : MonoBehaviour
 		_segments[index].sprite = (index % 2 == 0) ? evenSegmentSprite : oddSegmentSprite;
 
 		Tween tween = PerformEffect(index, fillingColor);
-		_activeTweens.Add(tween);
+		_tweenPool.Add(tween);
 
 		await tween.AsyncWaitForCompletion();
 	}
@@ -111,16 +116,5 @@ public class HealthBar : MonoBehaviour
 	{
 		return _segments[index].DOColor(color, duration)
 							   .SetEase(Ease.Flash, overshoot, period);
-	}
-
-	private void KillActiveTweens()
-	{
-		foreach (Tween tween in _activeTweens)
-		{
-			if (tween.IsActive())
-				tween.Kill(true);
-		}
-
-		_activeTweens.Clear();
 	}
 }

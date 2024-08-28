@@ -1,10 +1,11 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public enum CursorTextureType { Default, Crosshair }
 
 [AddComponentMenu("Singletons/Cursor Manager")]
-public sealed class CursorManager : Singleton<CursorManager>
+public sealed class CursorManager : PersistentSingleton<CursorManager>
 {
 	[Serializable]
 	public struct CustomCursor
@@ -22,11 +23,6 @@ public sealed class CursorManager : Singleton<CursorManager>
 	[Header("Custom Cursors"), Space]
 	[SerializeField] private CustomCursor defaultCursor;
 	[SerializeField] private CustomCursor crosshairCursor;
-	
-	private void Start()
-	{
-		SwitchCursorTexture(CursorTextureType.Crosshair);
-	}
 
 	public void SwitchCursorTexture(CursorTextureType type, CursorMode mode = CursorMode.Auto)
 	{
@@ -34,10 +30,15 @@ public sealed class CursorManager : Singleton<CursorManager>
 		{
 			case CursorTextureType.Default:
 				Cursor.SetCursor(defaultCursor.texture, defaultCursor.TextureHotSpot, mode);
+				SetLockState(CursorLockMode.None);
+				SetVisible(true);
 				break;
 
 			case CursorTextureType.Crosshair:
-				Cursor.SetCursor(crosshairCursor.texture, crosshairCursor.TextureHotSpot, mode);
+				#if !UNITY_EDITOR
+					SetLockState(CursorLockMode.Confined);
+				#endif
+				SetVisible(false);
 				break;
 		}
 	}
@@ -45,5 +46,10 @@ public sealed class CursorManager : Singleton<CursorManager>
 	public void SetVisible(bool visible)
 	{
 		Cursor.visible = visible;
+	}
+
+	public void SetLockState(CursorLockMode mode)
+	{
+		Cursor.lockState = mode;
 	}
 }

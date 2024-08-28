@@ -35,7 +35,7 @@ public class Tooltip : MonoBehaviour
 		float pivotY = mouseYRatio < .5f ? 0f - pivotOffet.y : 1f + pivotOffet.y;
 
 		rectTransform.pivot = new Vector2(pivotX, pivotY);
-		transform.position = mousePos;
+		rectTransform.position = mousePos;
 	}
 
 	public void SetText(string contentText, string headerText = "")

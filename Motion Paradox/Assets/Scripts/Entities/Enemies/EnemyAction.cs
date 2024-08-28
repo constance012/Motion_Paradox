@@ -17,7 +17,7 @@ public abstract class EnemyAction : EntityAction
 		if (_attackInterval <= 0f && !PlayerStats.IsDeath)
 		{
 			StopPreviousAttack();
-			_attackCoroutine = StartCoroutine(DoAttack());
+			_attackCoroutine.StartNew(this, DoAttack());
 		}
 	}
 

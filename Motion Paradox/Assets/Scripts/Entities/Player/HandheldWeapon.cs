@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using DG.Tweening;
 using UnityEngine;
 
 public class HandheldWeapon : MonoBehaviour
@@ -9,13 +11,21 @@ public class HandheldWeapon : MonoBehaviour
 
 	[Header("References"), Space]
 	[SerializeField] private Stats stats;
-	[SerializeField] private AmmoCountUI ammoUI;
 	[SerializeField] private Transform firePoint;
+	
+	[Header("UI References"), Space]
+	[SerializeField] private AmmoCountHUD ammoHUD;
+	[SerializeField] private DynamicCrosshair crosshair;
+
+	// Properties.
+	public float FireInterval => 1f / _gun.fireRate;
 
 	// Private fields.
-	private Queue<bool> _firedShots;
 	private Gun _gun;
-	private Coroutine _reloadCoroutine;
+	private Queue<bool> _firedShots;
+	private BetterCoroutine _reloadCoroutine = new();
+	private TweenPool _tweenPool;
+	private float _baseSpread;
 
 	private void Start()
 	{
@@ -23,8 +33,18 @@ public class HandheldWeapon : MonoBehaviour
 		_gun.name = weaponSO.name;
 		_gun.Initialize();
 
-		ammoUI.Initialize(_gun.maxAmmo, _gun.piercingShotFrequency);
-		_firedShots ??= new Queue<bool>();
+		_baseSpread = _gun.verticleSpread;
+		ammoHUD.Initialize(_gun.maxAmmo, _gun.piercingShotFrequency);
+		crosshair.ChangeBaseExpansion(_baseSpread);
+		
+		_firedShots = new Queue<bool>();
+		_tweenPool = new TweenPool();
+	}
+
+	public void ToggleAiming(bool isAiming)
+	{
+		_gun.verticleSpread = isAiming ? 0f : _baseSpread;
+		crosshair.ChangeBaseExpansion(isAiming ? -.15f : _baseSpread);
 	}
 
 	public bool CanBeUsed()
@@ -34,10 +54,13 @@ public class HandheldWeapon : MonoBehaviour
 
 	public void UseWeapon()
 	{
-		this.TryStopCoroutine(_reloadCoroutine);
+		_reloadCoroutine.StopCurrent(this);
 		
 		_gun.FireBullet(firePoint, stats, out bool isPiercingShot);
-		ammoUI.RemoveTop();
+		GenerateRecoil(isPiercingShot);
+		
+		ammoHUD.RemoveTop();
+		crosshair.Expand(FireInterval);
 		
 		_firedShots.Enqueue(isPiercingShot);
 	}
@@ -45,17 +68,30 @@ public class HandheldWeapon : MonoBehaviour
 	public void TryReload()
 	{
 		if (_gun.CanReload && !GameManager.Instance.GameDone)
-			_reloadCoroutine = StartCoroutine(PerformReload());
+			_reloadCoroutine.StartNew(this, PerformReload());
 	}
 
 	private IEnumerator PerformReload()
 	{
 		while (_gun.SingleCartridgeReload())
 		{
-			ammoUI.AddBullet(_firedShots.Dequeue());
+			ammoHUD.AddBottom(_firedShots.Dequeue());
 
 			yield return new WaitUntil(() => TimeManager.LocalTimeScale == 1);
 			yield return new WaitForSeconds(_gun.reloadInterval);
 		}
+	}
+
+	private void GenerateRecoil(bool isPiercingShot)
+	{
+		_tweenPool.KillActiveTweens(false);
+
+		float strength = _gun.recoilStrength * Mathf.Sign(transform.localScale.y);
+		if (isPiercingShot)
+			strength *= 1.5f;
+
+		_tweenPool.Add(transform.DOLocalRotate(Vector3.forward * strength, _gun.recoilDuration)
+				 				.SetEase(Ease.OutQuad)
+				 				.SetLoops(2, LoopType.Yoyo));
 	}
 }

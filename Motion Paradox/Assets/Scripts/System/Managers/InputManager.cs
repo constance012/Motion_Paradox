@@ -12,10 +12,10 @@ using UnityDebug = UnityEngine.Debug;
 [AddComponentMenu("Singletons/Input Manager")]
 public sealed class InputManager : Singleton<InputManager>
 {
-	public EventHandler onBackToMenuAction;
 	public EventHandler onAttackAction;
+	public EventHandler<InputActionPhase> onAimModeToggleAction;
 	public EventHandler onReloadAction;
-	public EventHandler onTakeScreenshotAction;
+	public EventHandler onBackToMenuAction;
 
 	// Private fields.
 	private PlayerInputActions _playerInputActions;
@@ -24,7 +24,6 @@ public sealed class InputManager : Singleton<InputManager>
 	protected override void Awake()
 	{
 		base.Awake();
-
 		Initialize();
 	}
 
@@ -33,32 +32,32 @@ public sealed class InputManager : Singleton<InputManager>
 		Dispose();
 	}
 
-	#region Event Methods.
-	private void BackToMenu_performed(InputAction.CallbackContext context)
-	{
-		onBackToMenuAction?.Invoke(this, EventArgs.Empty);
-	}
-
+	#region Event methods.
 	private void Attack_performed(InputAction.CallbackContext context)
 	{
 		onAttackAction?.Invoke(this, EventArgs.Empty);
+	}
+
+	private void AimMode_toggled(InputAction.CallbackContext context)
+	{
+		onAimModeToggleAction?.Invoke(this, context.phase);
 	}
 
 	private void Reload_performed(InputAction.CallbackContext context)
 	{
 		onReloadAction?.Invoke(this, EventArgs.Empty);
 	}
-
-	private void TakeScreenshot_performed(InputAction.CallbackContext context)
+	
+	private void BackToMenu_performed(InputAction.CallbackContext context)
 	{
-		onTakeScreenshotAction?.Invoke(this, EventArgs.Empty);
+		onBackToMenuAction?.Invoke(this, EventArgs.Empty);
 	}
 	#endregion
 
-	#region Public Wrapper Method.
-	public Vector2 Read2DVector(KeybindingActions action)
+	#region Get data and value methods.
+	public TValue ReadValue<TValue>(KeybindingActions action) where TValue : struct
 	{
-		return _inputActions[action].ReadValue<Vector2>().normalized;
+		return _inputActions[action].ReadValue<TValue>();
 	}
 
 	public string GetDisplayString(KeybindingActions action, int index = 0)
@@ -72,6 +71,7 @@ public sealed class InputManager : Singleton<InputManager>
 
 	#region Get keys and mouse buttons methods.
 	public Vector2 ScrollDelta => Mouse.current.scroll.ReadValue().normalized;
+	public Vector2 MousePosition => Mouse.current.position.ReadValue();
 
 	public bool GetMouseButtonDown(MouseButton button)
 	{
@@ -108,9 +108,9 @@ public sealed class InputManager : Singleton<InputManager>
 		return _inputActions[action].WasPressedThisFrame();
 	}
 
-	public bool WasPerformedThisFrame(KeybindingActions action)
+	public bool IsPress(KeybindingActions action)
 	{
-		return _inputActions[action].WasPerformedThisFrame();
+		return _inputActions[action].IsPressed();
 	}
 
 	public bool WasReleasedThisFrame(KeybindingActions action)
@@ -119,32 +119,83 @@ public sealed class InputManager : Singleton<InputManager>
 	}
 	#endregion
 
+	#region Initialization and Clean up.
 	private void Initialize()
 	{
 		_playerInputActions = new PlayerInputActions();
 
 		_playerInputActions.Player.Enable();
 
-		_playerInputActions.Player.BackToMenu.performed += BackToMenu_performed;
-		_playerInputActions.Player.Attack.performed += Attack_performed;
-		_playerInputActions.Player.Reload.performed += Reload_performed;
-		_playerInputActions.Player.TakeScreenshot.performed += TakeScreenshot_performed;
-
 		_inputActions ??= new Dictionary<KeybindingActions, InputAction>()
 		{
 			[KeybindingActions.Attack] = _playerInputActions.Player.Attack,
+			[KeybindingActions.ToggleAimMode] = _playerInputActions.Player.ToggleAimMode,
+			[KeybindingActions.Aiming] = _playerInputActions.Player.Aiming,
 
-			[KeybindingActions.MoveLeft] = _playerInputActions.Player.Movement,
-			[KeybindingActions.MoveRight] = _playerInputActions.Player.Movement,
-			[KeybindingActions.MoveUp] = _playerInputActions.Player.Movement,
-			[KeybindingActions.MoveDown] = _playerInputActions.Player.Movement,
-
+			[KeybindingActions.Movement] = _playerInputActions.Player.Movement,
 			[KeybindingActions.Interact] = _playerInputActions.Player.Interact,
 			[KeybindingActions.Reload] = _playerInputActions.Player.Reload,
 			
 			[KeybindingActions.BackToMenu] = _playerInputActions.Player.BackToMenu,
+			[KeybindingActions.TakeScreenshot] = _playerInputActions.Player.TakeScreenshot,
 		};
+
+		Subscribe(KeybindingActions.BackToMenu, ActionEventType.Performed, BackToMenu_performed);
+		Subscribe(KeybindingActions.Attack, ActionEventType.Performed, Attack_performed);
+
+		Subscribe(KeybindingActions.ToggleAimMode, ActionEventType.Started, AimMode_toggled);
+		Subscribe(KeybindingActions.ToggleAimMode, ActionEventType.Canceled, AimMode_toggled);
+
+		Subscribe(KeybindingActions.Reload, ActionEventType.Performed, Reload_performed);
 	}
+
+	private void Dispose()
+	{
+		Unsubscribe(KeybindingActions.BackToMenu, ActionEventType.Performed, BackToMenu_performed);
+		Unsubscribe(KeybindingActions.Attack, ActionEventType.Performed, Attack_performed);
+
+		Unsubscribe(KeybindingActions.ToggleAimMode, ActionEventType.Started, AimMode_toggled);
+		Unsubscribe(KeybindingActions.ToggleAimMode, ActionEventType.Canceled, AimMode_toggled);
+
+		Unsubscribe(KeybindingActions.Reload, ActionEventType.Performed, Reload_performed);
+		
+		_playerInputActions.Dispose();
+	}
+	#endregion
+
+	#region Event subscription management.
+	private void Subscribe(KeybindingActions action, ActionEventType eventType, Action<InputAction.CallbackContext> method)
+	{
+		switch (eventType)
+		{
+			case ActionEventType.Started:
+				_inputActions[action].started += method;
+				break;
+			case ActionEventType.Performed:
+				_inputActions[action].performed += method;
+				break;
+			case ActionEventType.Canceled:
+				_inputActions[action].canceled += method;
+				break;
+		}
+	}
+
+	private void Unsubscribe(KeybindingActions action, ActionEventType eventType, Action<InputAction.CallbackContext> method)
+	{
+		switch (eventType)
+		{
+			case ActionEventType.Started:
+				_inputActions[action].started -= method;
+				break;
+			case ActionEventType.Performed:
+				_inputActions[action].performed -= method;
+				break;
+			case ActionEventType.Canceled:
+				_inputActions[action].canceled -= method;
+				break;
+		}
+	}
+	#endregion
 
 	private ButtonControl GetMouseButtonControl(MouseButton button)
 	{
@@ -159,11 +210,11 @@ public sealed class InputManager : Singleton<InputManager>
 		};
 	}
 
-	private void Dispose()
+	enum ActionEventType
 	{
-		_playerInputActions.Player.BackToMenu.performed -= BackToMenu_performed;
-		
-		_playerInputActions.Dispose();
+		Started,
+		Performed,
+		Canceled
 	}
 }
 
@@ -173,14 +224,14 @@ public sealed class InputManager : Singleton<InputManager>
 public enum KeybindingActions
 {
 	Attack,
-	MoveLeft,
-	MoveRight,
-	MoveUp,
-	MoveDown,
+	ToggleAimMode,
+	Aiming,
+	Movement,
 	Reload,
 	Interact,
 	Pause,
 	BackToMenu,
+	TakeScreenshot,
 }
 
 public enum MouseButton
