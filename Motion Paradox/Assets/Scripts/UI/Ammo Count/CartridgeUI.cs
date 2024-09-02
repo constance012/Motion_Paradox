@@ -8,11 +8,18 @@ public sealed class CartridgeUI : MonoBehaviour
 	[SerializeField] private TweenableUIElement loadTween;
 
 	// Private fields.
+	private TweenPool _tweenPool;
 	private RectTransform _rectTransform;
 
 	private void Awake()
 	{
 		_rectTransform = transform as RectTransform;
+		_tweenPool = new TweenPool();
+	}
+
+	private void OnDestroy()
+	{
+		_tweenPool.KillActiveTweens(true);
 	}
 
 	/// <summary>
@@ -26,9 +33,9 @@ public sealed class CartridgeUI : MonoBehaviour
 
 	public void ChamberRound()
 	{
-		(transform as RectTransform).DOAnchorPosX(-20, .2f, true)
-			 						.SetRelative(true)
-			 						.SetEase(Ease.OutSine);
+		_tweenPool.Add(_rectTransform.DOAnchorPosX(-20, .2f, true)
+			 		  				 .SetRelative(true)
+			 		  				 .SetEase(Ease.OutSine));
 	}
 
 	public Tween FireRound()
@@ -36,10 +43,13 @@ public sealed class CartridgeUI : MonoBehaviour
 		RectTransform round = transform as RectTransform;
 		Sequence sequence = DOTween.Sequence();
 		
-		return sequence.Append(round.DOAnchorPosX(-70f, .2f, true).SetRelative(true))
-					   .Join(round.GetComponent<Image>().DOFade(0f, .2f))
-					   .SetEase(Ease.OutSine)
-					   .OnComplete(() => Destroy(gameObject));
+		sequence.Append(round.DOAnchorPosX(-70f, .2f, true).SetRelative(true))
+				.Join(round.GetComponent<Image>().DOFade(0f, .2f))
+				.SetEase(Ease.OutSine)
+		   		.OnComplete(() => Destroy(gameObject));
+
+		_tweenPool.Add(sequence);
+		return sequence;
 	}
 
 	public async void LoadRound(bool chamber = false)
@@ -50,12 +60,14 @@ public sealed class CartridgeUI : MonoBehaviour
 			ChamberRound();
 	}
 
-	public async void PushUpRound(float spacing, bool chamber = false)
+	public async void PushUpRound(float spacing, bool chamber)
 	{
-		await _rectTransform.DOAnchorPosY(spacing, .2f, true)
-							.SetRelative(true)
-							.SetEase(Ease.OutCubic)
-							.AsyncWaitForCompletion();
+		Tween tween = _rectTransform.DOAnchorPosY(spacing, .2f, true)
+									.SetRelative(true)
+									.SetEase(Ease.OutCubic);
+		
+		_tweenPool.Add(tween);
+		await tween.AsyncWaitForCompletion();
 
 		if (chamber)
 			ChamberRound();

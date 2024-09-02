@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Weapons/Gun", fileName = "New Gun")]
@@ -8,9 +9,11 @@ public class Gun : IdentifiableSO
 	public GameObject piercingBulletPrefab;
 
 	[Header("Spreading and Recoil"), Space]
-	public float verticleSpread;
+	public float verticalSpread;
+	public float muzzleClimbAngle;
 	public float recoilStrength;
 	public float recoilDuration;
+	public Ease recoilEase;
 
 	[Header("Ammunition"), Space]
 	public int maxAmmo;
@@ -87,7 +90,7 @@ public class Gun : IdentifiableSO
 
 	private Vector2 CalculateBulletDirection(Vector2 initalDirection)
 	{
-		Vector2 spreading = new Vector2(0f, Random.Range(-verticleSpread, verticleSpread));
+		Vector2 spreading = new Vector2(0f, Random.Range(-verticalSpread, verticalSpread));
 		return initalDirection + spreading;
 	}
 }

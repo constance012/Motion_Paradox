@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5ea2b7a09fc2589449c2d3290107bb31, type: 3}
-  m_Name: Small Evil Gear
+  m_Name: Scout Gear
   m_EditorClassIdentifier: 
   dynamicStats:
     _serializedList:
@@ -19,12 +19,18 @@ MonoBehaviour:
     - Key: 1
       Value: 1
     - Key: 2
-      Value: 0.3
+      Value: 0.5
     - Key: 3
       Value: 8
   staticStats:
     _serializedList:
     - Key: 4
-      Value: 2
+      Value: 3
     - Key: 5
       Value: 0.1
+    - Key: 7
+      Value: 13
+    - Key: 8
+      Value: 0
+    - Key: 9
+      Value: 5

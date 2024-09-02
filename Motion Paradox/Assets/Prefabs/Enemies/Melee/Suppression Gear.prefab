@@ -13,8 +13,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c1ed20c7b46de7548853a4991cdb072c, type: 2}
     - target: {fileID: 1034477533521585799, guid: 01a6165c54ebe4a43a8a3115dfe82018, type: 3}
+      propertyPath: action
+      value: 
+      objectReference: {fileID: 3877979201151800909}
+    - target: {fileID: 1034477533521585799, guid: 01a6165c54ebe4a43a8a3115dfe82018, type: 3}
       propertyPath: turnSpeed
-      value: 80
+      value: 110
       objectReference: {fileID: 0}
     - target: {fileID: 1100724392022692082, guid: 01a6165c54ebe4a43a8a3115dfe82018, type: 3}
       propertyPath: stats
@@ -55,6 +59,10 @@ PrefabInstance:
     - target: {fileID: 1289326072640739008, guid: 01a6165c54ebe4a43a8a3115dfe82018, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1832123096458955562, guid: 01a6165c54ebe4a43a8a3115dfe82018, type: 3}
+      propertyPath: lootTable._serializedList.Array.data[0].Value
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 2055380954593981836, guid: 01a6165c54ebe4a43a8a3115dfe82018, type: 3}
       propertyPath: m_LocalPosition.x
@@ -98,7 +106,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2066920011323705452, guid: 01a6165c54ebe4a43a8a3115dfe82018, type: 3}
       propertyPath: m_Name
-      value: Large Evil Gear
+      value: Suppression Gear
       objectReference: {fileID: 0}
     - target: {fileID: 3540694936784526770, guid: 01a6165c54ebe4a43a8a3115dfe82018, type: 3}
       propertyPath: m_AnchorMax.y
@@ -147,6 +155,18 @@ PrefabInstance:
     - target: {fileID: 4369038137792210635, guid: 01a6165c54ebe4a43a8a3115dfe82018, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639513633508860226, guid: 01a6165c54ebe4a43a8a3115dfe82018, type: 3}
+      propertyPath: m_Name
+      value: Sprite
+      objectReference: {fileID: 0}
+    - target: {fileID: 6494922787788817296, guid: 01a6165c54ebe4a43a8a3115dfe82018, type: 3}
+      propertyPath: spinSpeedRange.x
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 6494922787788817296, guid: 01a6165c54ebe4a43a8a3115dfe82018, type: 3}
+      propertyPath: spinSpeedRange.y
+      value: 320
       objectReference: {fileID: 0}
     - target: {fileID: 6745964431920951248, guid: 01a6165c54ebe4a43a8a3115dfe82018, type: 3}
       propertyPath: m_SizeDelta.x
@@ -211,5 +231,49 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2066920011323705452, guid: 01a6165c54ebe4a43a8a3115dfe82018, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3877979201151800909}
   m_SourcePrefab: {fileID: 100100000, guid: 01a6165c54ebe4a43a8a3115dfe82018, type: 3}
+--- !u!1 &76702012230458035 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2066920011323705452, guid: 01a6165c54ebe4a43a8a3115dfe82018, type: 3}
+  m_PrefabInstance: {fileID: 2143622019258077919}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3877979201151800909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 76702012230458035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe2df3dbb13d8f043af772e0cd61cd3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementScript: {fileID: 1433445453272740952}
+  rb2d: {fileID: 7223298020271787506}
+  stats: {fileID: 11400000, guid: c1ed20c7b46de7548853a4991cdb072c, type: 2}
+  attackRadius: 4
+  recoverTime: 2
+  chargeForce: 15
+  consecutiveChargeRange: {x: 1, y: 4}
+  chargeInterval: 1
+--- !u!114 &1433445453272740952 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1034477533521585799, guid: 01a6165c54ebe4a43a8a3115dfe82018, type: 3}
+  m_PrefabInstance: {fileID: 2143622019258077919}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 76702012230458035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51654a8991fc6764989788399ed838ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!50 &7223298020271787506 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 8755529397450071853, guid: 01a6165c54ebe4a43a8a3115dfe82018, type: 3}
+  m_PrefabInstance: {fileID: 2143622019258077919}
+  m_PrefabAsset: {fileID: 0}

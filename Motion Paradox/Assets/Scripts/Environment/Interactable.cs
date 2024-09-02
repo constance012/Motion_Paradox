@@ -30,7 +30,6 @@ public abstract class Interactable : MonoBehaviour
 	public InputSource inputSource;
 
 	[Header("Reference"), Space]
-	[ReadOnly] public Transform player;
 	[SerializeField] protected SpriteRenderer spriteRenderer;
 	[SerializeField] protected GameObject popupLabelPrefab;
 
@@ -41,14 +40,17 @@ public abstract class Interactable : MonoBehaviour
 	[SerializeField, ReadOnly] protected bool hasInteracted;
 
 	// Protected fields.
+	protected static Transform _player;
 	protected Transform _worldCanvas;
 	protected Material _mat;
 	protected InteractionPopupLabel _popupLabel;
 
 	protected virtual void Awake()
 	{
-		if (player == null)
-			player = GameObject.FindWithTag("Player").transform;
+		if (_player == null)
+		{
+			_player = GameObject.FindWithTag("Player").transform;
+		}
 
 		_worldCanvas = GameObject.FindWithTag("WorldCanvas").transform;
 		_mat = spriteRenderer.material;
@@ -62,7 +64,7 @@ public abstract class Interactable : MonoBehaviour
 		Vector2 worldMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
 		float mouseDistance = Vector2.Distance(worldMousePos, transform.position);
-		float playerDistance = Vector2.Distance(player.position, transform.position);
+		float playerDistance = Vector2.Distance(_player.position, transform.position);
 
 		CheckForInteraction(mouseDistance, playerDistance);
 	}

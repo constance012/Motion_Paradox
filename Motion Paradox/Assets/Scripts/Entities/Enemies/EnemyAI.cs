@@ -5,18 +5,26 @@ public abstract class EnemyAI : MonoBehaviour
 {
 	[Header("References"), Space]
 	[SerializeField] protected Rigidbody2D rb2D;
+	[SerializeField] protected EnemyAction action;
 
 	[Header("Stats"), Space]
 	[SerializeField] protected Stats stats;
 
-	[Header("Repel Settings"), Space]
+	[Header("Repeling"), Space]
 	[SerializeField] private float repelRange;
 	[SerializeField] private float repelAmplitude;
 
+	[Header("Turning"), Space]
+	[SerializeField, Tooltip("How quick does the enemy change its flying direction? In deg/s")]
+	protected float turnSpeed;
+
+	// Protected fields.
+	protected Vector2 _rawTargetDirection = Vector2.one * 1000f;
+	
 	// Private fields.
 	private static HashSet<Rigidbody2D> _alertedEnemies;
 
-	private void Start()
+	protected virtual void Start()
 	{
 		_alertedEnemies ??= new HashSet<Rigidbody2D>();
 		_alertedEnemies.Add(rb2D);
@@ -27,14 +35,33 @@ public abstract class EnemyAI : MonoBehaviour
 		_alertedEnemies.Remove(rb2D);
 	}
 
+	private void Update()
+	{
+		_rawTargetDirection = PlayerController.Position - rb2D.position;
+	}
+
 	protected abstract void FixedUpdate();
+
+	protected void ChaseTarget(Vector2 targetPosition)
+	{
+		rb2D.velocity = CalculateVelocity(transform.right, stats.GetDynamicStat(Stat.MoveSpeed));
+		LookAt(targetPosition);
+	}
+
+	protected void LookAt(Vector2 targetPosition)
+	{
+		Vector2 targetDirection = (targetPosition - rb2D.position).normalized;
+		float turnAngle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg;
+
+		rb2D.rotation = Mathf.MoveTowardsAngle(rb2D.rotation, turnAngle, turnSpeed * Time.deltaTime * TimeManager.LocalTimeScale);
+	}
 
 	/// <summary>
 	/// Calculate the final velocity after applying repel force against other enemies nearby.
 	/// </summary>
 	/// <param name="direction"></param>
 	/// <returns></returns>
-	protected Vector2 CalculateVelocity(Vector2 direction)
+	protected Vector2 CalculateVelocity(Vector2 direction, float speed)
 	{
 		// Enemies will try to avoid each other.
 		Vector2 repelForce = Vector2.zero;
@@ -51,15 +78,15 @@ public abstract class EnemyAI : MonoBehaviour
 			}
 		}
 
-		Vector2 velocity = direction * stats.GetDynamicStat(Stat.MoveSpeed) * TimeManager.LocalTimeScale;
+		Vector2 velocity = direction * speed * TimeManager.LocalTimeScale;
 		velocity += repelForce.normalized * repelAmplitude;
 
 		return velocity;
 	}
 
-	private void OnDrawGizmosSelected()
+	protected virtual void OnDrawGizmosSelected()
 	{
 		Gizmos.color = Color.yellow;
-		Gizmos.DrawWireSphere(transform.position, repelRange);
+		Gizmos.DrawWireSphere(rb2D.position, repelRange);
 	}
 }

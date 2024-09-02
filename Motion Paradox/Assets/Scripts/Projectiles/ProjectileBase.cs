@@ -2,27 +2,24 @@
 
 public abstract class ProjectileBase : MonoBehaviour
 {
-	[Header("References")]
-	[Space]
+	[Header("References"), Space]
 	[SerializeField] protected Rigidbody2D rb2D;
-	[SerializeField, Tooltip("The target to track if this projectile is homing.")]
+	[SerializeField, ReadOnly, Tooltip("The target to track if this projectile is homing.")]
 	protected Transform targetToTrack;
 
-	[Header("General Properties")]
-	[Space]
+	[Header("General Properties"), Space]
 	[SerializeField] protected float maxLifeTime;
-	[SerializeField] protected bool isHoming;
+	[SerializeField, ReadOnly] protected bool isHoming;
 	
-	[Header("Movement Properties")]
-	[Space]
+	[Header("Movement Properties"), Space]
 	[SerializeField] protected float flySpeed;
-	[SerializeField, Tooltip("How sharp does the projectile turn to reach its target? Measures in deg/s.")]
-	protected float trackingRigidity;
+	[Tooltip("How sharp does the projectile turn to reach its target? Measures in deg/s.")]
+	public float trackingRigidity;
 
 	// Protected fields.
 	protected float _aliveTime;
-	protected Transform _wearer;
-	protected Stats _wearerStats;
+	protected Transform _shooter;
+	protected Stats _shooterStats;
 
 	private void FixedUpdate()
 	{
@@ -62,16 +59,16 @@ public abstract class ProjectileBase : MonoBehaviour
 		isHoming = targetToTrack != null;
 	}
 	
-	public virtual void Initialize(Transform wearer, Stats wearerStats, Transform trackTarget)
+	public virtual void Initialize(Transform shooter, Stats shooterStats, Transform trackTarget)
 	{
-		_wearer = wearer;
-		_wearerStats = wearerStats;
+		_shooter = shooter;
+		_shooterStats = shooterStats;
 		
 		SetTarget(trackTarget);
 
-		flySpeed = _wearerStats.GetStaticStat(Stat.ProjectileSpeed);
-		trackingRigidity = _wearerStats.GetStaticStat(Stat.ProjectileTrackingRigidity);
-		maxLifeTime = _wearerStats.GetStaticStat(Stat.ProjectileLifeTime);
+		flySpeed = _shooterStats.GetStaticStat(Stat.ProjectileSpeed);
+		trackingRigidity = _shooterStats.GetStaticStat(Stat.ProjectileTrackingRigidity);
+		maxLifeTime = _shooterStats.GetStaticStat(Stat.ProjectileLifeTime);
 
 		_aliveTime = maxLifeTime;
 	}
@@ -94,7 +91,18 @@ public abstract class ProjectileBase : MonoBehaviour
 			Vector3 trackDirection = targetToTrack.position - transform.position;
 			float angle = Mathf.Atan2(trackDirection.y, trackDirection.x) * Mathf.Rad2Deg;
 
-			rb2D.rotation = Mathf.MoveTowardsAngle(rb2D.rotation, angle, trackingRigidity * Time.deltaTime);
+			rb2D.rotation = Mathf.MoveTowardsAngle(rb2D.rotation, angle, trackingRigidity * Time.deltaTime * TimeManager.LocalTimeScale);
+		}
+	}
+
+	protected void DamageTarget(Collider2D other, float damageScale)
+	{
+		IDamageable target = other.GetComponentInParent<IDamageable>();
+
+		if (target != null && _shooter != null)
+		{
+			EffectInstantiator.Instance.Instantiate<ParticleSystem>(EffectType.SolidImpact, target.Position, -transform.right);
+			target.Damage(_shooterStats, _shooter.position, scaleFactor: damageScale);
 		}
 	}
 }

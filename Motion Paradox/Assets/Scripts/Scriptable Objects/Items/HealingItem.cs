@@ -6,15 +6,15 @@ public class HealingItem : Item
 	[Header("Healing amount"), Space]
 	public int healingAmount;
 
-	public override bool Use(Transform player, bool forced = false)
+	public override bool Use(Transform target, bool forced = false)
 	{
 		if (quantity > 0 && canBeUsed)
 		{
-			PlayerStats playerStats = player.GetComponent<PlayerStats>();
+			IHealable healable = target.GetComponent<IHealable>();
 
-			if (playerStats.CanBeHealed || forced)
+			if (healable.CanBeHealed || forced)
 			{
-				playerStats.Heal(healingAmount);
+				healable.Heal(healingAmount);
 				return true;
 			}
 		}

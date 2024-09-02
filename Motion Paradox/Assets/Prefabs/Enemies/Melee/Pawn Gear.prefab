@@ -13,8 +13,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 86b077e2aa37bf34ca817715f115f945, type: 2}
     - target: {fileID: 1034477533521585799, guid: 01a6165c54ebe4a43a8a3115dfe82018, type: 3}
+      propertyPath: action
+      value: 
+      objectReference: {fileID: 2790807081677013760}
+    - target: {fileID: 1034477533521585799, guid: 01a6165c54ebe4a43a8a3115dfe82018, type: 3}
       propertyPath: turnSpeed
-      value: 120
+      value: 130
       objectReference: {fileID: 0}
     - target: {fileID: 1100724392022692082, guid: 01a6165c54ebe4a43a8a3115dfe82018, type: 3}
       propertyPath: stats
@@ -55,6 +59,10 @@ PrefabInstance:
     - target: {fileID: 1289326072640739008, guid: 01a6165c54ebe4a43a8a3115dfe82018, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1832123096458955562, guid: 01a6165c54ebe4a43a8a3115dfe82018, type: 3}
+      propertyPath: lootTable._serializedList.Array.data[0].Value
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 2055380954593981836, guid: 01a6165c54ebe4a43a8a3115dfe82018, type: 3}
       propertyPath: m_LocalPosition.x
@@ -98,7 +106,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2066920011323705452, guid: 01a6165c54ebe4a43a8a3115dfe82018, type: 3}
       propertyPath: m_Name
-      value: Small Evil Gear
+      value: Pawn Gear
       objectReference: {fileID: 0}
     - target: {fileID: 3540694936784526770, guid: 01a6165c54ebe4a43a8a3115dfe82018, type: 3}
       propertyPath: m_AnchorMax.y
@@ -147,6 +155,18 @@ PrefabInstance:
     - target: {fileID: 4369038137792210635, guid: 01a6165c54ebe4a43a8a3115dfe82018, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4639513633508860226, guid: 01a6165c54ebe4a43a8a3115dfe82018, type: 3}
+      propertyPath: m_Name
+      value: Sprite
+      objectReference: {fileID: 0}
+    - target: {fileID: 6494922787788817296, guid: 01a6165c54ebe4a43a8a3115dfe82018, type: 3}
+      propertyPath: spinSpeedRange.x
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 6494922787788817296, guid: 01a6165c54ebe4a43a8a3115dfe82018, type: 3}
+      propertyPath: spinSpeedRange.y
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 6745964431920951248, guid: 01a6165c54ebe4a43a8a3115dfe82018, type: 3}
       propertyPath: m_SizeDelta.x
@@ -243,5 +263,48 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2066920011323705452, guid: 01a6165c54ebe4a43a8a3115dfe82018, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2790807081677013760}
   m_SourcePrefab: {fileID: 100100000, guid: 01a6165c54ebe4a43a8a3115dfe82018, type: 3}
+--- !u!1 &1066786834159097837 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2066920011323705452, guid: 01a6165c54ebe4a43a8a3115dfe82018, type: 3}
+  m_PrefabInstance: {fileID: 1324850169187229569}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2790807081677013760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1066786834159097837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7978dc3190f78f84d9104afaf0d585c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementScript: {fileID: 2033907259467659526}
+  rb2d: {fileID: 7774114197755199660}
+  stats: {fileID: 11400000, guid: 86b077e2aa37bf34ca817715f115f945, type: 2}
+  attackRadius: 3
+  recoverTime: 1.5
+  chargeForce: 12
+  explodeChance: 0.45
+--- !u!114 &2033907259467659526 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1034477533521585799, guid: 01a6165c54ebe4a43a8a3115dfe82018, type: 3}
+  m_PrefabInstance: {fileID: 1324850169187229569}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1066786834159097837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51654a8991fc6764989788399ed838ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!50 &7774114197755199660 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 8755529397450071853, guid: 01a6165c54ebe4a43a8a3115dfe82018, type: 3}
+  m_PrefabInstance: {fileID: 1324850169187229569}
+  m_PrefabAsset: {fileID: 0}

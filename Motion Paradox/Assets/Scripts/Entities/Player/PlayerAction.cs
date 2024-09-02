@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class PlayerAction : EntityAction
+public sealed class PlayerAction : EntityAction
 {
 	[Header("References"), Space]
 	[SerializeField] private HandheldWeapon weapon;
@@ -12,6 +12,11 @@ public class PlayerAction : EntityAction
 	{
 		InputManager.Instance.onAttackAction += (sender, e) => TryAttack();
 		InputManager.Instance.onReloadAction += (sender, e) => weapon.TryReload();
+	}
+
+	protected override void Update()
+	{
+		_attackInterval -= Time.deltaTime;
 	}
 
 	protected override void TryAttack()
@@ -32,8 +37,7 @@ public class PlayerAction : EntityAction
 		movementScript.enabled = false;
 
 		weapon.UseWeapon();
-
-		_attackInterval = BaseAttackInterval;
+		ResetAttackInterval();
 		
 		yield return new WaitForSeconds(.2f);
 

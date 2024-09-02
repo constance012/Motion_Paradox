@@ -10,19 +10,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3379333403150518354, guid: ea91b75a07459b04ba83f69dd365ad18, type: 3}
       propertyPath: m_Layer
-      value: 10
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4726930896735896439, guid: ea91b75a07459b04ba83f69dd365ad18, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 0.9
       objectReference: {fileID: 0}
     - target: {fileID: 4726930896735896439, guid: ea91b75a07459b04ba83f69dd365ad18, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 0.9
       objectReference: {fileID: 0}
     - target: {fileID: 4726930896735896439, guid: ea91b75a07459b04ba83f69dd365ad18, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1
+      value: 0.9
       objectReference: {fileID: 0}
     - target: {fileID: 4726930896735896439, guid: ea91b75a07459b04ba83f69dd365ad18, type: 3}
       propertyPath: m_LocalPosition.x
@@ -80,6 +80,10 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4789787441933060808, guid: ea91b75a07459b04ba83f69dd365ad18, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 723318c766f95a4498d3d2cb8fd97a20, type: 2}
     - target: {fileID: 4941300103654213874, guid: ea91b75a07459b04ba83f69dd365ad18, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.251
@@ -98,19 +102,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4979041432961140938, guid: ea91b75a07459b04ba83f69dd365ad18, type: 3}
       propertyPath: m_Layer
-      value: 10
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 5002680958709917867, guid: ea91b75a07459b04ba83f69dd365ad18, type: 3}
       propertyPath: m_Layer
-      value: 10
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 5079351696014869354, guid: ea91b75a07459b04ba83f69dd365ad18, type: 3}
       propertyPath: m_Name
       value: Metal Missile
-      objectReference: {fileID: 0}
-    - target: {fileID: 5079351696014869354, guid: ea91b75a07459b04ba83f69dd365ad18, type: 3}
-      propertyPath: m_Layer
-      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8834443988586447642, guid: ea91b75a07459b04ba83f69dd365ad18, type: 3}
       propertyPath: m_Time
@@ -188,8 +188,43 @@ PrefabInstance:
       propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].value
       value: 0.30373842
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6396480059799352429, guid: ea91b75a07459b04ba83f69dd365ad18, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5079351696014869354, guid: ea91b75a07459b04ba83f69dd365ad18, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8749790942639276737}
   m_SourcePrefab: {fileID: 100100000, guid: ea91b75a07459b04ba83f69dd365ad18, type: 3}
+--- !u!1 &1290809677474094872 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5079351696014869354, guid: ea91b75a07459b04ba83f69dd365ad18, type: 3}
+  m_PrefabInstance: {fileID: 6310840384365026418}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8749790942639276737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1290809677474094872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 118d0bd718539564bacf8dbc136ada98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb2D: {fileID: 5430464858680705458}
+  targetToTrack: {fileID: 0}
+  maxLifeTime: 0
+  isHoming: 0
+  flySpeed: 0
+  trackingRigidity: 0
+  speedScaleFactor: 0.8
+  damageScaleFactor: 2
+  lifeTimeScaleFactor: 2
+--- !u!50 &5430464858680705458 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 2074040535406058944, guid: ea91b75a07459b04ba83f69dd365ad18, type: 3}
+  m_PrefabInstance: {fileID: 6310840384365026418}
+  m_PrefabAsset: {fileID: 0}

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-public class PlayerStats : Entity
+public sealed class PlayerStats : EntityStats, IHealable
 {
 	[Header("Events"), Space]
 	public UnityEvent onPlayerDies;
@@ -12,23 +12,16 @@ public class PlayerStats : Entity
 	// Private fields.
 	private float _invincibilityTime;
 
-	[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-	private static void ResetStatic()
-	{
-		IsDeath = false;
-	}
-
 	private void Awake()
 	{
 		_mat = this.GetComponentInChildren<SpriteRenderer>("Graphic/Player Sprite").material;
+		IsDeath = false;
 	}
 
 	protected override void Start()
 	{
 		base.Start();
-
 		_invincibilityTime = stats.GetStaticStat(Stat.InvincibilityTime);
-		IsDeath = false;
 	}
 
 	private void Update()
@@ -37,11 +30,11 @@ public class PlayerStats : Entity
 			_invincibilityTime -= Time.deltaTime;
 	}
 
-	public override void TakeDamage(float amount, bool weakpointHit, Vector3 attackerPos = default, float knockBackStrength = 0f)
+	protected override void TakeDamage(Stats attackerStats, Vector3 attackerPos, float scaleFactor)
 	{
 		if (_currentHealth > 0 && _invincibilityTime <= 0f)
 		{
-			base.TakeDamage(amount, weakpointHit, attackerPos, knockBackStrength);
+			base.TakeDamage(attackerStats, attackerPos, scaleFactor);
 
 			CameraShaker.Instance.ShakeCamera(2.5f, .3f);
 			EffectInstantiator.Instance.Instantiate<ParticleSystem>(EffectType.CreatureImpact, transform.position, Random.insideUnitCircle.normalized);

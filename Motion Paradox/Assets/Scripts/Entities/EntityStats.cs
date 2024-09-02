@@ -1,11 +1,11 @@
 using System.Collections;
 using UnityEngine;
 
-public abstract class Entity : MonoBehaviour
+public abstract class EntityStats : MonoBehaviour, IDamageable
 {
-	[Header("Component References"), Space]
+	[Header("References"), Space]
 	[SerializeField] protected Rigidbody2D rb2D;
-	[SerializeField] protected MonoBehaviour movementBehaviour;
+	[SerializeField] protected MonoBehaviour movementScript;
 
 	[Header("Damage Text"), Space]
 	[SerializeField] protected GameObject dmgTextPrefab;
@@ -18,6 +18,8 @@ public abstract class Entity : MonoBehaviour
 	[Header("Health Bar"), Space]
 	[SerializeField] protected HealthBar healthBar;
 
+	public Vector2 Position => rb2D.position;
+
 	// Protected fields.
 	protected Material _mat;
 	protected float _currentHealth;
@@ -28,16 +30,22 @@ public abstract class Entity : MonoBehaviour
 		healthBar.SetMaxHealth(_currentHealth);
 	}
 
-	public virtual void TakeDamage(float amount, bool weakpointHit, Vector3 attackerPos = default, float knockBackStrength = 0f)
+	public void Damage(Stats attackerStats, Vector3 attackerPos, float scaleFactor = 1f)
 	{
-		AudioManager.Instance.PlayWithRandomPitch("Taking Damage", .7f, 1.2f);
-		
-		_currentHealth -= amount;
+		TakeDamage(attackerStats, attackerPos, scaleFactor);
+	}
+
+	protected virtual void TakeDamage(Stats attackerStats, Vector3 attackerPos, float scaleFactor)
+	{
+		float damage = attackerStats.GetDynamicStat(Stat.Damage) * scaleFactor;
+		float knockBackStrength = attackerStats.GetStaticStat(Stat.KnockBackStrength) * scaleFactor;
+
+		_currentHealth -= damage;
 		_currentHealth = Mathf.Max(0f, _currentHealth);
 		healthBar.SetCurrentHealth(_currentHealth);
 
-		DamageTextStyle style = weakpointHit ? DamageTextStyle.Critical : DamageTextStyle.Normal;
-		DamageText.Generate(dmgTextPrefab, dmgTextLoc.position, style, amount.ToString());
+		AudioManager.Instance.PlayWithRandomPitch("Taking Damage", .7f, 1.2f);
+		DamageText.Generate(dmgTextPrefab, dmgTextLoc.position, DamageTextStyle.Normal, damage.ToString());
 
 		StartCoroutine(TriggerDamageFlash());
 		StartCoroutine(BeingKnockedBack(attackerPos, knockBackStrength));
@@ -70,8 +78,7 @@ public abstract class Entity : MonoBehaviour
 			yield break;
 
 		rb2D.velocity = Vector3.zero;
-		movementBehaviour.enabled = false;
-		movementBehaviour.StopAllCoroutines();
+		movementScript.enabled = false;
 
 		Vector2 direction = transform.position - attackerPos;
 		float knockBackStrength = strength * (1f - stats.GetStaticStat(Stat.KnockBackRes));
@@ -80,8 +87,8 @@ public abstract class Entity : MonoBehaviour
 
 		rb2D.AddForce(force, ForceMode2D.Impulse);
 
-		yield return new WaitForSeconds(.3f);
+		yield return new WaitForSeconds(.25f);
 
-		movementBehaviour.enabled = true;
+		movementScript.enabled = true;
 	}
 }

@@ -74,7 +74,7 @@ public class ItemPickup : Interactable
 
 		if (_delay <= 0f)
 		{
-			Vector2 flyDirection = player.position - transform.position;
+			Vector2 flyDirection = _player.position - transform.position;
 			rb2D.velocity = flyDirection.normalized * flySpeed;
 
 			if (flyDirection.sqrMagnitude <= Mathf.Pow(pickUpMinDistance, 2))
@@ -113,7 +113,7 @@ public class ItemPickup : Interactable
 		{
 			Debug.Log("You're picking up a(n) " + _currentItem.displayName);
 			
-			if (_currentItem.autoUse && _currentItem.Use(player, forced))
+			if (_currentItem.autoUse && _currentItem.Use(_player, forced))
 			{
 				_pickedUp = true;
 				DestroyGameObject();

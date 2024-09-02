@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using DG.Tweening;
 using UnityEngine;
 
@@ -33,7 +32,7 @@ public class HandheldWeapon : MonoBehaviour
 		_gun.name = weaponSO.name;
 		_gun.Initialize();
 
-		_baseSpread = _gun.verticleSpread;
+		_baseSpread = _gun.verticalSpread;
 		ammoHUD.Initialize(_gun.maxAmmo, _gun.piercingShotFrequency);
 		crosshair.ChangeBaseExpansion(_baseSpread);
 		
@@ -43,7 +42,7 @@ public class HandheldWeapon : MonoBehaviour
 
 	public void ToggleAiming(bool isAiming)
 	{
-		_gun.verticleSpread = isAiming ? 0f : _baseSpread;
+		_gun.verticalSpread = isAiming ? 0f : _baseSpread;
 		crosshair.ChangeBaseExpansion(isAiming ? -.15f : _baseSpread);
 	}
 
@@ -85,13 +84,23 @@ public class HandheldWeapon : MonoBehaviour
 	private void GenerateRecoil(bool isPiercingShot)
 	{
 		_tweenPool.KillActiveTweens(false);
+		transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
 
-		float strength = _gun.recoilStrength * Mathf.Sign(transform.localScale.y);
+		float muzzleClimbAngle = _gun.muzzleClimbAngle * Mathf.Sign(transform.localScale.y);
+		float recoilStrength = -_gun.recoilStrength;
+
 		if (isPiercingShot)
-			strength *= 1.5f;
+		{
+			muzzleClimbAngle *= 1.5f;
+			recoilStrength *= 1.5f;
+		}
 
-		_tweenPool.Add(transform.DOLocalRotate(Vector3.forward * strength, _gun.recoilDuration)
-				 				.SetEase(Ease.OutQuad)
-				 				.SetLoops(2, LoopType.Yoyo));
+		Sequence sequence = DOTween.Sequence();
+		sequence.Append(transform.DOLocalRotate(Vector3.forward * muzzleClimbAngle, _gun.recoilDuration))
+				.Join(transform.DOLocalMoveX(recoilStrength, _gun.recoilDuration))
+				.SetEase(_gun.recoilEase)
+				.SetLoops(2, LoopType.Yoyo);
+		
+		_tweenPool.Add(sequence);
 	}
 }

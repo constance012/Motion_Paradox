@@ -10,19 +10,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3379333403150518354, guid: ea91b75a07459b04ba83f69dd365ad18, type: 3}
       propertyPath: m_Layer
-      value: 10
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4726930896735896439, guid: ea91b75a07459b04ba83f69dd365ad18, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.8
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 4726930896735896439, guid: ea91b75a07459b04ba83f69dd365ad18, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.8
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 4726930896735896439, guid: ea91b75a07459b04ba83f69dd365ad18, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.8
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 4726930896735896439, guid: ea91b75a07459b04ba83f69dd365ad18, type: 3}
       propertyPath: m_LocalPosition.x
@@ -80,6 +80,10 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4789787441933060808, guid: ea91b75a07459b04ba83f69dd365ad18, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 723318c766f95a4498d3d2cb8fd97a20, type: 2}
     - target: {fileID: 4941300103654213874, guid: ea91b75a07459b04ba83f69dd365ad18, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.251
@@ -98,19 +102,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4979041432961140938, guid: ea91b75a07459b04ba83f69dd365ad18, type: 3}
       propertyPath: m_Layer
-      value: 10
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 5002680958709917867, guid: ea91b75a07459b04ba83f69dd365ad18, type: 3}
       propertyPath: m_Layer
-      value: 10
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 5079351696014869354, guid: ea91b75a07459b04ba83f69dd365ad18, type: 3}
       propertyPath: m_Name
       value: Metal Shard
-      objectReference: {fileID: 0}
-    - target: {fileID: 5079351696014869354, guid: ea91b75a07459b04ba83f69dd365ad18, type: 3}
-      propertyPath: m_Layer
-      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8834443988586447642, guid: ea91b75a07459b04ba83f69dd365ad18, type: 3}
       propertyPath: m_Time
@@ -118,19 +118,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8834443988586447642, guid: ea91b75a07459b04ba83f69dd365ad18, type: 3}
       propertyPath: m_Parameters.colorGradient.key0.a
-      value: 0.78431374
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8834443988586447642, guid: ea91b75a07459b04ba83f69dd365ad18, type: 3}
       propertyPath: m_Parameters.colorGradient.key0.b
-      value: 0.30980393
+      value: 0.40089887
       objectReference: {fileID: 0}
     - target: {fileID: 8834443988586447642, guid: ea91b75a07459b04ba83f69dd365ad18, type: 3}
       propertyPath: m_Parameters.colorGradient.key0.g
-      value: 0.36078432
+      value: 0.4637671
       objectReference: {fileID: 0}
     - target: {fileID: 8834443988586447642, guid: ea91b75a07459b04ba83f69dd365ad18, type: 3}
       propertyPath: m_Parameters.colorGradient.key0.r
-      value: 0.4666667
+      value: 0.5943396
       objectReference: {fileID: 0}
     - target: {fileID: 8834443988586447642, guid: ea91b75a07459b04ba83f69dd365ad18, type: 3}
       propertyPath: m_Parameters.colorGradient.key1.b

@@ -1,16 +1,16 @@
 ﻿using System;
 using UnityEngine;
 
-public class EnemyStats : Entity
+public sealed class EnemyStats : EntityStats
 {
-	[Header("Drop Items"), Space]
-	[SerializeField] private GameObject heart;
+	[Header("Dropped Loots"), Space]
+	[SerializeField] private EnemyLootTrigger lootTrigger;
 
 	public string ID { get; private set; }
 
 	private void Awake()
 	{
-		_mat = this.GetComponentInChildren<SpriteRenderer>("Graphic/Enemy Sprite").material;
+		_mat = this.GetComponentInChildren<SpriteRenderer>("Graphic/Sprite").material;
 		ID = Guid.NewGuid().ToString();
 	}
 
@@ -23,10 +23,10 @@ public class EnemyStats : Entity
 	public override void Die()
 	{
 		EffectInstantiator.Instance.Instantiate<ParticleSystem>(EffectType.Explosion, transform.position, Quaternion.identity);
-		Instantiate(heart, rb2D.position, Quaternion.identity);
-
 		AudioManager.Instance.Play("Explosion");
 		CameraShaker.Instance.ShakeCamera(4f, .2f);
+
+		lootTrigger.DispenseLoots();
 
 		DestroyGameObject();
 	}

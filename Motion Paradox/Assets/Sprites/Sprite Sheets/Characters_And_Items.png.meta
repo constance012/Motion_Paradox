@@ -328,9 +328,9 @@ TextureImporter:
       name: Projectile_2
       rect:
         serializedVersion: 2
-        x: 41
+        x: 40
         y: 17
-        width: 7
+        width: 8
         height: 5
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -349,9 +349,9 @@ TextureImporter:
       name: Projectile_3
       rect:
         serializedVersion: 2
-        x: 49
+        x: 48
         y: 17
-        width: 7
+        width: 8
         height: 6
       alignment: 0
       pivot: {x: 0.5, y: 0.5}

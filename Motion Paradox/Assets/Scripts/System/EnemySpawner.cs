@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using UnityEngine;
+using AYellowpaper.SerializedCollections;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -7,10 +7,13 @@ public class EnemySpawner : MonoBehaviour
 	[SerializeField] private Transform container;
 	
 	[Header("Enemy Prefabs"), Space]
-	[SerializeField] private List<GameObject> enemyPrefabs;
+	[SerializeField] private SerializedDictionary<EnemyType, GameObject> enemyPrefabs;
+
+	[Header("Spawn Chances"), Space]
+	[SerializeField] private SerializedDictionary<EnemyType, float> enemySpawnInfo;
 	[SerializeField, Min(1)] private int maxEnemies;
 
-	[Header("Spawn Area"), Space]
+	[Header("Spawn Radius"), Space]
 	[SerializeField] private float spawnRadius;
 
 	[Header("Spawn Delay"), Space]
@@ -53,26 +56,34 @@ public class EnemySpawner : MonoBehaviour
 
 	private void TrySpawnEnemies()
 	{
-		if (transform.childCount < maxEnemies)
+		float spawnChance = Random.value;
+
+		foreach (var enemyInfo in enemySpawnInfo)
 		{
-			Vector2 spawnPos = Random.insideUnitCircle.normalized * spawnRadius;
+			if (spawnChance <= enemyInfo.Value && container.childCount < maxEnemies)
+			{
+				Vector2 spawnPos = Random.insideUnitCircle.normalized * spawnRadius;
 
-			GameObject enemy = Instantiate(SelectRandomEnemy(), spawnPos, Quaternion.identity);
-			enemy.transform.SetParent(container);
-
-			_delay = spawnDelay;
+				GameObject enemy = Instantiate(enemyPrefabs[enemyInfo.Key], spawnPos, Quaternion.identity);
+				enemy.transform.SetParent(container);
+			}
 		}
-	}
-
-	private GameObject SelectRandomEnemy()
-	{
-		int index = Random.Range(0, enemyPrefabs.Count);
-		return enemyPrefabs[index];
+		
+		_delay = spawnDelay;
 	}
 
 	private void OnDrawGizmosSelected()
 	{
 		Gizmos.color = Color.yellow;
 		Gizmos.DrawWireSphere(transform.position, spawnRadius);
+	}
+
+	enum EnemyType
+	{
+		Pawn,
+		Suppression,
+		Scout,
+		Interceptor,
+		Destroyer
 	}
 }

@@ -8,25 +8,21 @@ public class WorldHealthBar : HealthBar
 	// Private fields.
 	private static Canvas worldCanvas;
 
-	[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-	private static void ClearStatic()
-	{
-		worldCanvas = null;
-	}
-
 	protected override void Awake()
 	{
 		base.Awake();
 		if (worldCanvas == null)
 		{
+			Debug.Log("World canvas is null");
 			worldCanvas = GameObject.FindWithTag("WorldCanvas").GetComponent<Canvas>();
 		}
 		
-		transform.SetParent(worldCanvas.transform);
+		transform.SetParent(worldCanvas.transform, false);
 	}
 
 	private void LateUpdate()
 	{
+		worldPos.position = worldPos.parent.position + Vector3.up;
 		transform.position = worldPos.position;
 	}
 }

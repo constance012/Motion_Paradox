@@ -16,6 +16,6 @@ public static class TimeManager
 
 	public static void CountdownPortalTimer(float amountSeconds)
 	{
-		_portalTimer -= TimeSpan.FromSeconds(amountSeconds);
+		_portalTimer -= TimeSpan.FromSeconds(amountSeconds) * LocalTimeScale;
 	}
 }
