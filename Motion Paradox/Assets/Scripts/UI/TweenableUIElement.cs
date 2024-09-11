@@ -167,7 +167,6 @@ public sealed class TweenableUIElement : MonoBehaviour, IPointerEnterHandler, IP
 				
 				if (tweener.playAlongPreviousTweener)
 				{
-					Debug.Log($"Joining tween {tweener.name}");
 					sequence.Join(tween);
 				}
 				else

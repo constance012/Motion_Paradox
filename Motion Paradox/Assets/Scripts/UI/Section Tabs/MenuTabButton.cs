@@ -38,13 +38,11 @@ public class MenuTabButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 	#region Interface Methods.
 	public void OnPointerEnter(PointerEventData eventData)
 	{
-		Debug.Log("Tab Entered");
 		tabGroup.OnTabEnter(this);
 	}
 	
 	public void OnPointerExit(PointerEventData eventData)
 	{
-		Debug.Log("Tab Exited");
 		tabGroup.OnTabExit();
 	}
 	

@@ -83,6 +83,17 @@ public sealed class AudioManager : PersistentSingleton<AudioManager>
 		chosenAudio.source.Play();
 	}
 
+	public void Stop(string audioName)
+	{
+		if (!TryGetAudio(audioName, out Audio chosenAudio))
+		{
+			Debug.LogWarning($"Audio Clip: {audioName} could not be found!!");
+			return;
+		}
+
+		chosenAudio.source.Stop();
+	}
+
 	public void SetVolume(string audioName, float newVolume, bool resetToDefault = false)
 	{
 		if (TryGetAudio(audioName, out Audio chosenAudio))

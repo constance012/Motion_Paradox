@@ -44,7 +44,6 @@ public abstract class EntityStats : MonoBehaviour, IDamageable
 		_currentHealth = Mathf.Max(0f, _currentHealth);
 		healthBar.SetCurrentHealth(_currentHealth);
 
-		AudioManager.Instance.PlayWithRandomPitch("Taking Damage", .7f, 1.2f);
 		DamageText.Generate(dmgTextPrefab, dmgTextLoc.position, DamageTextStyle.Normal, damage.ToString());
 
 		StartCoroutine(TriggerDamageFlash());

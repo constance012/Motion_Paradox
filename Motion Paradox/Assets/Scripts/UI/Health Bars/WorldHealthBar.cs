@@ -13,7 +13,6 @@ public class WorldHealthBar : HealthBar
 		base.Awake();
 		if (worldCanvas == null)
 		{
-			Debug.Log("World canvas is null");
 			worldCanvas = GameObject.FindWithTag("WorldCanvas").GetComponent<Canvas>();
 		}
 		

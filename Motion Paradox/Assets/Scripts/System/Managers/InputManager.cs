@@ -14,8 +14,10 @@ public sealed class InputManager : Singleton<InputManager>
 {
 	public EventHandler onAttackAction;
 	public EventHandler<InputActionPhase> onAimModeToggleAction;
+	public EventHandler onContinueDialogueAction;
 	public EventHandler onReloadAction;
 	public EventHandler onBackToMenuAction;
+	public EventHandler onSkipPlayableAction;
 
 	// Private fields.
 	private PlayerInputActions _playerInputActions;
@@ -43,6 +45,11 @@ public sealed class InputManager : Singleton<InputManager>
 		onAimModeToggleAction?.Invoke(this, context.phase);
 	}
 
+	private void ContinueDialogue_performed(InputAction.CallbackContext context)
+	{
+		onContinueDialogueAction?.Invoke(this, EventArgs.Empty);
+	}
+	
 	private void Reload_performed(InputAction.CallbackContext context)
 	{
 		onReloadAction?.Invoke(this, EventArgs.Empty);
@@ -51,6 +58,11 @@ public sealed class InputManager : Singleton<InputManager>
 	private void BackToMenu_performed(InputAction.CallbackContext context)
 	{
 		onBackToMenuAction?.Invoke(this, EventArgs.Empty);
+	}
+	
+	private void SkipPlayable_performed(InputAction.CallbackContext context)
+	{
+		onSkipPlayableAction?.Invoke(this, EventArgs.Empty);
 	}
 	#endregion
 
@@ -133,31 +145,35 @@ public sealed class InputManager : Singleton<InputManager>
 			[KeybindingActions.Aiming] = _playerInputActions.Player.Aiming,
 
 			[KeybindingActions.Movement] = _playerInputActions.Player.Movement,
+			[KeybindingActions.ContinueDialogue] = _playerInputActions.Player.ContinueDialogue,
 			[KeybindingActions.Interact] = _playerInputActions.Player.Interact,
 			[KeybindingActions.Reload] = _playerInputActions.Player.Reload,
-			
 			[KeybindingActions.BackToMenu] = _playerInputActions.Player.BackToMenu,
-			[KeybindingActions.TakeScreenshot] = _playerInputActions.Player.TakeScreenshot,
+			[KeybindingActions.SkipPlayable] = _playerInputActions.Player.SkipPlayable,
 		};
 
-		Subscribe(KeybindingActions.BackToMenu, ActionEventType.Performed, BackToMenu_performed);
 		Subscribe(KeybindingActions.Attack, ActionEventType.Performed, Attack_performed);
 
 		Subscribe(KeybindingActions.ToggleAimMode, ActionEventType.Started, AimMode_toggled);
 		Subscribe(KeybindingActions.ToggleAimMode, ActionEventType.Canceled, AimMode_toggled);
 
+		Subscribe(KeybindingActions.ContinueDialogue, ActionEventType.Performed, ContinueDialogue_performed);
 		Subscribe(KeybindingActions.Reload, ActionEventType.Performed, Reload_performed);
+		Subscribe(KeybindingActions.BackToMenu, ActionEventType.Performed, BackToMenu_performed);
+		Subscribe(KeybindingActions.SkipPlayable, ActionEventType.Performed, SkipPlayable_performed);
 	}
 
 	private void Dispose()
 	{
-		Unsubscribe(KeybindingActions.BackToMenu, ActionEventType.Performed, BackToMenu_performed);
 		Unsubscribe(KeybindingActions.Attack, ActionEventType.Performed, Attack_performed);
 
 		Unsubscribe(KeybindingActions.ToggleAimMode, ActionEventType.Started, AimMode_toggled);
 		Unsubscribe(KeybindingActions.ToggleAimMode, ActionEventType.Canceled, AimMode_toggled);
 
+		Unsubscribe(KeybindingActions.ContinueDialogue, ActionEventType.Performed, ContinueDialogue_performed);
 		Unsubscribe(KeybindingActions.Reload, ActionEventType.Performed, Reload_performed);
+		Unsubscribe(KeybindingActions.BackToMenu, ActionEventType.Performed, BackToMenu_performed);
+		Unsubscribe(KeybindingActions.SkipPlayable, ActionEventType.Performed, SkipPlayable_performed);
 		
 		_playerInputActions.Dispose();
 	}
@@ -227,11 +243,11 @@ public enum KeybindingActions
 	ToggleAimMode,
 	Aiming,
 	Movement,
-	Reload,
+	ContinueDialogue,
 	Interact,
-	Pause,
+	Reload,
 	BackToMenu,
-	TakeScreenshot,
+	SkipPlayable
 }
 
 public enum MouseButton

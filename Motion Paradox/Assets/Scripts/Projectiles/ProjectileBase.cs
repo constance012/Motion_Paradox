@@ -101,7 +101,6 @@ public abstract class ProjectileBase : MonoBehaviour
 
 		if (target != null && _shooter != null)
 		{
-			EffectInstantiator.Instance.Instantiate<ParticleSystem>(EffectType.SolidImpact, target.Position, -transform.right);
 			target.Damage(_shooterStats, _shooter.position, scaleFactor: damageScale);
 		}
 	}

@@ -26,10 +26,10 @@ public sealed class SliderGroup : MonoBehaviour
 
 	private void Start()
 	{
-		slider.onValueChanged.AddListener(Slider_OnValueChanged);
+		slider.onValueChanged.AddListener(Slider_onValueChanged);
 	}
 
-	private void Slider_OnValueChanged(float value)
+	private void Slider_onValueChanged(float value)
 	{
 		onValueChanged?.Invoke(value);
 	}

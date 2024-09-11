@@ -33,7 +33,7 @@ public sealed class RangedEnemyAI : EnemyAI
 		
 		if (!_isRetreating)
 		{
-			if (_rawTargetDirection.sqrMagnitude > action.AttackRadiusSquared)
+			if (_rawTargetDirection.sqrMagnitude > action.AttackRadiusSquared + .04f)
 			{
 				ChaseTarget(PlayerController.Position);
 			}

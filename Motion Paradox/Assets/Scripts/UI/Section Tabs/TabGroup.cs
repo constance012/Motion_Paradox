@@ -45,7 +45,6 @@ public class TabGroup : MonoBehaviour
 			_selectedTab = target;
 
 			ResetTabColors();
-
 			target.SetGraphicColor(selectedColor);
 
 			int currentIndex = target.transform.GetSiblingIndex();

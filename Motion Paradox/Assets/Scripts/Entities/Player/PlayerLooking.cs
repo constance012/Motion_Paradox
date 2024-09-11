@@ -12,7 +12,7 @@ public class PlayerLooking : MonoBehaviour
 
 	private void Update()
 	{
-		if (GameManager.Instance.GameDone)
+		if (GameManager.GameDone || DialogueManager.IsPlaying)
 			return;
 
 		LookAtMouse();

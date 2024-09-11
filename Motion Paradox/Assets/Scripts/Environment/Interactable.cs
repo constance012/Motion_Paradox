@@ -69,25 +69,21 @@ public abstract class Interactable : MonoBehaviour
 		CheckForInteraction(mouseDistance, playerDistance);
 	}
 
-	public virtual void Interact()
-	{
-		Debug.Log($"Interacting with {transform.name}.");
-	}
+	public abstract void Interact();
 
 	protected virtual void CheckForInteraction(float mouseDistance, float playerDistance)
 	{
 		if (playerDistance <= interactDistance)
 		{
-			TriggerInteraction(playerDistance);
+			VisualizeInteraction(playerDistance);
 		}
-
 		else
 		{
 			CancelInteraction(playerDistance);
 		}
 	}
 
-	protected virtual void TriggerInteraction(float playerDistance)
+	protected virtual void VisualizeInteraction(float playerDistance)
 	{
 		if (_popupLabel == null)
 			CreatePopupLabel();
@@ -96,7 +92,10 @@ public abstract class Interactable : MonoBehaviour
 
 		_mat.SetFloat("_Thickness", .4f);
 
-		// TODO - derived classes implement their own way to trigger interaction.
+		if (InputManager.Instance.WasPressedThisFrame(KeybindingActions.Interact))
+			Interact();
+			
+		// TODO - derived classes implement their own way to visualize interaction.
 	}
 
 	protected virtual void CancelInteraction(float playerDistance)
@@ -105,7 +104,6 @@ public abstract class Interactable : MonoBehaviour
 			Destroy(_popupLabel.gameObject);
 
 		_mat.SetFloat("_Thickness", 0f);
-
 		// TODO - derived classes implement their own way to cancel interaction.
 	}
 

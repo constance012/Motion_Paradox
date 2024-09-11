@@ -61,6 +61,12 @@ public static class UserSettings
 		get { return PlayerPrefs.GetFloat("AimSpeed", 3f); }
 		set { PlayerPrefs.SetFloat("AimSpeed", value); }
 	}
+
+	public static int DialogueSpeed
+	{
+		get { return PlayerPrefs.GetInt("DialogueSpeed", 50); }
+		set { PlayerPrefs.SetInt("DialogueSpeed", value); }
+	}
 	#endregion
 
 	/// <summary>
@@ -86,6 +92,7 @@ public static class UserSettings
 
 			case SettingSection.Gameplay:
 				AimSpeed = 3f;
+				DialogueSpeed = 50;
 				break;
 
 			case SettingSection.All:
@@ -99,6 +106,7 @@ public static class UserSettings
 				UseVsync = 0;
 
 				AimSpeed = 3f;
+				DialogueSpeed = 50;
 				break;
 		}
 	}

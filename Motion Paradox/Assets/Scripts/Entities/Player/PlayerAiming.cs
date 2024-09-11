@@ -12,6 +12,7 @@ public class PlayerAiming : MonoBehaviour
 	[Header("Aiming Settings"), Space]
 	[SerializeField] private CinemachineVirtualCamera aimCamera;
 	[SerializeField, Range(1f, 5f)] private float aimSmoothSpeed;
+	[SerializeField] private bool overrideUserSettings;
 
 	// Private fields.
 	private TweenPool _tweenPool;
@@ -30,11 +31,14 @@ public class PlayerAiming : MonoBehaviour
 		CursorManager.Instance.SwitchCursorTexture(CursorTextureType.Crosshair);
 		InputManager.Instance.onAimModeToggleAction += (sender, phase) => ManageAimMode(phase);
 		
-		_aimSmoothTime = NumberManipulator.RangeConvert(UserSettings.AimSpeed, 1f, 5f, 1f, .1f);
+		_aimSmoothTime = NumberManipulator.RangeConvert(overrideUserSettings ? aimSmoothSpeed : UserSettings.AimSpeed, 1f, 5f, 1f, .1f);
 	}
 
-	private void Update()
+	private void FixedUpdate()
 	{
+		if (DialogueManager.IsPlaying)
+			return;
+			
 		HandleAiming();
 	}
 

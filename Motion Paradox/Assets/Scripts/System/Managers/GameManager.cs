@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using DG.Tweening;
 using System;
 
@@ -13,16 +12,16 @@ public sealed class GameManager : Singleton<GameManager>
 	public EventHandler onGameOver;
 	public EventHandler onGameVictory;
 
-	public bool GameDone { get; private set; }
+	public static bool GameDone { get; private set; }
 
 	private void Start()
 	{
-		InputManager.Instance.onBackToMenuAction += (sender, e) => ReturnToMenu();
-
-		AudioManager.Instance.Play("Ambience");
-
+		GameDone = false;
 		gameOverScreen.Toggle(false);
 		victoryScreen.Toggle(false);
+
+		AudioManager.Instance.Play("Ambience");
+		InputManager.Instance.onBackToMenuAction += (sender, e) => ReturnToMenu();
 	}
 
 	/// <summary>
@@ -31,10 +30,13 @@ public sealed class GameManager : Singleton<GameManager>
 	public void RestartGame()
 	{
 		GameDone = false;
+		TimeManager.GlobalTimeScale = 1f;
 
 		DOTween.KillAll();
 		DOTween.ClearCachedTweens();
-		SceneManager.LoadSceneAsync("Scenes/Game");
+		CursorManager.Instance.SwitchCursorTexture(CursorTextureType.Crosshair);
+
+		SceneLoader.Instance.LoadSceneAsync("Scenes/Game");
 	}
 
 	/// <summary>
@@ -42,16 +44,20 @@ public sealed class GameManager : Singleton<GameManager>
 	/// </summary>
 	public void ReturnToMenu()
 	{
+		GameDone = false;
+		TimeManager.GlobalTimeScale = 1f;
+
 		DOTween.Clear();
 		CursorManager.Instance.SwitchCursorTexture(CursorTextureType.Default);
+		AudioManager.Instance.Stop("Ambience");
 		
-		SceneManager.LoadSceneAsync("Scenes/Menu");
+		SceneLoader.Instance.LoadSceneAsync("Scenes/Menu");
 	}
 
 	public void ShowGameOverScreen()
 	{
 		GameDone = true;
-		TimeManager.LocalTimeScale = 1f;
+		TimeManager.GlobalTimeScale = 1f;
 
 		CursorManager.Instance.SwitchCursorTexture(CursorTextureType.Default);
 
@@ -64,7 +70,7 @@ public sealed class GameManager : Singleton<GameManager>
 	public void ShowVictoryScreen()
 	{
 		GameDone = true;
-		TimeManager.LocalTimeScale = 1f;
+		TimeManager.GlobalTimeScale = 1f;
 
 		CursorManager.Instance.SwitchCursorTexture(CursorTextureType.Default);
 

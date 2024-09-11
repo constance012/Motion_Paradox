@@ -37,6 +37,7 @@ public sealed class PlayerStats : EntityStats, IHealable
 			base.TakeDamage(attackerStats, attackerPos, scaleFactor);
 
 			CameraShaker.Instance.ShakeCamera(2.5f, .3f);
+			AudioManager.Instance.PlayWithRandomPitch("Taking Damage", .7f, 1.2f);
 			EffectInstantiator.Instance.Instantiate<ParticleSystem>(EffectType.CreatureImpact, transform.position, Random.insideUnitCircle.normalized);
 
 			_invincibilityTime = stats.GetStaticStat(Stat.InvincibilityTime);

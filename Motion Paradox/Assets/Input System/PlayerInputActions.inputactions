@@ -51,6 +51,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "ContinueDialogue",
+                    "type": "Button",
+                    "id": "200a9bc0-6c65-40f2-b405-dfe8af9a4312",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Reload",
                     "type": "Button",
                     "id": "a50be31c-4d06-4d0b-8dca-11c1cb7a1907",
@@ -69,9 +78,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "TakeScreenshot",
+                    "name": "SkipPlayable",
                     "type": "Button",
-                    "id": "2e055359-a2db-49d9-be03-2ef983311d52",
+                    "id": "b4ae6097-f42e-45f1-8d69-9af85c9a4f2f",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -180,17 +189,6 @@
                 },
                 {
                     "name": "",
-                    "id": "5f9288f1-8837-4860-8826-ff79c0f38404",
-                    "path": "<Keyboard>/backquote",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard and Mouse",
-                    "action": "TakeScreenshot",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "8f2062a2-a98d-459c-9b82-b2d721112ffb",
                     "path": "<Mouse>/rightButton",
                     "interactions": "",
@@ -254,6 +252,61 @@
                     "action": "Aiming",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "61e48cb2-cd9e-4834-af55-130edf96bf3f",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard and Mouse",
+                    "action": "ContinueDialogue",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a65ba793-ffb7-4ca6-9bc3-43a6b679b3ea",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard and Mouse",
+                    "action": "ContinueDialogue",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7b073d04-0ebc-4cb0-8507-6e16a92c3223",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard and Mouse",
+                    "action": "ContinueDialogue",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c8cee625-72d6-4416-94e3-8031fc9fb554",
+                    "path": "<Keyboard>/numpadEnter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard and Mouse",
+                    "action": "ContinueDialogue",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "39d586ea-8db0-438d-ad84-3bb69a0c8e8c",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard and Mouse",
+                    "action": "SkipPlayable",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

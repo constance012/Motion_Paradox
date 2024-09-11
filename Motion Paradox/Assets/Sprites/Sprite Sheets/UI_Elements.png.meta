@@ -223,9 +223,9 @@ TextureImporter:
       name: Emit_Portrait
       rect:
         serializedVersion: 2
-        x: 49
+        x: 48
         y: 48
-        width: 14
+        width: 16
         height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -412,8 +412,8 @@ TextureImporter:
       name: Crosshair_Surrounding_Corner
       rect:
         serializedVersion: 2
-        x: 5
-        y: 30
+        x: 13
+        y: 38
         width: 2
         height: 2
       alignment: 0
@@ -433,8 +433,8 @@ TextureImporter:
       name: Crosshair_Center
       rect:
         serializedVersion: 2
-        x: 12
-        y: 28
+        x: 20
+        y: 36
         width: 2
         height: 2
       alignment: 0
@@ -446,6 +446,69 @@ TextureImporter:
       bones: []
       spriteID: 983887951c5215044b99951e46d94c65
       internalID: 1726369332
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Choice_Box
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 25
+        width: 56
+        height: 4
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e2ec9015560e7c468796e0f38a563ff
+      internalID: -1215348103
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Default_Portrait
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bf9837603193bd04fa7486b170fae620
+      internalID: -547000080
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Radio_Portrait
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 56ee65b23b0d63b41ae659ea662e491d
+      internalID: 492032297
       vertices: []
       indices: 
       edges: []
@@ -466,9 +529,11 @@ TextureImporter:
       Button_Pointer_3: 123581908
       Button_Pointer_4: -749154295
       Button_Pointer_5: 1201405157
+      Choice_Box: -525848485
       Continue_Cue: 273358658
       Crosshair_Center: 1726369332
       Crosshair_Surrounding_Corner: 2078872658
+      Default_Portrait: -547000080
       Dialogue_Box: -580825743
       Emit_Portrait: 1469957619
       Enemy_HP_Even: 585214879
@@ -477,8 +542,8 @@ TextureImporter:
       Player_HP_Even: -1593753309
       Player_HP_Odd: 1925011001
       Portrait_Frame: -2053684333
+      Radio_Portrait: 492032297
       Speaker_Name_Box: -1881267618
-      UI_Elements_0: -525848485
       UI_Heart: 1532557065
       UI_Normal_Bullet: 1057338196
       UI_Piercing_Bullet: -1335779438

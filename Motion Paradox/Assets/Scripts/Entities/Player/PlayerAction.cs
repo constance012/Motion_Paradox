@@ -21,7 +21,7 @@ public sealed class PlayerAction : EntityAction
 
 	protected override void TryAttack()
 	{
-		if (GameManager.Instance.GameDone)
+		if (GameManager.GameDone || DialogueManager.IsPlaying)
 			return;
 
 		if (_attackInterval <= 0f && weapon.CanBeUsed())

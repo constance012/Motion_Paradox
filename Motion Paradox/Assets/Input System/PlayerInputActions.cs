@@ -73,6 +73,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""ContinueDialogue"",
+                    ""type"": ""Button"",
+                    ""id"": ""200a9bc0-6c65-40f2-b405-dfe8af9a4312"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Reload"",
                     ""type"": ""Button"",
                     ""id"": ""a50be31c-4d06-4d0b-8dca-11c1cb7a1907"",
@@ -91,9 +100,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""TakeScreenshot"",
+                    ""name"": ""SkipPlayable"",
                     ""type"": ""Button"",
-                    ""id"": ""2e055359-a2db-49d9-be03-2ef983311d52"",
+                    ""id"": ""b4ae6097-f42e-45f1-8d69-9af85c9a4f2f"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -202,17 +211,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""5f9288f1-8837-4860-8826-ff79c0f38404"",
-                    ""path"": ""<Keyboard>/backquote"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard and Mouse"",
-                    ""action"": ""TakeScreenshot"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""8f2062a2-a98d-459c-9b82-b2d721112ffb"",
                     ""path"": ""<Mouse>/rightButton"",
                     ""interactions"": """",
@@ -276,6 +274,61 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Aiming"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""61e48cb2-cd9e-4834-af55-130edf96bf3f"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""ContinueDialogue"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a65ba793-ffb7-4ca6-9bc3-43a6b679b3ea"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""ContinueDialogue"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7b073d04-0ebc-4cb0-8507-6e16a92c3223"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""ContinueDialogue"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c8cee625-72d6-4416-94e3-8031fc9fb554"",
+                    ""path"": ""<Keyboard>/numpadEnter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""ContinueDialogue"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""39d586ea-8db0-438d-ad84-3bb69a0c8e8c"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""SkipPlayable"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -306,9 +359,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Player_Aiming = m_Player.FindAction("Aiming", throwIfNotFound: true);
         m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
+        m_Player_ContinueDialogue = m_Player.FindAction("ContinueDialogue", throwIfNotFound: true);
         m_Player_Reload = m_Player.FindAction("Reload", throwIfNotFound: true);
         m_Player_BackToMenu = m_Player.FindAction("BackToMenu", throwIfNotFound: true);
-        m_Player_TakeScreenshot = m_Player.FindAction("TakeScreenshot", throwIfNotFound: true);
+        m_Player_SkipPlayable = m_Player.FindAction("SkipPlayable", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -375,9 +429,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Aiming;
     private readonly InputAction m_Player_Movement;
     private readonly InputAction m_Player_Interact;
+    private readonly InputAction m_Player_ContinueDialogue;
     private readonly InputAction m_Player_Reload;
     private readonly InputAction m_Player_BackToMenu;
-    private readonly InputAction m_Player_TakeScreenshot;
+    private readonly InputAction m_Player_SkipPlayable;
     public struct PlayerActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -387,9 +442,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @Aiming => m_Wrapper.m_Player_Aiming;
         public InputAction @Movement => m_Wrapper.m_Player_Movement;
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
+        public InputAction @ContinueDialogue => m_Wrapper.m_Player_ContinueDialogue;
         public InputAction @Reload => m_Wrapper.m_Player_Reload;
         public InputAction @BackToMenu => m_Wrapper.m_Player_BackToMenu;
-        public InputAction @TakeScreenshot => m_Wrapper.m_Player_TakeScreenshot;
+        public InputAction @SkipPlayable => m_Wrapper.m_Player_SkipPlayable;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -414,15 +470,18 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Interact.started += instance.OnInteract;
             @Interact.performed += instance.OnInteract;
             @Interact.canceled += instance.OnInteract;
+            @ContinueDialogue.started += instance.OnContinueDialogue;
+            @ContinueDialogue.performed += instance.OnContinueDialogue;
+            @ContinueDialogue.canceled += instance.OnContinueDialogue;
             @Reload.started += instance.OnReload;
             @Reload.performed += instance.OnReload;
             @Reload.canceled += instance.OnReload;
             @BackToMenu.started += instance.OnBackToMenu;
             @BackToMenu.performed += instance.OnBackToMenu;
             @BackToMenu.canceled += instance.OnBackToMenu;
-            @TakeScreenshot.started += instance.OnTakeScreenshot;
-            @TakeScreenshot.performed += instance.OnTakeScreenshot;
-            @TakeScreenshot.canceled += instance.OnTakeScreenshot;
+            @SkipPlayable.started += instance.OnSkipPlayable;
+            @SkipPlayable.performed += instance.OnSkipPlayable;
+            @SkipPlayable.canceled += instance.OnSkipPlayable;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -442,15 +501,18 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Interact.started -= instance.OnInteract;
             @Interact.performed -= instance.OnInteract;
             @Interact.canceled -= instance.OnInteract;
+            @ContinueDialogue.started -= instance.OnContinueDialogue;
+            @ContinueDialogue.performed -= instance.OnContinueDialogue;
+            @ContinueDialogue.canceled -= instance.OnContinueDialogue;
             @Reload.started -= instance.OnReload;
             @Reload.performed -= instance.OnReload;
             @Reload.canceled -= instance.OnReload;
             @BackToMenu.started -= instance.OnBackToMenu;
             @BackToMenu.performed -= instance.OnBackToMenu;
             @BackToMenu.canceled -= instance.OnBackToMenu;
-            @TakeScreenshot.started -= instance.OnTakeScreenshot;
-            @TakeScreenshot.performed -= instance.OnTakeScreenshot;
-            @TakeScreenshot.canceled -= instance.OnTakeScreenshot;
+            @SkipPlayable.started -= instance.OnSkipPlayable;
+            @SkipPlayable.performed -= instance.OnSkipPlayable;
+            @SkipPlayable.canceled -= instance.OnSkipPlayable;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -484,8 +546,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnAiming(InputAction.CallbackContext context);
         void OnMovement(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
+        void OnContinueDialogue(InputAction.CallbackContext context);
         void OnReload(InputAction.CallbackContext context);
         void OnBackToMenu(InputAction.CallbackContext context);
-        void OnTakeScreenshot(InputAction.CallbackContext context);
+        void OnSkipPlayable(InputAction.CallbackContext context);
     }
 }

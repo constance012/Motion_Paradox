@@ -138,7 +138,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6666860190724056166, guid: 10e87f7b5ac7ea04ab4c3062109bb575, type: 3}
       propertyPath: lootTable._serializedList.Array.data[0].Value
-      value: 0.6
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6745964431920951248, guid: 10e87f7b5ac7ea04ab4c3062109bb575, type: 3}
       propertyPath: m_SizeDelta.x

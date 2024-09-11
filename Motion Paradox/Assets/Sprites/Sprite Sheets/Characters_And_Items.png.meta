@@ -429,6 +429,48 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Radio
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 8
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ce9d47065dc1b5148bca20e841d540c7
+      internalID: -1824049187
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Tutorial_Book
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 8
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1a1c0a2b97e76c6429b01533b25413db
+      internalID: 409170293
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -455,7 +497,9 @@ TextureImporter:
       Projectile_1: -112165679
       Projectile_2: -768218378
       Projectile_3: 1073629442
+      Radio: -1824049187
       Rifle: -441927365
+      Tutorial_Book: 409170293
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

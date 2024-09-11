@@ -12,10 +12,12 @@ public sealed class SettingsMenu : MonoBehaviour
 	[SerializeField] private AudioMixer mixer;
 
 	[Header("Slider Groups"), Space]
+	[SerializeField] private SliderGroup masterSlider;
 	[SerializeField] private SliderGroup musicSlider;
 	[SerializeField] private SliderGroup soundSlider;
 	[SerializeField] private SliderGroup ambienceSlider;
 	[SerializeField] private SliderGroup aimSpeedSlider;
+	[SerializeField] private SliderGroup dialogueSpeedSlider;
 
 	[Header("Directional Selectors"), Space]
 	[SerializeField] private DirectionalSelector qualitySelector;
@@ -25,6 +27,7 @@ public sealed class SettingsMenu : MonoBehaviour
 	private void OnEnable()
 	{
 		ReloadUI();
+		UserSettings.DeleteKey("MusicVolume");
 	}
 
 	#region Callback Methods for UI.
@@ -34,6 +37,14 @@ public sealed class SettingsMenu : MonoBehaviour
 		await mainMenu.SetActive(true);
 	}
 
+	public void SetMasterVolume(float amount)
+	{
+		mixer.SetFloat("masterVol", UserSettings.ToMixerDecibel(amount));
+
+		masterSlider.DisplayText = ConvertDecibelToText(amount);
+		UserSettings.MasterVolume = amount;
+	}
+	
 	public void SetMusicVolume(float amount)
 	{
 		mixer.SetFloat("musicVol", UserSettings.ToMixerDecibel(amount));
@@ -92,6 +103,12 @@ public sealed class SettingsMenu : MonoBehaviour
 		aimSpeedSlider.DisplayText = value.ToString("0.0");
 		UserSettings.AimSpeed = value;
 	}
+	
+	public void SetDialogueSpeed(float amount)
+	{
+		dialogueSpeedSlider.DisplayText = amount.ToString();
+		UserSettings.DialogueSpeed = (int)amount;
+	}
 
 	public void ResetToDefault()
 	{
@@ -109,20 +126,23 @@ public sealed class SettingsMenu : MonoBehaviour
 
 	private void ReloadUI()
 	{
-		float musicVol = UserSettings.MusicVolume;
+		float masterVol = UserSettings.MasterVolume;
 		float soundVol = UserSettings.SoundVolume;
 		float ambienceVol = UserSettings.AmbienceVolume;
 		float aimSpeed = UserSettings.AimSpeed;
+		int dialogueSpeed = UserSettings.DialogueSpeed;
 
-		musicSlider.Value = musicVol;
+		masterSlider.Value = masterVol;
 		soundSlider.Value = soundVol;
 		ambienceSlider.Value = ambienceVol;
 		aimSpeedSlider.Value = aimSpeed * 10f;
+		dialogueSpeedSlider.Value = dialogueSpeed;
 
-		musicSlider.DisplayText = ConvertDecibelToText(musicVol);
+		masterSlider.DisplayText = ConvertDecibelToText(masterVol);
 		soundSlider.DisplayText = ConvertDecibelToText(soundVol);
 		ambienceSlider.DisplayText = ConvertDecibelToText(ambienceVol);
 		aimSpeedSlider.DisplayText = aimSpeed.ToString("0.0");
+		dialogueSpeedSlider.DisplayText = dialogueSpeed.ToString();
 
 		qualitySelector.Index = UserSettings.QualityLevel;
 		framerateSelector.Value = UserSettings.TargetFramerate.ToString();

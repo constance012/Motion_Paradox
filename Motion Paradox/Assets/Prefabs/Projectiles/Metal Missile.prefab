@@ -221,7 +221,7 @@ MonoBehaviour:
   flySpeed: 0
   trackingRigidity: 0
   speedScaleFactor: 0.8
-  damageScaleFactor: 2
+  damageScaleFactor: 3
   lifeTimeScaleFactor: 2
 --- !u!50 &5430464858680705458 stripped
 Rigidbody2D:

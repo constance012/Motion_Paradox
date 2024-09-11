@@ -1,8 +1,19 @@
 using System;
+using UnityEngine;
 
 public static class TimeManager
 {
 	public static float LocalTimeScale { get; set; } = 1f;
+	public static float GlobalTimeScale
+	{
+		get { return Time.timeScale; }
+		set
+		{
+			LocalTimeScale = value;
+			Time.timeScale = value;
+		}
+	}
+	
 	public static TimeSpan PortalTimerLeft => _portalTimer;
 	public static bool IsPortalTimerUp => _portalTimer <= TimeSpan.Zero;
 	

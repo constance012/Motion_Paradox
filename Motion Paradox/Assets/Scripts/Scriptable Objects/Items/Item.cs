@@ -19,7 +19,7 @@ public class Item : IdentifiableSO
 
 	public virtual bool Use(Transform player, bool forced = false)
 	{
-		Debug.Log("Using " + displayName);
+		Debug.Log($"Using {displayName}...");
 		return canBeUsed;
 	}
 

@@ -66,7 +66,7 @@ public class HandheldWeapon : MonoBehaviour
 
 	public void TryReload()
 	{
-		if (_gun.CanReload && !GameManager.Instance.GameDone)
+		if (_gun.CanReload && !GameManager.GameDone)
 			_reloadCoroutine.StartNew(this, PerformReload());
 	}
 

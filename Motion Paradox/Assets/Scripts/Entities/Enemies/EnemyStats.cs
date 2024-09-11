@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityRandom = UnityEngine.Random;
 
 public sealed class EnemyStats : EntityStats
 {
@@ -18,6 +19,14 @@ public sealed class EnemyStats : EntityStats
 	{
 		base.Start();
 		healthBar.name = $"{gameObject.name} Health Bar";
+	}
+
+	protected override void TakeDamage(Stats attackerStats, Vector3 attackerPos, float scaleFactor)
+	{
+		base.TakeDamage(attackerStats, attackerPos, scaleFactor);
+
+		AudioManager.Instance.PlayWithRandomPitch("Metal Impact", .5f, 8f);
+		EffectInstantiator.Instance.Instantiate<ParticleSystem>(EffectType.SolidImpact, rb2D.position, UnityRandom.insideUnitCircle.normalized);
 	}
 
 	public override void Die()

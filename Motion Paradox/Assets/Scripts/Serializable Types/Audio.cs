@@ -35,5 +35,5 @@ public class Audio
 		get { return clips[index]; }
 	}
 
-	public int ClipsCount => clips.Length;
+	public int ClipCount => clips.Length;
 }

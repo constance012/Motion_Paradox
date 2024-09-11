@@ -123,12 +123,12 @@ MonoBehaviour:
     audioType: 0
     clips:
     - {fileID: 8300000, guid: f4c6951ee50956c4d9f1b5518409a19f, type: 3}
-    mixerGroup: {fileID: -5071581020908855552, guid: 401043ebed57e5741be2dc4b91eca06f, type: 2}
+    mixerGroup: {fileID: -7406168078955113712, guid: 401043ebed57e5741be2dc4b91eca06f, type: 2}
     volume: 1
     pitch: 1
     loop: 0
     source: {fileID: 0}
-  - name: Pickup
+  - name: Portal Notify
     audioType: 0
     clips:
     - {fileID: 8300000, guid: 98ab2f5fb9570d744bc3931c1281af79, type: 3}
@@ -193,7 +193,19 @@ MonoBehaviour:
   - name: Button Selected
     audioType: 0
     clips:
-    - {fileID: 8300000, guid: 9f63645f9c60400498535c336a545ee6, type: 3}
+    - {fileID: 8300000, guid: fa212a6ad1b487740a490f2097c5436c, type: 3}
+    mixerGroup: {fileID: -5071581020908855552, guid: 401043ebed57e5741be2dc4b91eca06f, type: 2}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Metal Impact
+    audioType: 0
+    clips:
+    - {fileID: 8300000, guid: f688dbfba6ab3824d9e5044a25323c94, type: 3}
+    - {fileID: 8300000, guid: a9db476148c3fcc48a2e3db26a4617dd, type: 3}
+    - {fileID: 8300000, guid: 941d8a4ba8da5ec4c9573fb632259cd0, type: 3}
+    - {fileID: 8300000, guid: f57a050806f92434e9240d135a7a6fbe, type: 3}
     mixerGroup: {fileID: -5071581020908855552, guid: 401043ebed57e5741be2dc4b91eca06f, type: 2}
     volume: 1
     pitch: 1

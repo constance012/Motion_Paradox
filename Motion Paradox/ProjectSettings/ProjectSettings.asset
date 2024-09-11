@@ -16,12 +16,12 @@ PlayerSettings:
   productName: Motion Paradox
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
-  m_SplashScreenBackgroundColor: {r: 0.44686523, g: 0.5377358, b: 0.3221342, a: 1}
+  m_SplashScreenBackgroundColor: {r: 0.18823531, g: 0.3137255, b: 0.2392157, a: 1}
   m_ShowUnitySplashScreen: 1
   m_ShowUnitySplashLogo: 1
   m_SplashScreenOverlayOpacity: 1
   m_SplashScreenAnimation: 2
-  m_SplashScreenLogoStyle: 0
+  m_SplashScreenLogoStyle: 1
   m_SplashScreenDrawMode: 1
   m_SplashScreenBackgroundAnimationZoom: 0.5
   m_SplashScreenLogoAnimationZoom: 0.5
@@ -46,8 +46,8 @@ PlayerSettings:
     duration: 2.3
   m_VirtualRealitySplashScreen: {fileID: 0}
   m_HolographicTrackingLossScreen: {fileID: 0}
-  defaultScreenWidth: 1920
-  defaultScreenHeight: 1080
+  defaultScreenWidth: 640
+  defaultScreenHeight: 640
   defaultScreenWidthWeb: 640
   defaultScreenHeightWeb: 640
   m_StereoRenderingPath: 0
@@ -83,8 +83,8 @@ PlayerSettings:
   androidAutoRotationBehavior: 1
   defaultIsNativeResolution: 1
   macRetinaSupport: 1
-  runInBackground: 0
-  captureSingleScreen: 0
+  runInBackground: 1
+  captureSingleScreen: 1
   muteOtherAudioSources: 0
   Prepare IOS For Recording: 0
   Force IOS Speakers When Recording: 0
@@ -94,7 +94,7 @@ PlayerSettings:
   usePlayerLog: 1
   dedicatedServerOptimizations: 0
   bakeCollisionMeshes: 0
-  forceSingleInstance: 0
+  forceSingleInstance: 1
   useFlipModelSwapchain: 1
   resizableWindow: 0
   useMacAppStoreValidation: 0
@@ -107,7 +107,7 @@ PlayerSettings:
   xboxEnableFitness: 0
   visibleInBackground: 1
   allowFullscreenSwitch: 1
-  fullscreenMode: 1
+  fullscreenMode: 3
   xboxSpeechDB: 0
   xboxEnableHeadOrientation: 0
   xboxEnableGuest: 0
@@ -143,7 +143,7 @@ PlayerSettings:
   loadStoreDebugModeEnabled: 0
   visionOSBundleVersion: 1.0
   tvOSBundleVersion: 1.0
-  bundleVersion: 1.0
+  bundleVersion: 2.0
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -165,7 +165,7 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Standalone: com.DefaultCompany.2DProject
+    Standalone: com.CSTGames.MotionParadox
   buildNumber:
     Standalone: 0
     VisionOS: 0

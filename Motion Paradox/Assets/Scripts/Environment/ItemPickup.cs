@@ -1,7 +1,7 @@
 using UnityEngine;
 using DG.Tweening;
 
-public class ItemPickup : Interactable
+public sealed class ItemPickup : Interactable
 {
 	[Header("References"), Space]
 	public Item itemSO;
@@ -12,7 +12,7 @@ public class ItemPickup : Interactable
 	[SerializeField] private float lifeTime;
 
 	[Header("Fly Settings"), Space]
-	[SerializeField] protected float flyDistance;
+	[SerializeField] private float flyDistance;
 	[SerializeField] private float flySpeed;
 	[SerializeField] private float pickUpMinDistance;
 	[SerializeField] private float pickUpFailDelay;
@@ -30,7 +30,7 @@ public class ItemPickup : Interactable
 	private float _delay;
 
 	private void Start()
-	{
+	{		
 		_currentItem = Instantiate(itemSO);
 		_currentItem.name = itemSO.name;
 
@@ -48,38 +48,6 @@ public class ItemPickup : Interactable
 			FlyTowardsPlayer();
 
 		base.CheckForInteraction(mouseDistance, playerDistance);
-	}
-
-    protected override void TriggerInteraction(float playerDistance)
-    {
-        base.TriggerInteraction(playerDistance);
-
-		if (InputManager.Instance.WasPressedThisFrame(KeybindingActions.Interact) && _delay > 0f)
-			TryPickup(true);
-    }
-
-	private void CheckForLifeTime()
-	{
-		if (lifeTime != -1f)
-		{
-			lifeTime -= Time.deltaTime;
-			if (lifeTime <= 0f)
-				DestroyGameObject();
-		}
-	}
-
-    private void FlyTowardsPlayer()
-	{
-		_delay -= Time.deltaTime;
-
-		if (_delay <= 0f)
-		{
-			Vector2 flyDirection = _player.position - transform.position;
-			rb2D.velocity = flyDirection.normalized * flySpeed;
-
-			if (flyDirection.sqrMagnitude <= Mathf.Pow(pickUpMinDistance, 2))
-				TryPickup();
-		}
 	}
 
 	protected override void CreatePopupLabel()
@@ -107,13 +75,13 @@ public class ItemPickup : Interactable
 		}
 	}
 
-	private void TryPickup(bool forced = false)
+	public override void Interact()
 	{
 		if (!_pickedUp)
 		{
-			Debug.Log("You're picking up a(n) " + _currentItem.displayName);
+			Debug.Log($"You're picking up a(n) {_currentItem.displayName}");
 			
-			if (_currentItem.autoUse && _currentItem.Use(_player, forced))
+			if (_currentItem.autoUse && _currentItem.Use(_player, forced: _delay > 0f))
 			{
 				_pickedUp = true;
 				DestroyGameObject();
@@ -122,6 +90,30 @@ public class ItemPickup : Interactable
 			{
 				_delay = pickUpFailDelay;
 			}
+		}
+	}
+
+	private void CheckForLifeTime()
+	{
+		if (lifeTime != -1f)
+		{
+			lifeTime -= Time.deltaTime;
+			if (lifeTime <= 0f)
+				DestroyGameObject();
+		}
+	}
+
+    private void FlyTowardsPlayer()
+	{
+		_delay -= Time.deltaTime;
+
+		if (_delay <= 0f)
+		{
+			Vector2 flyDirection = _player.position - transform.position;
+			rb2D.velocity = flyDirection.normalized * flySpeed;
+
+			if (flyDirection.sqrMagnitude <= Mathf.Pow(pickUpMinDistance, 2))
+				Interact();
 		}
 	}
 

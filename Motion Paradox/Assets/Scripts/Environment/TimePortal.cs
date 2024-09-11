@@ -1,12 +1,13 @@
-using System;
-using TMPro;
 using UnityEngine;
+using TMPro;
+using Ink.Runtime;
 
-public class TimePortal : Interactable
+public sealed class TimePortal : Interactable, IHasDialogue
 {
 	[Header("References"), Space]
 	[SerializeField] private Animator animator;
 	[SerializeField] private TextMeshProUGUI countdownText;
+	[SerializeField] private DialogueTrigger dialogueTrigger;
 
 	[Header("Activation Timer (Seconds)"), Space]
 	[SerializeField] private float activationTimer;
@@ -17,6 +18,7 @@ public class TimePortal : Interactable
 	private void Start()
 	{
 		TimeManager.InitializePortalTimer(activationTimer);
+		dialogueTrigger.BindExternalFunction("EnterPortal", EnterPortal);
 	}
 
 	protected override void CheckForInteraction(float mouseDistance, float playerDistance)
@@ -26,26 +28,26 @@ public class TimePortal : Interactable
 		Countdown();
 	}
 
-	protected override void TriggerInteraction(float playerDistance)
-	{
-		base.TriggerInteraction(playerDistance);
-
-		if (InputManager.Instance.WasPressedThisFrame(KeybindingActions.Interact))
-			TryEnterPortal();
-	}
-
 	protected override void CreatePopupLabel()
 	{
 		base.CreatePopupLabel();
-		
-		_popupLabel.SetLabelName(Activated ? "Enter portal?" : "Not ready yet");
+		_popupLabel.SetLabelName("Time portal");
 	}
 
-	private void TryEnterPortal()
+	public override void Interact()
+	{
+		TriggerDialogue();
+	}
+
+	public void TriggerDialogue()
+	{
+		dialogueTrigger.Trigger();
+	}
+
+	private void EnterPortal()
 	{
 		if (Activated)
 		{
-			Debug.Log("Entering Portal...");
 			GameManager.Instance.ShowVictoryScreen();
 		}
 	}
@@ -56,13 +58,19 @@ public class TimePortal : Interactable
 		{
 			TimeManager.CountdownPortalTimer(Time.deltaTime);
 
-			countdownText.text = $"{TimeManager.PortalTimerLeft:mm\\:ss}";
+			string timeLeft = $"{TimeManager.PortalTimerLeft:mm\\:ss}";
+			countdownText.text = timeLeft;
+			InkVariableHandler.Instance.SetVariable("portal_timer", new StringValue(timeLeft));
 
 			if (TimeManager.IsPortalTimerUp)
 			{
 				Activated = true;
 				animator.Play("Activate");
 				countdownText.text = "00:00";
+
+				AudioManager.Instance.Play("Portal Notify");
+				InkVariableHandler.Instance.SetVariable("portal_activated", new BoolValue(true));
+				TriggerDialogue();
 			}
 		}
 	}

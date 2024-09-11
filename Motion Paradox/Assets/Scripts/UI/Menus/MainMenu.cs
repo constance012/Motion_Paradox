@@ -35,7 +35,7 @@ public sealed class MainMenu : MonoBehaviour
 	public void StartGame()
 	{
 		DOTween.Clear();
-		SceneManager.LoadSceneAsync("Scenes/Game");
+		SceneLoader.Instance.LoadSceneAsync("Scenes/Prologue");
 	}
 	#endregion
 
@@ -47,6 +47,7 @@ public sealed class MainMenu : MonoBehaviour
 
 			CursorManager.Instance.SwitchCursorTexture(CursorTextureType.Default);
 
+			mixer.SetFloat("masterVol", UserSettings.ToMixerDecibel(UserSettings.MasterVolume));
 			mixer.SetFloat("musicVol", UserSettings.ToMixerDecibel(UserSettings.MusicVolume));
 			mixer.SetFloat("soundVol", UserSettings.ToMixerDecibel(UserSettings.SoundVolume));
 			mixer.SetFloat("ambienceVol", UserSettings.ToMixerDecibel(UserSettings.AmbienceVolume));

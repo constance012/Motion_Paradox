@@ -22,7 +22,6 @@ public sealed class CursorManager : PersistentSingleton<CursorManager>
 
 	[Header("Custom Cursors"), Space]
 	[SerializeField] private CustomCursor defaultCursor;
-	[SerializeField] private CustomCursor crosshairCursor;
 
 	public void SwitchCursorTexture(CursorTextureType type, CursorMode mode = CursorMode.Auto)
 	{
