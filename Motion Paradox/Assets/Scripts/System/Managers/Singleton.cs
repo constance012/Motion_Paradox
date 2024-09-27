@@ -12,21 +12,20 @@ public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 
 	protected virtual void Awake()
 	{
-		SetSingleton();
+		MakeSingleton();
 	}
 
 	/// <summary>
 	/// This method is automatically called in awake. You can manually call this method to set Instance forcefully.
 	/// </summary>
-	protected void SetSingleton()
+	protected void MakeSingleton()
 	{
 		if (_hasSingleton)
 			return;
 
 		if (Instance == null)
 		{
-			Instance = this as T;
-			_hasSingleton = true;
+			SetInstance();
 		}
 		else
 		{
@@ -37,5 +36,11 @@ public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 
 			return;
 		}
+	}
+
+	protected virtual void SetInstance()
+	{
+		Instance = this as T;
+		_hasSingleton = true;
 	}
 }

@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aae5a3ef25e1bcc4eb4610a5f89a844d, type: 3}
+  m_Name: Suppressor Data
+  m_EditorClassIdentifier: 
+  type: 1
+  prefab: {fileID: 76702012230458035, guid: be6d59a8dc5e73e4eae70a8d7b38e6f0, type: 3}
+  spawnLimitRange: {x: 0.01, y: 0.5}
+  lootTable:
+    _serializedList:
+    - Key: 0
+      Value:
+        chance: 0.5
+        quantityRange: {x: 1, y: 1}
+    - Key: 1
+      Value:
+        chance: 0
+        quantityRange: {x: 0, y: 0}
+    - Key: 2
+      Value:
+        chance: 1
+        quantityRange: {x: 25, y: 50}

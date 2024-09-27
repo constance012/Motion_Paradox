@@ -61,8 +61,24 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1832123096458955562, guid: 01a6165c54ebe4a43a8a3115dfe82018, type: 3}
+      propertyPath: data
+      value: 
+      objectReference: {fileID: 11400000, guid: ef3d63263ce77f640b37030709ae08e4, type: 2}
+    - target: {fileID: 1832123096458955562, guid: 01a6165c54ebe4a43a8a3115dfe82018, type: 3}
       propertyPath: lootTable._serializedList.Array.data[0].Value
       value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1832123096458955562, guid: 01a6165c54ebe4a43a8a3115dfe82018, type: 3}
+      propertyPath: lootTable._serializedList.Array.data[0].Value.chance
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1832123096458955562, guid: 01a6165c54ebe4a43a8a3115dfe82018, type: 3}
+      propertyPath: lootTable._serializedList.Array.data[2].Value.quantityRange.x
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1832123096458955562, guid: 01a6165c54ebe4a43a8a3115dfe82018, type: 3}
+      propertyPath: lootTable._serializedList.Array.data[2].Value.quantityRange.y
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 2055380954593981836, guid: 01a6165c54ebe4a43a8a3115dfe82018, type: 3}
       propertyPath: m_LocalPosition.x

@@ -214,6 +214,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 118d0bd718539564bacf8dbc136ada98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  trail: {fileID: 3246774156355936104}
   rb2D: {fileID: 5430464858680705458}
   targetToTrack: {fileID: 0}
   maxLifeTime: 0
@@ -223,6 +224,11 @@ MonoBehaviour:
   speedScaleFactor: 0.8
   damageScaleFactor: 3
   lifeTimeScaleFactor: 2
+--- !u!96 &3246774156355936104 stripped
+TrailRenderer:
+  m_CorrespondingSourceObject: {fileID: 8834443988586447642, guid: ea91b75a07459b04ba83f69dd365ad18, type: 3}
+  m_PrefabInstance: {fileID: 6310840384365026418}
+  m_PrefabAsset: {fileID: 0}
 --- !u!50 &5430464858680705458 stripped
 Rigidbody2D:
   m_CorrespondingSourceObject: {fileID: 2074040535406058944, guid: ea91b75a07459b04ba83f69dd365ad18, type: 3}

@@ -15,7 +15,7 @@ public sealed class CameraSwitcher : Singleton<CameraSwitcher>
 
 	private void Start()
 	{
-		InputManager.Instance.onAimModeToggleAction += (sender, phase) => ManageAimMode(phase);
+		InputManager.Instance.OnAimModeToggleAction += (sender, phase) => ManageAimMode(phase);
 	}
 
 	public void Switch(CameraType type)

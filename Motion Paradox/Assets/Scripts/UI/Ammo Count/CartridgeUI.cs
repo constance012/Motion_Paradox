@@ -2,10 +2,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
-public sealed class CartridgeUI : MonoBehaviour
+public sealed class CartridgeUI : MonoBehaviour, IPoolable
 {
-	[Header("Tweening Settings"), Space]
+	[Header("References"), Space]
 	[SerializeField] private TweenableUIElement loadTween;
+	[SerializeField] private Image graphic;
 
 	// Private fields.
 	private TweenPool _tweenPool;
@@ -17,18 +18,28 @@ public sealed class CartridgeUI : MonoBehaviour
 		_tweenPool = new TweenPool();
 	}
 
-	private void OnDestroy()
+	public void Allocate()
+	{
+		gameObject.SetActive(true);
+	}
+
+	public void Deallocate()
 	{
 		_tweenPool.KillActiveTweens(true);
+		gameObject.SetActive(false);
 	}
 
 	/// <summary>
 	/// Moves the transform's local position a certain amount along the Y axis, direction depends on the sign of delta.
 	/// </summary>
 	/// <param name="delta"> The direction and amount to move. </param>
-	public void MoveLocalY(float delta)
+	public void Initialize(float spacing)
 	{
-		_rectTransform.anchoredPosition += new Vector2(0f, delta);
+		Allocate();
+		loadTween.SetStartValues();
+		graphic.DOFade(1f, 0f);
+
+		_rectTransform.anchoredPosition += new Vector2(0f, spacing);
 	}
 
 	public void ChamberRound()
@@ -40,13 +51,12 @@ public sealed class CartridgeUI : MonoBehaviour
 
 	public Tween FireRound()
 	{
-		RectTransform round = transform as RectTransform;
 		Sequence sequence = DOTween.Sequence();
 		
-		sequence.Append(round.DOAnchorPosX(-70f, .2f, true).SetRelative(true))
-				.Join(round.GetComponent<Image>().DOFade(0f, .2f))
+		sequence.Append(_rectTransform.DOAnchorPosX(-70f, .2f, true).SetRelative(true))
+				.Join(graphic.DOFade(0f, .2f))
 				.SetEase(Ease.OutSine)
-		   		.OnComplete(() => Destroy(gameObject));
+		   		.OnComplete(() => Deallocate());
 
 		_tweenPool.Add(sequence);
 		return sequence;

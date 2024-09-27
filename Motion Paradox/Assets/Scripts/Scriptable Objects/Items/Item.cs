@@ -17,7 +17,7 @@ public class Item : IdentifiableSO
 	public bool canBeUsed;
 	public bool autoUse;
 
-	public virtual bool Use(Transform player, bool forced = false)
+	public virtual bool Use(Transform target, bool forced = false)
 	{
 		Debug.Log($"Using {displayName}...");
 		return canBeUsed;

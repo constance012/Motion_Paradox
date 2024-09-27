@@ -10,8 +10,8 @@ public sealed class PlayerAction : EntityAction
 
 	private void Start()
 	{
-		InputManager.Instance.onAttackAction += (sender, e) => TryAttack();
-		InputManager.Instance.onReloadAction += (sender, e) => weapon.TryReload();
+		InputManager.Instance.OnAttackAction += (sender, e) => TryAttack();
+		InputManager.Instance.OnReloadAction += (sender, e) => weapon.TryReload();
 	}
 
 	protected override void Update()

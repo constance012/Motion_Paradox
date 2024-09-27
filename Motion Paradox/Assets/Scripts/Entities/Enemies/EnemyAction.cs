@@ -34,7 +34,7 @@ public abstract class EnemyAction : EntityAction
 	protected void DamageOnContact(Collider2D other, float damageScale)
 	{
 		IDamageable target = other.GetComponentInParent<IDamageable>();
-		target?.Damage(stats, rb2d.position, damageScale);
+		target?.TakeDamage(stats, rb2d.position, damageScale);
 	}
 
 	private void OnDrawGizmosSelected()

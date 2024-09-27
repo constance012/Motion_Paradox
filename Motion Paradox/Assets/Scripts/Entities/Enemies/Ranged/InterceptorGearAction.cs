@@ -18,6 +18,7 @@ public sealed class InterceptorGearAction : RangedEnemyAction
 			
 			for (int i = 0; i < shotCount; i++)
 			{
+				AudioManager.Instance.Play("Projectile Shot");
 				FireProjectile(firePoint.right);
 				ResetAttackInterval();
 				yield return new WaitForSeconds(shotInterval);

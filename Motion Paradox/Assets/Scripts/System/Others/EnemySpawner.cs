@@ -1,37 +1,35 @@
+using System.Collections.Generic;
 using UnityEngine;
-using AYellowpaper.SerializedCollections;
+using UnityRandom = UnityEngine.Random;
 
 public class EnemySpawner : MonoBehaviour
 {
 	[Header("References"), Space]
 	[SerializeField] private Transform container;
 	
-	[Header("Enemy Prefabs"), Space]
-	[SerializeField] private SerializedDictionary<EnemyType, GameObject> enemyPrefabs;
-
-	[Header("Spawn Chances"), Space]
-	[SerializeField] private SerializedDictionary<EnemyType, float> enemySpawnInfo;
+	[Header("Enemy Runtime Data"), Space]
+	[SerializeField] private List<EnemyRuntimeData> enemyRuntimeData;
 	[SerializeField, Min(1)] private int maxEnemies;
 
 	[Header("Spawn Radius"), Space]
 	[SerializeField] private float spawnRadius;
 
 	[Header("Spawn Delay"), Space]
-	[SerializeField] private float initialDelay;
-	[SerializeField] private float spawnDelay;
+	[SerializeField] private Vector2 spawnDelayRange;
 
 	// Private fields.
+	private float _maxDelay;
 	private float _delay;
 
 	private void Start()
-	{
-		_delay = initialDelay;
-		
-		#if UNITY_EDITOR
-			_delay = spawnDelay;
-		#endif
+	{		
+		_maxDelay = spawnDelayRange.x;
+		_delay = _maxDelay;
 
-		GameManager.Instance.onGameVictory += (sender, e) => DestroyAllEnemies();
+		enemyRuntimeData.ForEach(data => data.Reset());
+		
+		GameManager.Instance.OnGameVictory += (sender, e) => DestroyAllEnemies();
+		DifficultyScaler.Instance.OnNextDifficultyReached += NextDifficulty_Reached;
 	}
 
 	private void Update()
@@ -42,6 +40,12 @@ public class EnemySpawner : MonoBehaviour
 		{
 			TrySpawnEnemies();
 		}
+	}
+
+	private void NextDifficulty_Reached(object sender, DifficultyReachedEventArgs e)
+	{
+		enemyRuntimeData.ForEach(data => data.UpdateSpawnChance(e.curveValue));
+		_maxDelay = spawnDelayRange.Interpolate(e.curveValue);
 	}
 
 	private void DestroyAllEnemies()
@@ -56,34 +60,25 @@ public class EnemySpawner : MonoBehaviour
 
 	private void TrySpawnEnemies()
 	{
-		float spawnChance = Random.value;
+		float spawnChance = UnityRandom.value;
 
-		foreach (var enemyInfo in enemySpawnInfo)
+		foreach (var data in enemyRuntimeData)
 		{
-			if (spawnChance <= enemyInfo.Value && container.childCount < maxEnemies)
+			if (spawnChance <= data.SpawnChance && container.childCount < maxEnemies)
 			{
-				Vector2 spawnPos = Random.insideUnitCircle.normalized * spawnRadius;
+				Vector2 spawnPos = UnityRandom.insideUnitCircle.normalized * spawnRadius;
 
-				GameObject enemy = Instantiate(enemyPrefabs[enemyInfo.Key], spawnPos, Quaternion.identity);
+				GameObject enemy = Instantiate(data.prefab, spawnPos, Quaternion.identity);
 				enemy.transform.SetParent(container);
 			}
 		}
 		
-		_delay = spawnDelay;
+		_delay = _maxDelay;
 	}
 
 	private void OnDrawGizmosSelected()
 	{
 		Gizmos.color = Color.yellow;
 		Gizmos.DrawWireSphere(transform.position, spawnRadius);
-	}
-
-	enum EnemyType
-	{
-		Pawn,
-		Suppression,
-		Scout,
-		Interceptor,
-		Destroyer
 	}
 }

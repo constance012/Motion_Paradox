@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 [CreateAssetMenu(menuName = "Items/Healing Item", fileName = "New Healing Item")]
-public class HealingItem : Item
+public sealed class HealingItem : Item
 {
 	[Header("Healing amount"), Space]
 	public int healingAmount;
@@ -12,7 +12,7 @@ public class HealingItem : Item
 		{
 			IHealable healable = target.GetComponent<IHealable>();
 
-			if (healable.CanBeHealed || forced)
+			if (healable != null && (healable.CanBeHealed || forced))
 			{
 				healable.Heal(healingAmount);
 				return true;
@@ -20,12 +20,5 @@ public class HealingItem : Item
 		}
 
 		return false;
-	}
-
-	public override string ToString()
-	{
-		return base.ToString() + "\n" +
-				$"<b> +{healingAmount} HP. </b>\n" +
-				$"<b> Right Click to use. </b>";
 	}
 }

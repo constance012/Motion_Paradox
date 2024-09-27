@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 using DG.Tweening;
+using DG.Tweening.Core;
+using DG.Tweening.Plugins.Options;
 
 [Serializable]
 public class UITweener
@@ -44,6 +46,7 @@ public class UITweener
 	public bool ignoreTimeScale;
 
 	[Header("Others"), Space]
+	public FromTweenType fromTweenType;
 	public bool tweenInRelativeSpace;
 	public bool playAlongPreviousTweener;
 
@@ -64,52 +67,90 @@ public class UITweener
 		_tweenPool.KillActiveTweens(true);
 
 		Vector3 targetValue = forwards ? endValue : startValue;
-		Tween tween = null;
+		Tweener tweener = null;
 
 		switch (tweenType)
 		{
 			case UITweeningType.Scale:
-				tween = TweenableUI._rectTransform.DOScale(targetValue, duration);
+				tweener = TweenableUI._rectTransform.DOScale(targetValue, duration);
+				TryConvertToFromTween<Vector3, Vector3, VectorOptions>(tweener);
 				break;
 
 			case UITweeningType.SizeDelta:
-				tween = TweenableUI._rectTransform.DOSizeDelta(targetValue, duration, snapToInteger);
+				tweener = TweenableUI._rectTransform.DOSizeDelta(targetValue, duration, snapToInteger);
+				TryConvertToFromTween<Vector2, Vector2, VectorOptions>(tweener);
 				break;
 
 			case UITweeningType.Move:
-				tween = TweenableUI._rectTransform.DOAnchorPos(targetValue, duration, snapToInteger);
+				tweener = TweenableUI._rectTransform.DOAnchorPos(targetValue, duration, snapToInteger);
+				TryConvertToFromTween<Vector2, Vector2, VectorOptions>(tweener);
 				break;
 
 			case UITweeningType.Rotate:
-				tween = TweenableUI._rectTransform.DORotate(targetValue, duration, rotateMode);
+				tweener = TweenableUI._rectTransform.DORotate(targetValue, duration, rotateMode);
+				TryConvertToFromTween<Quaternion, Vector3, QuaternionOptions>(tweener);
 				break;
 
 			case UITweeningType.FadeCanvasGroup:
-				tween = TweenableUI._canvasGroup.DOFade(targetValue.x, duration);
+				tweener = TweenableUI._canvasGroup.DOFade(targetValue.x, duration);
+				TryConvertToFromTween<float, float, FloatOptions>(tweener);
 				break;
 			
 			case UITweeningType.FadeGraphic:
-				tween = TweenableUI._graphic.DOFade(targetValue.x, duration);
+				tweener = TweenableUI._graphic.DOFade(targetValue.x, duration);
+				TryConvertToFromTween<Color, Color, ColorOptions>(tweener);
 				break;
 
 			case UITweeningType.Color:
-				tween = TweenableUI._graphic.DOColor(TweenableUI.Vector3ToColor(targetValue), duration);
+				tweener = TweenableUI._graphic.DOColor(TweenableUI.Vector3ToColor(targetValue), duration);
+				TryConvertToFromTween<Color, Color, ColorOptions>(tweener);
 				break;
 		}
 
-		tween.SetRelative(tweenInRelativeSpace)
-			 .SetLoops(loopCount, loopType)
-			 .SetEase(easeType, overshoot, period)
-			 .SetSpeedBased(isSpeedBased)
-			 .SetUpdate(updateType, ignoreTimeScale);
+		tweener.SetRelative(tweenInRelativeSpace)
+			   .SetLoops(loopCount, loopType)
+			   .SetEase(easeType, overshoot, period)
+			   .SetSpeedBased(isSpeedBased)
+			   .SetUpdate(updateType, ignoreTimeScale);
 
 		if (standalone)
-			tween.SetDelay(delay);
+			tweener.SetDelay(delay);
 
-		_tweenPool.Add(tween);
+		_tweenPool.Add(tweener);
 
-		return tween;
+		return tweener;
 	}
+
+	private void TryConvertToFromTween<T1, T2, TPlugOptions>(Tweener tweener) where TPlugOptions : struct, IPlugOptions
+	{
+		switch (fromTweenType)
+		{
+			case FromTweenType.FromStartValue:
+				if (typeof(T2) == typeof(Vector2) || typeof(T2) == typeof(Vector3))
+					(tweener as TweenerCore<T1, Vector3, TPlugOptions>).From(startValue);
+				
+				else if (typeof(T2) == typeof(float))
+					(tweener as TweenerCore<T1, float, TPlugOptions>).From(startValue.x);
+					
+				break;
+			
+			case FromTweenType.FromEndValue:
+				if (typeof(T2) == typeof(Vector2) || typeof(T2) == typeof(Vector3))
+					(tweener as TweenerCore<T1, Vector3, TPlugOptions>).From(endValue);
+				
+				else if (typeof(T2) == typeof(float))
+					(tweener as TweenerCore<T1, float, TPlugOptions>).From(endValue.x);
+					
+				break;
+		}
+	}
+}
+
+public enum FromTweenType
+{
+	None,
+	FromStartValue,
+	FromEndValue
 }
 
 public enum UITweeningType

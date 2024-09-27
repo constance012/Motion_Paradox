@@ -21,7 +21,6 @@ public class WorldHealthBar : HealthBar
 
 	private void LateUpdate()
 	{
-		worldPos.position = worldPos.parent.position + Vector3.up;
 		transform.position = worldPos.position;
 	}
 }

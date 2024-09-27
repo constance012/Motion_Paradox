@@ -23,7 +23,13 @@ public sealed class AudioManager : PersistentSingleton<AudioManager>
 			audio.source.volume = audio.volume;
 			audio.source.pitch = audio.pitch;
 			audio.source.loop = audio.loop;
+			audio.source.playOnAwake = false;
 		}
+	}
+
+	private void Start()
+	{
+		Play("Main Theme");
 	}
 
 	/// <summary>

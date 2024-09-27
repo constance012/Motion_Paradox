@@ -133,8 +133,24 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6666860190724056166, guid: 10e87f7b5ac7ea04ab4c3062109bb575, type: 3}
+      propertyPath: data
+      value: 
+      objectReference: {fileID: 11400000, guid: 366198f52ab83c24c85ade2e11073efb, type: 2}
+    - target: {fileID: 6666860190724056166, guid: 10e87f7b5ac7ea04ab4c3062109bb575, type: 3}
       propertyPath: lootTable._serializedList.Array.data[0].Value
       value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6666860190724056166, guid: 10e87f7b5ac7ea04ab4c3062109bb575, type: 3}
+      propertyPath: lootTable._serializedList.Array.data[0].Value.chance
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6666860190724056166, guid: 10e87f7b5ac7ea04ab4c3062109bb575, type: 3}
+      propertyPath: lootTable._serializedList.Array.data[2].Value.quantityRange.x
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6666860190724056166, guid: 10e87f7b5ac7ea04ab4c3062109bb575, type: 3}
+      propertyPath: lootTable._serializedList.Array.data[2].Value.quantityRange.y
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 6745964431920951248, guid: 10e87f7b5ac7ea04ab4c3062109bb575, type: 3}
       propertyPath: m_SizeDelta.x
@@ -175,6 +191,10 @@ PrefabInstance:
     - target: {fileID: 7517072422948584292, guid: 10e87f7b5ac7ea04ab4c3062109bb575, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8092822723597848036, guid: 10e87f7b5ac7ea04ab4c3062109bb575, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.43
       objectReference: {fileID: 0}
     - target: {fileID: 8445377831751345960, guid: 10e87f7b5ac7ea04ab4c3062109bb575, type: 3}
       propertyPath: m_AnchorMax.y
@@ -228,6 +248,34 @@ PrefabInstance:
       propertyPath: stats
       value: 
       objectReference: {fileID: 11400000, guid: 5e0ce508a9a3f564fa3e08a532f55562, type: 2}
+    - target: {fileID: 8722517551982384071, guid: 10e87f7b5ac7ea04ab4c3062109bb575, type: 3}
+      propertyPath: onDied.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8722517551982384071, guid: 10e87f7b5ac7ea04ab4c3062109bb575, type: 3}
+      propertyPath: onDied.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8722517551982384071, guid: 10e87f7b5ac7ea04ab4c3062109bb575, type: 3}
+      propertyPath: onDied.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 3391313144773642410}
+    - target: {fileID: 8722517551982384071, guid: 10e87f7b5ac7ea04ab4c3062109bb575, type: 3}
+      propertyPath: onDied.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8722517551982384071, guid: 10e87f7b5ac7ea04ab4c3062109bb575, type: 3}
+      propertyPath: onDied.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: EnemyStats_Died
+      objectReference: {fileID: 0}
+    - target: {fileID: 8722517551982384071, guid: 10e87f7b5ac7ea04ab4c3062109bb575, type: 3}
+      propertyPath: onDied.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: RangedEnemyAction, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8722517551982384071, guid: 10e87f7b5ac7ea04ab4c3062109bb575, type: 3}
+      propertyPath: onDied.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -259,11 +307,13 @@ MonoBehaviour:
   attackRadius: 7
   recoverTime: 0.2
   projectilePrefab: {fileID: 1290809677474094872, guid: 1c3032dc90a286b448595534a02a13d5, type: 3}
+  allocateAmount: 4
   firePoint: {fileID: 4829636697879189175}
   verticalSpread: 0.1
   recoilTransform: {fileID: 8911792990733839156}
   recoilAmount: 0.5
   recoilDuration: 0.2
+  muzzleEffect: {fileID: 8321371222090004859}
   shotsBeforeRetreatRange: {x: 2, y: 4}
 --- !u!4 &4829636697879189175 stripped
 Transform:
@@ -284,6 +334,11 @@ MonoBehaviour:
 --- !u!50 &5968873622737777406 stripped
 Rigidbody2D:
   m_CorrespondingSourceObject: {fileID: 8755529397450071853, guid: 10e87f7b5ac7ea04ab4c3062109bb575, type: 3}
+  m_PrefabInstance: {fileID: 3122210010465807827}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &8321371222090004859 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 6354335531910730920, guid: 10e87f7b5ac7ea04ab4c3062109bb575, type: 3}
   m_PrefabInstance: {fileID: 3122210010465807827}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &8911792990733839156 stripped

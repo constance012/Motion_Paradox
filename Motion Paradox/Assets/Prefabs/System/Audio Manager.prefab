@@ -110,6 +110,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioArray:
+  - name: Main Theme
+    audioType: 1
+    clips:
+    - {fileID: 8300000, guid: 96cfec6a022bef64a9014789a7d5b82e, type: 3}
+    mixerGroup: {fileID: -8105996294555260520, guid: 401043ebed57e5741be2dc4b91eca06f, type: 2}
+    volume: 1
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
   - name: Ambience
     audioType: 2
     clips:
@@ -210,6 +219,28 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     loop: 0
+    source: {fileID: 0}
+  - name: Projectile Shot
+    audioType: 0
+    clips:
+    - {fileID: 8300000, guid: d236ca833c53d324283db88fb9dbfa9b, type: 3}
+    - {fileID: 8300000, guid: 4333da5c733f44040baa635b4acd1635, type: 3}
+    - {fileID: 8300000, guid: a78f0b9b4ceefe9408a1677edda7b2e9, type: 3}
+    - {fileID: 8300000, guid: 31b8c6489bddcc647b5ccde1d194ed97, type: 3}
+    - {fileID: 8300000, guid: a38b3923d4739a44eab39dd7b62efd13, type: 3}
+    mixerGroup: {fileID: -5071581020908855552, guid: 401043ebed57e5741be2dc4b91eca06f, type: 2}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Missile Fuel Burning
+    audioType: 0
+    clips:
+    - {fileID: 8300000, guid: 3201013573622714898b170972e14ab8, type: 3}
+    mixerGroup: {fileID: -5071581020908855552, guid: 401043ebed57e5741be2dc4b91eca06f, type: 2}
+    volume: 0.3
+    pitch: 1
+    loop: 1
     source: {fileID: 0}
 --- !u!1 &7531944539309023676
 GameObject:

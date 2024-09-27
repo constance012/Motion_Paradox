@@ -27,11 +27,19 @@ public class Gun : IdentifiableSO
 	public int CurrentAmmo => _currentAmmo;
 
 	// Private fields.
+	private ObjectPool<ProjectileBase> _normalBulletPool;
+	private ObjectPool<ProjectileBase> _piercingBulletPool;
 	private int _currentAmmo;
 	private int _shotIndex = 0;
 
 	public void Initialize()
 	{
+		Transform bulletParent = new GameObject(displayName).transform;
+		bulletParent.SetParent(GameObject.FindWithTag("ProjectileContainer").transform);
+
+		_normalBulletPool = new ObjectPool<ProjectileBase>(normalBulletPrefab, 8, bulletParent);
+		_piercingBulletPool = new ObjectPool<ProjectileBase>(piercingBulletPrefab, 2, bulletParent);
+		
 		_currentAmmo = maxAmmo;
 	}
 
@@ -75,11 +83,11 @@ public class Gun : IdentifiableSO
 
 	private void InstantiateBullet(Transform firePoint, Stats stats, bool isPiercingShot)
 	{
-		GameObject bulletPrefab = isPiercingShot ? piercingBulletPrefab : normalBulletPrefab;
+		ProjectileBase bullet = isPiercingShot ? _piercingBulletPool.Spawn(firePoint.position, Quaternion.identity) :
+												 _normalBulletPool.Spawn(firePoint.position, Quaternion.identity);
 		
-		GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
 		bullet.transform.right = CalculateBulletDirection(firePoint.right);
-		bullet.GetComponent<ProjectileBase>().Initialize(firePoint, stats, null);
+		bullet.Initialize(firePoint, stats, null);
 
 		EffectInstantiator.Instance.Instantiate<ParticleSystem>(EffectType.MuzzleFlash, firePoint);
 		CameraShaker.Instance.ShakeCamera(isPiercingShot ? 4f : 2f, .3f);

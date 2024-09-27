@@ -39,6 +39,7 @@ public sealed class TweenableUIElement : MonoBehaviour, IPointerEnterHandler, IP
 	[SerializeField] private bool tweenInRelativeSpace;
 	[SerializeField] private bool tweenOnEnable;
 	[SerializeField] private bool tweenOnMouseHover;
+	[SerializeField] private bool resetValueOnDestroyOrDisable;
 	
 	[Header("On Complete Callback (Tweeners and Sequences)"), Space]
 	[SerializeField] private UnityEvent onCompleteCallback;
@@ -93,14 +94,16 @@ public sealed class TweenableUIElement : MonoBehaviour, IPointerEnterHandler, IP
 			await AsyncStartTweening(true);
 	}
 
-	private async void OnDisable()
+	private void OnDisable()
 	{
-		await _tweenPool.RewindAndKillActiveTweens(true);
+		if (resetValueOnDestroyOrDisable)
+			SetStartValues();
 	}
 
-	private async void OnDestroy()
+	private void OnDestroy()
 	{
-		await _tweenPool.RewindAndKillActiveTweens(true);
+		if (resetValueOnDestroyOrDisable)
+			SetStartValues();
 	}
 
 	private void Start()
@@ -142,7 +145,7 @@ public sealed class TweenableUIElement : MonoBehaviour, IPointerEnterHandler, IP
 
 	public async Task AsyncStartTweening(bool forwards)
 	{
-		await _tweenPool.RewindAndKillActiveTweens(true);
+		_tweenPool.KillActiveTweens(true);
 
 		bool applyCallback = (forwards && callbackPeriod == TweenCallbackPeriod.AfterForwardTween) ||
 							 (!forwards && callbackPeriod == TweenCallbackPeriod.AfterBackwardTween);

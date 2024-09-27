@@ -471,6 +471,48 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Silhouette
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 0
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ff14327c363c03744b227e4f08491cab
+      internalID: -1334052716
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Energy_Capsule
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 0
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b688cc27d59b55a409695d5413d4441e
+      internalID: -303953437
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -490,6 +532,7 @@ TextureImporter:
       Enemy_3: -1425493931
       Enemy_4: -1121843378
       Enemy_5: -841231189
+      Energy_Capsule: -303953437
       Health_Heart: -212875952
       Normal_Bullet: 897531370
       Piercing_Bullet: -2084195456
@@ -499,6 +542,7 @@ TextureImporter:
       Projectile_3: 1073629442
       Radio: -1824049187
       Rifle: -441927365
+      Silhouette: -1334052716
       Tutorial_Book: 409170293
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0

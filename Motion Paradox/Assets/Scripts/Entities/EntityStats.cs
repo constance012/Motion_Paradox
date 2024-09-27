@@ -30,12 +30,7 @@ public abstract class EntityStats : MonoBehaviour, IDamageable
 		healthBar.SetMaxHealth(_currentHealth);
 	}
 
-	public void Damage(Stats attackerStats, Vector3 attackerPos, float scaleFactor = 1f)
-	{
-		TakeDamage(attackerStats, attackerPos, scaleFactor);
-	}
-
-	protected virtual void TakeDamage(Stats attackerStats, Vector3 attackerPos, float scaleFactor)
+	public virtual void TakeDamage(Stats attackerStats, Vector3 attackerPos, float scaleFactor = 1f)
 	{
 		float damage = attackerStats.GetDynamicStat(Stat.Damage) * scaleFactor;
 		float knockBackStrength = attackerStats.GetStaticStat(Stat.KnockBackStrength) * scaleFactor;

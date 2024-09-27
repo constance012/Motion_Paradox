@@ -12,12 +12,12 @@ using UnityDebug = UnityEngine.Debug;
 [AddComponentMenu("Singletons/Input Manager")]
 public sealed class InputManager : Singleton<InputManager>
 {
-	public EventHandler onAttackAction;
-	public EventHandler<InputActionPhase> onAimModeToggleAction;
-	public EventHandler onContinueDialogueAction;
-	public EventHandler onReloadAction;
-	public EventHandler onBackToMenuAction;
-	public EventHandler onSkipPlayableAction;
+	public event EventHandler OnAttackAction;
+	public event EventHandler<InputActionPhase> OnAimModeToggleAction;
+	public event EventHandler OnContinueDialogueAction;
+	public event EventHandler OnReloadAction;
+	public event EventHandler OnBackToMenuAction;
+	public event EventHandler OnSkipPlayableAction;
 
 	// Private fields.
 	private PlayerInputActions _playerInputActions;
@@ -37,32 +37,32 @@ public sealed class InputManager : Singleton<InputManager>
 	#region Event methods.
 	private void Attack_performed(InputAction.CallbackContext context)
 	{
-		onAttackAction?.Invoke(this, EventArgs.Empty);
+		OnAttackAction?.Invoke(this, EventArgs.Empty);
 	}
 
 	private void AimMode_toggled(InputAction.CallbackContext context)
 	{
-		onAimModeToggleAction?.Invoke(this, context.phase);
+		OnAimModeToggleAction?.Invoke(this, context.phase);
 	}
 
 	private void ContinueDialogue_performed(InputAction.CallbackContext context)
 	{
-		onContinueDialogueAction?.Invoke(this, EventArgs.Empty);
+		OnContinueDialogueAction?.Invoke(this, EventArgs.Empty);
 	}
 	
 	private void Reload_performed(InputAction.CallbackContext context)
 	{
-		onReloadAction?.Invoke(this, EventArgs.Empty);
+		OnReloadAction?.Invoke(this, EventArgs.Empty);
 	}
 	
 	private void BackToMenu_performed(InputAction.CallbackContext context)
 	{
-		onBackToMenuAction?.Invoke(this, EventArgs.Empty);
+		OnBackToMenuAction?.Invoke(this, EventArgs.Empty);
 	}
 	
 	private void SkipPlayable_performed(InputAction.CallbackContext context)
 	{
-		onSkipPlayableAction?.Invoke(this, EventArgs.Empty);
+		OnSkipPlayableAction?.Invoke(this, EventArgs.Empty);
 	}
 	#endregion
 

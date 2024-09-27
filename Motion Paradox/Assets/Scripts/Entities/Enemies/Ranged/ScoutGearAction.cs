@@ -23,6 +23,7 @@ public sealed class ScoutGearAction : RangedEnemyAction
 			rb2d.velocity = Vector2.zero;
 			_AI.enabled = false;
 
+			AudioManager.Instance.Play("Projectile Shot");
 			FireProjectile(firePoint.right);
 			ResetAttackInterval();
 			

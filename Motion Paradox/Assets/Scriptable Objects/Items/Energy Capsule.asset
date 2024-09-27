@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10d6d46b1a21f284b8f13ac63fc276aa, type: 3}
+  m_Name: Energy Capsule
+  m_EditorClassIdentifier: 
+  id: 
+  displayName: Energy Capsule
+  description: 
+  icon: {fileID: -303953437, guid: 41abcd8661679fe4ea54edad15339095, type: 3}
+  rarity:
+    title: Common
+    icon: {fileID: 0}
+    color: {r: 0.70298344, g: 0.8113208, b: 0.5778747, a: 1}
+  slotIndex: -1
+  category: 2
+  stackable: 1
+  maxPerStack: 999
+  quantity: 1
+  canBeUsed: 1
+  autoUse: 1

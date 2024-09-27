@@ -20,7 +20,7 @@ public sealed class Prologue : MonoBehaviour
 		skipText.text = $"Press '{InputManager.Instance.GetDisplayString(KeybindingActions.SkipPlayable)}' to skip";
 		Destroy(skipText.transform.parent.gameObject, textDestroyDelay);
 
-		InputManager.Instance.onSkipPlayableAction += (sender, e) => SkipPlayable();
+		InputManager.Instance.OnSkipPlayableAction += (sender, e) => SkipPlayable();
 	}
 
 	private void Update()
@@ -38,6 +38,6 @@ public sealed class Prologue : MonoBehaviour
 	{
 		director.Stop();
 		_donePlayback = true;
-		SceneLoader.Instance.LoadSceneAsync("Scenes/Game", sceneActivationDelay);
+		SceneLoader.Instance.LoadSceneAsync("Scenes/Main Scene", sceneActivationDelay);
 	}
 }

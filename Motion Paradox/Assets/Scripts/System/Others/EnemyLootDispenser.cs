@@ -10,25 +10,21 @@ public sealed class EnemyLootDispenser : Singleton<EnemyLootDispenser>
 	[Header("Loot Container"), Space]
 	[SerializeField] private Transform container;
 
-	public void Dispense(IEnumerable<KeyValuePair<LootType, float>> lootTable, Vector3 position)
+	public void Dispense(IEnumerable<KeyValuePair<LootType, LootInfo>> lootTable, Vector2 position)
 	{
 		foreach (var loot in lootTable)
 		{
-			if (Random.value <= loot.Value)
+			LootInfo info = loot.Value;
+			if (Random.value <= info.chance)
 			{
 				if (lootPrefabs.TryGetValue(loot.Key, out GameObject prefab))
 				{
-					GameObject lootObject = Instantiate(prefab, position, Quaternion.identity);
+					Debug.Log($"Dropping {prefab.name}...");
+					GameObject lootObject = Instantiate(prefab, position + Random.insideUnitCircle.normalized, Quaternion.identity);
 					lootObject.transform.SetParent(container);
+					lootObject.GetComponent<PickableItem>().ItemQuantity = info.quantityRange.RandomBetweenEnds();
 				}
 			}
 		}
 	}
-}
-
-public enum LootType
-{
-	HealingHeart,
-	Coin,
-	Material
 }

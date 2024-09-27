@@ -29,7 +29,7 @@ public class PlayerAiming : MonoBehaviour
 	private void Start()
 	{
 		CursorManager.Instance.SwitchCursorTexture(CursorTextureType.Crosshair);
-		InputManager.Instance.onAimModeToggleAction += (sender, phase) => ManageAimMode(phase);
+		InputManager.Instance.OnAimModeToggleAction += (sender, phase) => ManageAimMode(phase);
 		
 		_aimSmoothTime = NumberManipulator.RangeConvert(overrideUserSettings ? aimSmoothSpeed : UserSettings.AimSpeed, 1f, 5f, 1f, .1f);
 	}

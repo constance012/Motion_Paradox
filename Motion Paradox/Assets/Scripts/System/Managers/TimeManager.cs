@@ -1,9 +1,17 @@
 using System;
 using UnityEngine;
 
-public static class TimeManager
+public sealed class TimeManager : Singleton<TimeManager>
 {
-	public static float LocalTimeScale { get; set; } = 1f;
+	[Header("Portal Activation Timer (Seconds)"), Space]
+	[SerializeField] private float portalActivationTimer;
+
+	public static float LocalTimeScale
+	{
+		get { return Instance._localTimeScale; }
+		set { Instance._localTimeScale = value; }
+	}
+
 	public static float GlobalTimeScale
 	{
 		get { return Time.timeScale; }
@@ -14,19 +22,21 @@ public static class TimeManager
 		}
 	}
 	
-	public static TimeSpan PortalTimerLeft => _portalTimer;
-	public static bool IsPortalTimerUp => _portalTimer <= TimeSpan.Zero;
+	public static float PortalTimerDuration => Instance.portalActivationTimer;
+	public static TimeSpan PortalTimerLeft => Instance._portalTimer;
+	public static bool IsPortalTimerUp => Instance._portalTimer <= TimeSpan.Zero;
 	
 	// Private fields.
-	private static TimeSpan _portalTimer;
+	private TimeSpan _portalTimer;
+	private float _localTimeScale = 1f;
 
-	public static void InitializePortalTimer(float startTime)
+	private void Start()
 	{
-		_portalTimer = TimeSpan.FromSeconds(startTime);
+		_portalTimer = TimeSpan.FromSeconds(portalActivationTimer);
 	}
 
-	public static void CountdownPortalTimer(float amountSeconds)
+	private void Update()
 	{
-		_portalTimer -= TimeSpan.FromSeconds(amountSeconds) * LocalTimeScale;
+		_portalTimer -= TimeSpan.FromSeconds(Time.deltaTime) * LocalTimeScale;
 	}
 }

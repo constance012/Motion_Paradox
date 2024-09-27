@@ -7,25 +7,23 @@ public sealed class TimePortal : Interactable, IHasDialogue
 	[Header("References"), Space]
 	[SerializeField] private Animator animator;
 	[SerializeField] private TextMeshProUGUI countdownText;
+	[SerializeField] private Canvas worldCanvas;
 	[SerializeField] private DialogueTrigger dialogueTrigger;
-
-	[Header("Activation Timer (Seconds)"), Space]
-	[SerializeField] private float activationTimer;
 
 	// Properties.
 	public bool Activated { get; private set; }
 
 	private void Start()
 	{
-		TimeManager.InitializePortalTimer(activationTimer);
+		worldCanvas.worldCamera = Camera.main;
+		
 		dialogueTrigger.BindExternalFunction("EnterPortal", EnterPortal);
 	}
 
 	protected override void CheckForInteraction(float mouseDistance, float playerDistance)
 	{
 		base.CheckForInteraction(mouseDistance, playerDistance);
-
-		Countdown();
+		UpdateTimer();
 	}
 
 	protected override void CreatePopupLabel()
@@ -52,12 +50,10 @@ public sealed class TimePortal : Interactable, IHasDialogue
 		}
 	}
 
-	private void Countdown()
+	private void UpdateTimer()
 	{
 		if (!Activated)
 		{
-			TimeManager.CountdownPortalTimer(Time.deltaTime);
-
 			string timeLeft = $"{TimeManager.PortalTimerLeft:mm\\:ss}";
 			countdownText.text = timeLeft;
 			InkVariableHandler.Instance.SetVariable("portal_timer", new StringValue(timeLeft));

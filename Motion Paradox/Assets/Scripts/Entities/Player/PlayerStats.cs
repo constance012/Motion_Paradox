@@ -30,7 +30,7 @@ public sealed class PlayerStats : EntityStats, IHealable
 			_invincibilityTime -= Time.deltaTime;
 	}
 
-	protected override void TakeDamage(Stats attackerStats, Vector3 attackerPos, float scaleFactor)
+	public override void TakeDamage(Stats attackerStats, Vector3 attackerPos, float scaleFactor)
 	{
 		if (_currentHealth > 0 && _invincibilityTime <= 0f)
 		{

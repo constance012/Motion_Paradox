@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using DG.Tweening;
 using UnityEngine;
 
@@ -13,25 +14,29 @@ public sealed class AmmoCountHUD : MonoBehaviour
 	[SerializeField] private float bulletSpacing;
 
 	// Private fields.
-	private Queue<CartridgeUI> _bullets;
+	private const string PIERCING_BULLET_NAME = "Piercing Bullet UI";
+	private const string NORMAL_BULLET_NAME = "Normal Bullet UI";
+	private ObjectPool<CartridgeUI> _bulletUIPool;
+	private Queue<CartridgeUI> _magazine;
 
 	private void Awake()
 	{
-		_bullets = new Queue<CartridgeUI>();
-		transform.DestroyAllChildren(Destroy);
+		_bulletUIPool ??= new ObjectPool<CartridgeUI>(parent: transform);
+		_magazine ??= new Queue<CartridgeUI>();
 	}
 
 	public void Initialize(int maxAmmo, int piercingShotFrequency)
 	{
-		float spacing = 0f;
+		transform.DestroyAllChildren(Destroy);
 
+		float spacing = 0f;
 		for (int i = 0; i < maxAmmo; i++)
 		{
 			bool isPiercingShot = (i + 1) % piercingShotFrequency == 0;
 			
-			CartridgeUI bulletUI = InstantiateBullet(isPiercingShot);
+			CartridgeUI bulletUI = AllocateBullet(isPiercingShot);
 
-			bulletUI.MoveLocalY(-spacing);
+			bulletUI.Initialize(-spacing);
 			bulletUI.LoadRound(chamber: i == 0);
 
 			spacing += bulletSpacing;
@@ -40,11 +45,13 @@ public sealed class AmmoCountHUD : MonoBehaviour
 
 	public void AddBottom(bool isPiercingShot)
 	{
-		CartridgeUI bulletUI = InstantiateBullet(isPiercingShot);
+		string bulletName = isPiercingShot ? PIERCING_BULLET_NAME : NORMAL_BULLET_NAME;
+		CartridgeUI bulletUI = _bulletUIPool.Spawn(bullet => bullet.name.Equals(bulletName) && !bullet.gameObject.activeInHierarchy);
 
-		bulletUI.MoveLocalY((_bullets.Count - 1) * -bulletSpacing);
+		bulletUI.Initialize(_magazine.Count * -bulletSpacing);
 		bulletUI.LoadRound();
 
+		_magazine.Enqueue(bulletUI);
 	}
 
 	public void RemoveTop()
@@ -54,30 +61,32 @@ public sealed class AmmoCountHUD : MonoBehaviour
 
 	private IEnumerator RemoveFiredBullet()
 	{
-		Tween fireTween = _bullets.Dequeue().FireRound();
+		Tween fireTween = _magazine.Dequeue().FireRound();
 
 		yield return fireTween.WaitForCompletion();
 
 		PushRoundsUp();
 	}
 
-	private CartridgeUI InstantiateBullet(bool isPiercingShot)
-	{
-		GameObject prefab = isPiercingShot ? piercingBulletUIPrefab : normalBulletUIPrefab;
-		
-		CartridgeUI bullet = Instantiate(prefab, transform).GetComponent<CartridgeUI>();
-		_bullets.Enqueue(bullet);
-
-		return bullet;
-	}
-
 	private void PushRoundsUp()
 	{
 		int index = 0;
-		foreach (CartridgeUI bullet in _bullets)
+		foreach (CartridgeUI bullet in _magazine)
 		{
 			bullet.PushUpRound(bulletSpacing, chamber: index == 0);
 			index++;
 		}
+	}
+
+	private CartridgeUI AllocateBullet(bool isPiercingShot)
+	{
+		GameObject prefab = isPiercingShot ? piercingBulletUIPrefab : normalBulletUIPrefab;
+		
+		CartridgeUI bullet = _bulletUIPool.Prefill(prefab);
+		bullet.name = isPiercingShot ? PIERCING_BULLET_NAME : NORMAL_BULLET_NAME;
+		
+		_magazine.Enqueue(bullet);
+
+		return bullet;
 	}
 }

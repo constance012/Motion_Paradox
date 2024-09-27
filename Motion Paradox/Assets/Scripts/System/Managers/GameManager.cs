@@ -1,6 +1,7 @@
 using UnityEngine;
 using DG.Tweening;
 using System;
+using UnityEngine.SceneManagement;
 
 [AddComponentMenu("Singletons/Game Manager")]
 public sealed class GameManager : Singleton<GameManager>
@@ -9,8 +10,8 @@ public sealed class GameManager : Singleton<GameManager>
 	[SerializeField] private CanvasGroup gameOverScreen;
 	[SerializeField] private CanvasGroup victoryScreen;
 	
-	public EventHandler onGameOver;
-	public EventHandler onGameVictory;
+	public event EventHandler OnGameOver;
+	public event EventHandler OnGameVictory;
 
 	public static bool GameDone { get; private set; }
 
@@ -21,7 +22,8 @@ public sealed class GameManager : Singleton<GameManager>
 		victoryScreen.Toggle(false);
 
 		AudioManager.Instance.Play("Ambience");
-		InputManager.Instance.onBackToMenuAction += (sender, e) => ReturnToMenu();
+		InputManager.Instance.OnBackToMenuAction += (sender, e) => ReturnToMenu();	
+		SceneLoader.Instance.LoadSceneAsync("Scenes/Game Scene", LoadSceneMode.Additive);
 	}
 
 	/// <summary>
@@ -36,7 +38,7 @@ public sealed class GameManager : Singleton<GameManager>
 		DOTween.ClearCachedTweens();
 		CursorManager.Instance.SwitchCursorTexture(CursorTextureType.Crosshair);
 
-		SceneLoader.Instance.LoadSceneAsync("Scenes/Game");
+		SceneLoader.Instance.LoadSceneAsync("Scenes/Main Scene");
 	}
 
 	/// <summary>
@@ -61,7 +63,7 @@ public sealed class GameManager : Singleton<GameManager>
 
 		CursorManager.Instance.SwitchCursorTexture(CursorTextureType.Default);
 
-		onGameOver?.Invoke(this, EventArgs.Empty);
+		OnGameOver?.Invoke(this, EventArgs.Empty);
 
 		gameOverScreen.DOFade(1f, .75f)
 					  .OnComplete(() => gameOverScreen.Toggle(true));
@@ -74,7 +76,7 @@ public sealed class GameManager : Singleton<GameManager>
 
 		CursorManager.Instance.SwitchCursorTexture(CursorTextureType.Default);
 
-		onGameVictory?.Invoke(this, EventArgs.Empty);
+		OnGameVictory?.Invoke(this, EventArgs.Empty);
 
 		victoryScreen.DOFade(1f, .75f)
 					  .OnComplete(() => victoryScreen.Toggle(true));

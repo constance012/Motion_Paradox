@@ -43,7 +43,7 @@ public sealed class DialogueManager : Singleton<DialogueManager>
 		canvasGroup.Toggle(false);
 		choicesPanel.Hide();
 
-		InputManager.Instance.onContinueDialogueAction += (sender, e) => TryContinueStory();
+		InputManager.Instance.OnContinueDialogueAction += (sender, e) => TryContinueStory();
 	}
 
 	#region Dialogue States Control Methods.

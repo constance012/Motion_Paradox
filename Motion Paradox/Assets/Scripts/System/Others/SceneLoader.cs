@@ -7,7 +7,7 @@ public sealed class SceneLoader : PersistentSingleton<SceneLoader>
 	[Header("Transition Effect"), Space]
 	[SerializeField] private SceneTransitionEffect transition;
 
-	public EventHandler<SceneLoadEventArgs> onSceneLoaded;
+	public event EventHandler<SceneLoadEventArgs> OnSceneLoaded;
 
 	// Private fields.
 	private AsyncOperation _preloadOperation;
@@ -26,8 +26,10 @@ public sealed class SceneLoader : PersistentSingleton<SceneLoader>
 	private void Scene_Loaded(Scene scene, LoadSceneMode mode)
 	{
 		Debug.Log($"Scene {scene.name} loaded with {mode} mode.");
-		onSceneLoaded?.Invoke(this, new SceneLoadEventArgs(scene, mode));
-		transition.NormalFade(0f, 1f, null);
+		OnSceneLoaded?.Invoke(this, new SceneLoadEventArgs(scene, mode));
+
+		if (mode == LoadSceneMode.Single)
+			transition.NormalFade(0f, 1f, null);
 	}
 
 	#region Load Scene Overloads.
@@ -36,7 +38,7 @@ public sealed class SceneLoader : PersistentSingleton<SceneLoader>
 		if (IsPreviousOperationDone())
 		{
 			_preloadOperation = SceneManager.LoadSceneAsync(sceneName);
-			ActivatePreloadedScene(activateDelay);
+			PrepareForFadingOut(activateDelay);
 		}
 	}
 
@@ -44,10 +46,15 @@ public sealed class SceneLoader : PersistentSingleton<SceneLoader>
 	{
 		if (IsPreviousOperationDone())
 		{
-			_preloadOperation = SceneManager.LoadSceneAsync(sceneName, mode);
-
 			if (mode == LoadSceneMode.Single)
-				ActivatePreloadedScene(activateDelay);
+			{
+				_preloadOperation = SceneManager.LoadSceneAsync(sceneName);
+				PrepareForFadingOut(activateDelay);
+			}
+			else if (!SceneManager.GetSceneByName(sceneName).IsValid())
+			{
+				_preloadOperation = SceneManager.LoadSceneAsync(sceneName, mode);
+			}
 		}
 	}
 	
@@ -56,7 +63,7 @@ public sealed class SceneLoader : PersistentSingleton<SceneLoader>
 		if (IsPreviousOperationDone())
 		{
 			_preloadOperation = SceneManager.LoadSceneAsync(buildIndex);
-			ActivatePreloadedScene(activateDelay);
+			PrepareForFadingOut(activateDelay);
 		}
 	}
 
@@ -64,15 +71,20 @@ public sealed class SceneLoader : PersistentSingleton<SceneLoader>
 	{
 		if (IsPreviousOperationDone())
 		{
-			_preloadOperation = SceneManager.LoadSceneAsync(buildIndex, mode);
-
 			if (mode == LoadSceneMode.Single)
-				ActivatePreloadedScene(activateDelay);
+			{
+				_preloadOperation = SceneManager.LoadSceneAsync(buildIndex);
+				PrepareForFadingOut(activateDelay);
+			}
+			else if (!SceneManager.GetSceneByBuildIndex(buildIndex).IsValid())
+			{
+				_preloadOperation = SceneManager.LoadSceneAsync(buildIndex, mode);
+			}
 		}
 	}
 	#endregion
 
-	public void ActivatePreloadedScene(float delay = 0f)
+	private void PrepareForFadingOut(float delay = 0f)
 	{
 		if (_preloadOperation != null)
 		{

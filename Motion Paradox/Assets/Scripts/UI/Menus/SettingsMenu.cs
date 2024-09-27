@@ -27,7 +27,6 @@ public sealed class SettingsMenu : MonoBehaviour
 	private void OnEnable()
 	{
 		ReloadUI();
-		UserSettings.DeleteKey("MusicVolume");
 	}
 
 	#region Callback Methods for UI.
@@ -127,18 +126,21 @@ public sealed class SettingsMenu : MonoBehaviour
 	private void ReloadUI()
 	{
 		float masterVol = UserSettings.MasterVolume;
+		float musicVol = UserSettings.MusicVolume;
 		float soundVol = UserSettings.SoundVolume;
 		float ambienceVol = UserSettings.AmbienceVolume;
 		float aimSpeed = UserSettings.AimSpeed;
 		int dialogueSpeed = UserSettings.DialogueSpeed;
 
 		masterSlider.Value = masterVol;
+		musicSlider.Value = musicVol;
 		soundSlider.Value = soundVol;
 		ambienceSlider.Value = ambienceVol;
 		aimSpeedSlider.Value = aimSpeed * 10f;
 		dialogueSpeedSlider.Value = dialogueSpeed;
 
 		masterSlider.DisplayText = ConvertDecibelToText(masterVol);
+		musicSlider.DisplayText = ConvertDecibelToText(musicVol);
 		soundSlider.DisplayText = ConvertDecibelToText(soundVol);
 		ambienceSlider.DisplayText = ConvertDecibelToText(ambienceVol);
 		aimSpeedSlider.DisplayText = aimSpeed.ToString("0.0");

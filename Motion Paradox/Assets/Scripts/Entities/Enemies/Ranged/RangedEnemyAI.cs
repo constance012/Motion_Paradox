@@ -54,7 +54,6 @@ public sealed class RangedEnemyAI : EnemyAI
 
 	public void BeginRetreating()
 	{
-		Debug.Log("Retreating...");
 		action.ResetAttackInterval();
 				
 		_isRetreating = true;

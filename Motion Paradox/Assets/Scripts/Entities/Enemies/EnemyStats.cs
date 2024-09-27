@@ -1,11 +1,15 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityRandom = UnityEngine.Random;
 
 public sealed class EnemyStats : EntityStats
 {
 	[Header("Dropped Loots"), Space]
 	[SerializeField] private EnemyLootTrigger lootTrigger;
+
+	[Header("Events"), Space]
+	public UnityEvent onDied;
 
 	public string ID { get; private set; }
 
@@ -21,7 +25,7 @@ public sealed class EnemyStats : EntityStats
 		healthBar.name = $"{gameObject.name} Health Bar";
 	}
 
-	protected override void TakeDamage(Stats attackerStats, Vector3 attackerPos, float scaleFactor)
+	public override void TakeDamage(Stats attackerStats, Vector3 attackerPos, float scaleFactor)
 	{
 		base.TakeDamage(attackerStats, attackerPos, scaleFactor);
 
@@ -42,6 +46,7 @@ public sealed class EnemyStats : EntityStats
 
 	public void DestroyGameObject()
 	{
+		onDied?.Invoke();
 		Destroy(healthBar.gameObject);
 		Destroy(gameObject);
 	}

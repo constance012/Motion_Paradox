@@ -17,6 +17,20 @@ public sealed class SliderGroup : MonoBehaviour
 		get { return slider.value; }
 		set { slider.value = value; }
 	}
+	
+	public float MaxValue
+	{
+		get { return slider.maxValue; }
+		set { slider.maxValue = value; }
+	}
+	
+	public float MinValue
+	{
+		get { return slider.minValue; }
+		set { slider.minValue = value; }
+	}
+
+	public float CurrentRange => slider.maxValue - slider.minValue;
 
 	public string DisplayText
 	{

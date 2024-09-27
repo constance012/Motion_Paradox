@@ -38,6 +38,8 @@ public sealed class DestroyerGearAction : RangedEnemyAction
 
 	private void FireVolley()
 	{
+		AudioManager.Instance.Play("Projectile Shot");
+		
 		int shotsPerVolley = shotsPerVolleyRange.RandomBetweenEnds();
 		float offsetAngle = angleBetweenShots * (shotsPerVolley - 1) / 2f;
 		float angle = 0;

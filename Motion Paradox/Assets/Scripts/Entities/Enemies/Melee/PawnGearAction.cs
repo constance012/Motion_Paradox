@@ -24,7 +24,7 @@ public sealed class PawnGearAction : MeleeEnemyAction
 
 	protected override void OnTriggerEnter2D(Collider2D other)
 	{
-		if (Random.value <= explodeChance)
+		if (Random.value <= explodeChance && other.CompareTag("Player"))
 		{
 			DamageOnContact(other, 2f);
 			GetComponent<EnemyStats>().Die();

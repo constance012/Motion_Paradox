@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 
-public abstract class ProjectileBase : MonoBehaviour
+public abstract class ProjectileBase : MonoBehaviour, IPoolable
 {
 	[Header("References"), Space]
+	[SerializeField] protected TrailRenderer trail;
 	[SerializeField] protected Rigidbody2D rb2D;
 	[SerializeField, ReadOnly, Tooltip("The target to track if this projectile is homing.")]
 	protected Transform targetToTrack;
@@ -40,7 +41,7 @@ public abstract class ProjectileBase : MonoBehaviour
 			_aliveTime -= Time.deltaTime;
 
 		if (_aliveTime <= 0f)
-			Destroy(gameObject);
+			Deallocate();
 	}
 
 	private void OnCollisionEnter2D(Collision2D other)
@@ -53,6 +54,18 @@ public abstract class ProjectileBase : MonoBehaviour
 		ProcessCollision(other);
 	}
 
+	public void Allocate()
+	{
+		gameObject.SetActive(true);
+	}
+
+	public void Deallocate()
+	{
+		flySpeed = 0f;
+		trail.emitting = false;
+		gameObject.SetActive(false);
+	}
+
 	public void SetTarget(Transform target)
 	{
 		targetToTrack = target;
@@ -61,6 +74,7 @@ public abstract class ProjectileBase : MonoBehaviour
 	
 	public virtual void Initialize(Transform shooter, Stats shooterStats, Transform trackTarget)
 	{
+		Allocate();
 		_shooter = shooter;
 		_shooterStats = shooterStats;
 		
@@ -81,6 +95,9 @@ public abstract class ProjectileBase : MonoBehaviour
 
 	protected void TravelForwards()
 	{
+		if (!trail.emitting)
+			trail.emitting = true;
+			
 		rb2D.velocity = transform.right * flySpeed * TimeManager.LocalTimeScale;
 	}
 
@@ -99,9 +116,9 @@ public abstract class ProjectileBase : MonoBehaviour
 	{
 		IDamageable target = other.GetComponentInParent<IDamageable>();
 
-		if (target != null && _shooter != null)
+		if (_shooter != null)
 		{
-			target.Damage(_shooterStats, _shooter.position, scaleFactor: damageScale);
+			target?.TakeDamage(_shooterStats, _shooter.position, scaleFactor: damageScale);
 		}
 	}
 }
