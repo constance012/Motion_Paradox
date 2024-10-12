@@ -480,7 +480,7 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -501,7 +501,7 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -509,6 +509,216 @@ TextureImporter:
       bones: []
       spriteID: 56ee65b23b0d63b41ae659ea662e491d
       internalID: 492032297
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Upgrade_Slot
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 0
+        width: 16
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b18f7cc2c18ea674abf9c2b1d6747d5d
+      internalID: 1761232340
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Upgrade_Icon_1
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 4
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 78a758486b1a911418187d8a0dc47620
+      internalID: -730834760
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Upgrade_Icon_2
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 4
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0125ae1b4063f24488487dea59e0a69f
+      internalID: -650448055
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Upgrade_Icon_4
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 20
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f6b61d8ccb3066d45a824b2c60a8f044
+      internalID: 461024184
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Upgrade_Icon_3
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 20
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ab96c3e1b16dd0c4288870483d109140
+      internalID: -818351560
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Upgrade_Icon_5
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 36
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: be949caee93edda4c9b8f1bcd14edd96
+      internalID: 896156464
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Upgrade_Icon_6
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 36
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d67a921815689674a9fb4a48215bb21f
+      internalID: 751567464
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Upgrade_Icon_7
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 52
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd01fa2932835964fa19156b54fdfaae
+      internalID: 1417559452
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Upgrade_Icon_8
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 52
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 32fd369bbd4044a4aae87916449ba0c7
+      internalID: 1213745610
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Metal_Scrap_UI
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 33
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f45a717eda3eada41a22a2bba593489b
+      internalID: -648896175
       vertices: []
       indices: 
       edges: []
@@ -539,6 +749,7 @@ TextureImporter:
       Enemy_HP_Even: 585214879
       Enemy_HP_Odd: -496830272
       HP_Empty: 343407276
+      Metal_Scrap_UI: -648896175
       Player_HP_Even: -1593753309
       Player_HP_Odd: 1925011001
       Portrait_Frame: -2053684333
@@ -547,6 +758,15 @@ TextureImporter:
       UI_Heart: 1532557065
       UI_Normal_Bullet: 1057338196
       UI_Piercing_Bullet: -1335779438
+      Upgrade_Icon_1: -730834760
+      Upgrade_Icon_2: -650448055
+      Upgrade_Icon_3: -818351560
+      Upgrade_Icon_4: 461024184
+      Upgrade_Icon_5: 896156464
+      Upgrade_Icon_6: 751567464
+      Upgrade_Icon_7: 1417559452
+      Upgrade_Icon_8: 1213745610
+      Upgrade_Slot: 1761232340
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -5,7 +5,7 @@ using UnityEngine.Events;
 using TMPro;
 using Ink.Runtime;
 
-public sealed class DialogueManager : Singleton<DialogueManager>
+public sealed class DialogueSystem : Singleton<DialogueSystem>
 {
 	[Header("Canvas Group"), Space]
 	[SerializeField] private CanvasGroup canvasGroup;
@@ -18,7 +18,7 @@ public sealed class DialogueManager : Singleton<DialogueManager>
 	[SerializeField] private GameObject continueCue;
 
 	[Header("Choices Panel"), Space]
-	[SerializeField] private DialogueChoicesPanel choicesPanel;
+	[SerializeField] private ChoicesPanel choicesPanel;
 
 	[Header("Options"), Space]
 	[SerializeField] private bool pauseGameWhilePlaying;

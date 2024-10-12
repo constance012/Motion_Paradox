@@ -5,19 +5,19 @@ using UnityEngine.Audio;
 public sealed class SettingsMenu : MonoBehaviour
 {
 	[Header("Menu References"), Space]
-	[SerializeField] private TweenableUIElement settingsMenu;
-	[SerializeField] private TweenableUIElement mainMenu;
+	[SerializeField] private TweenableUIMaster settingsMenu;
+	[SerializeField] private TweenableUIMaster mainMenu;
 
 	[Header("Audio Mixer"), Space]
 	[SerializeField] private AudioMixer mixer;
 
 	[Header("Slider Groups"), Space]
-	[SerializeField] private SliderGroup masterSlider;
-	[SerializeField] private SliderGroup musicSlider;
-	[SerializeField] private SliderGroup soundSlider;
-	[SerializeField] private SliderGroup ambienceSlider;
-	[SerializeField] private SliderGroup aimSpeedSlider;
-	[SerializeField] private SliderGroup dialogueSpeedSlider;
+	[SerializeField] private AudioSlider masterSlider;
+	[SerializeField] private AudioSlider musicSlider;
+	[SerializeField] private AudioSlider soundSlider;
+	[SerializeField] private AudioSlider ambienceSlider;
+	[SerializeField] private AudioSlider aimSpeedSlider;
+	[SerializeField] private AudioSlider dialogueSpeedSlider;
 
 	[Header("Directional Selectors"), Space]
 	[SerializeField] private DirectionalSelector qualitySelector;
@@ -38,7 +38,7 @@ public sealed class SettingsMenu : MonoBehaviour
 
 	public void SetMasterVolume(float amount)
 	{
-		mixer.SetFloat("masterVol", UserSettings.ToMixerDecibel(amount));
+		mixer.SetFloat("masterVol", masterSlider.ValueAsMixerDecibel);
 
 		masterSlider.DisplayText = ConvertDecibelToText(amount);
 		UserSettings.MasterVolume = amount;
@@ -46,7 +46,7 @@ public sealed class SettingsMenu : MonoBehaviour
 	
 	public void SetMusicVolume(float amount)
 	{
-		mixer.SetFloat("musicVol", UserSettings.ToMixerDecibel(amount));
+		mixer.SetFloat("musicVol", musicSlider.ValueAsMixerDecibel);
 
 		musicSlider.DisplayText = ConvertDecibelToText(amount);
 		UserSettings.MusicVolume = amount;
@@ -54,7 +54,7 @@ public sealed class SettingsMenu : MonoBehaviour
 
 	public void SetSoundVolume(float amount)
 	{
-		mixer.SetFloat("soundVol", UserSettings.ToMixerDecibel(amount));
+		mixer.SetFloat("soundVol", soundSlider.ValueAsMixerDecibel);
 
 		soundSlider.DisplayText = ConvertDecibelToText(amount);
 		UserSettings.SoundVolume = amount;
@@ -62,7 +62,7 @@ public sealed class SettingsMenu : MonoBehaviour
 
 	public void SetAmbienceVolume(float amount)
 	{
-		mixer.SetFloat("ambienceVol", UserSettings.ToMixerDecibel(amount));
+		mixer.SetFloat("ambienceVol", ambienceSlider.ValueAsMixerDecibel);
 
 		ambienceSlider.DisplayText = ConvertDecibelToText(amount);
 		UserSettings.AmbienceVolume = amount;

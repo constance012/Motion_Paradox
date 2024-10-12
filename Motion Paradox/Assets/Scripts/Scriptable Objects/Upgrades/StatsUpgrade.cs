@@ -2,13 +2,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using AYellowpaper.SerializedCollections;
 
-[CreateAssetMenu(menuName = "Unit Stats/Upgrades", fileName = "New Blank Upgrade")]
-public class StatsUpgrade : UpgradeBase
+[CreateAssetMenu(menuName = "Upgrades/Stats Upgrade", fileName = "New Stats Upgrade")]
+public class StatsUpgrade : GenericUpgradeBase<Stats>
 {
 	[Header("Detail"), Space]
-	public List<Stats> unitsToApply = new List<Stats>();
 	public SerializedDictionary<Stat, float> affectedStats = new SerializedDictionary<Stat, float>();
-	public bool isPercentageUpgrade;
 
 	public override void DoUpgrade()
 	{

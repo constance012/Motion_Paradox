@@ -5,7 +5,7 @@ public sealed class TweenableText : MonoBehaviour
 {
 	[Header("References"), Space]
 	[SerializeField] private TextMeshProUGUI textMesh;
-	[SerializeField] private TweenableUIElement tweenable;
+	[SerializeField] private TweenableUIMaster tweenable;
 
 	public string Text
 	{

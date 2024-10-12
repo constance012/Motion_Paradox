@@ -16,26 +16,6 @@ PrefabInstance:
       propertyPath: itemSO
       value: 
       objectReference: {fileID: 11400000, guid: 985b90ac3f4180a45bfd7d118ff21ee0, type: 2}
-    - target: {fileID: 6994718978722962411, guid: e0fe46e87b4b7c549b29e5cb988ea38b, type: 3}
-      propertyPath: flySpeed
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 6994718978722962411, guid: e0fe46e87b4b7c549b29e5cb988ea38b, type: 3}
-      propertyPath: lifeTime
-      value: 60
-      objectReference: {fileID: 0}
-    - target: {fileID: 6994718978722962411, guid: e0fe46e87b4b7c549b29e5cb988ea38b, type: 3}
-      propertyPath: flyDistance
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6994718978722962411, guid: e0fe46e87b4b7c549b29e5cb988ea38b, type: 3}
-      propertyPath: spriteRenderer
-      value: 
-      objectReference: {fileID: 3645123237458167277}
-    - target: {fileID: 6994718978722962411, guid: e0fe46e87b4b7c549b29e5cb988ea38b, type: 3}
-      propertyPath: pickUpFailDelay
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6994718978722962414, guid: e0fe46e87b4b7c549b29e5cb988ea38b, type: 3}
       propertyPath: m_Name
       value: Energy Capsule
@@ -85,8 +65,3 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e0fe46e87b4b7c549b29e5cb988ea38b, type: 3}
---- !u!212 &3645123237458167277 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 2882555156833473682, guid: e0fe46e87b4b7c549b29e5cb988ea38b, type: 3}
-  m_PrefabInstance: {fileID: 1915983541115605375}
-  m_PrefabAsset: {fileID: 0}

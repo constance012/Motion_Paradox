@@ -29,7 +29,6 @@ public class HealthBar : MonoBehaviour
 	protected virtual void Awake()
 	{
 		_tweenPool = new TweenPool();
-		segmentParent.DestroyAllChildren(Destroy);
 	}
 
 	private void OnDestroy()
@@ -78,6 +77,8 @@ public class HealthBar : MonoBehaviour
 
 	public void SetMaxHealth(float max)
 	{
+		segmentParent.DestroyAllChildren(Destroy);
+		
 		int maxInt = (int)max;
 		_previousHealth = maxInt;
 		_segments = new Image[maxInt];

@@ -85,6 +85,14 @@ public sealed class InputManager : Singleton<InputManager>
 	public Vector2 ScrollDelta => Mouse.current.scroll.ReadValue().normalized;
 	public Vector2 MousePosition => Mouse.current.position.ReadValue();
 
+	public void WarpCursor(Vector2 position, bool isLocal = false)
+	{
+		if (!isLocal)
+			Mouse.current.WarpCursorPosition(position);
+		else
+			Mouse.current.WarpCursorPosition(MousePosition + position);
+	}
+
 	public bool GetMouseButtonDown(MouseButton button)
 	{
 		return GetMouseButtonControl(button).wasPressedThisFrame;

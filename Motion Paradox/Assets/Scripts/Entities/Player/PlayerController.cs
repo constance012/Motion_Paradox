@@ -1,6 +1,7 @@
+using System;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IUpgradeApplicationReceiver
 {
 	[Header("References"), Space]
 	[SerializeField] private Rigidbody2D rb2D;
@@ -13,7 +14,7 @@ public class PlayerController : MonoBehaviour
 
 	public static Vector2 Position { get; private set; }
 
-	// Private fields.d
+	// Private fields.
 	private Vector2 _movementDirection;
 	private Vector2 _previousDirection;
 	private float _maxSpeed;
@@ -37,6 +38,14 @@ public class PlayerController : MonoBehaviour
 		UpdateVelocity();
 
 		Position = rb2D.position;
+	}
+
+	public void OnUpgradeApplied(Type type, UpgradeBase upgrade)
+	{
+		if (type == typeof(StatsUpgrade))
+		{
+			_maxSpeed = stats.GetDynamicStat(Stat.MoveSpeed);
+		}
 	}
 
 	private void UpdateVelocity()

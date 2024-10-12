@@ -1,10 +1,10 @@
 using UnityEngine;
 using DG.Tweening;
+using Unity.VisualScripting;
 
-public sealed class PickableItem : Interactable
+public sealed class PickableItem : Interactable, IPoolable
 {
 	[Header("References"), Space]
-	public Item itemSO;
 	[SerializeField] private Rigidbody2D rb2D;
 
 	[Header("Life Time"), Space]
@@ -17,27 +17,41 @@ public sealed class PickableItem : Interactable
 	[SerializeField] private float pickUpMinDistance;
 	[SerializeField] private float pickUpFailDelay;
 
-	public int ItemQuantity
-	{
-		get { return _currentItem.quantity; }
-		set { _overrideQuantity = value; }
-	}
-
 	// Private fields.
 	private Item _currentItem;
 	private int _overrideQuantity = -1;
-	private bool _pickedUp;
+	private float _lifeTime;
 	private float _delay;
 
-	private void Start()
-	{		
+	public void Initialize(Item itemSO, int overrideQuantity)
+	{
+		_lifeTime = lifeTime;
+		_isInteracted = false;
+		_overrideQuantity = overrideQuantity;
+
 		_currentItem = Instantiate(itemSO);
 		_currentItem.name = itemSO.name;
 
 		if (_overrideQuantity != -1)
-			_currentItem.quantity = _overrideQuantity;
+			_currentItem.quantity = Mathf.Clamp(_overrideQuantity, 0, _currentItem.maxPerStack);
 
-		spriteRenderer.sprite = _currentItem.icon;		
+		spriteRenderer.sprite = _currentItem.icon;
+	}
+
+	public void Allocate()
+	{
+		gameObject.SetActive(true);
+		transform.localScale = Vector3.one;
+	}
+
+	public void Deallocate()
+	{
+		if (_popupLabel != null)
+			Destroy(_popupLabel.gameObject);
+
+		_currentItem = null;
+		_lifeTime = -1f;
+		gameObject.SetActive(false);
 	}
 
 	protected override void CheckForInteraction(float mouseDistance, float playerDistance)
@@ -77,14 +91,14 @@ public sealed class PickableItem : Interactable
 
 	public override void Interact()
 	{
-		if (!_pickedUp)
+		if (!_isInteracted)
 		{
 			Debug.Log($"You're picking up a(n) {_currentItem.displayName}");
 			
 			if (_currentItem.autoUse && _currentItem.Use(_player, forced: _delay > 0f))
 			{
-				_pickedUp = true;
-				DestroyGameObject();
+				_isInteracted = true;
+				Disable();
 			}
 			else
 			{
@@ -95,11 +109,11 @@ public sealed class PickableItem : Interactable
 
 	private void CheckForLifeTime()
 	{
-		if (lifeTime != -1f)
+		if (_lifeTime != -1f)
 		{
-			lifeTime -= Time.deltaTime;
-			if (lifeTime <= 0f)
-				DestroyGameObject();
+			_lifeTime -= Time.deltaTime;
+			if (_lifeTime <= 0f)
+				Disable();
 		}
 	}
 
@@ -117,17 +131,9 @@ public sealed class PickableItem : Interactable
 		}
 	}
 
-	private void DestroyGameObject()
+	private void Disable()
 	{
-		transform.DOScale(0f, .2f)
-				.OnComplete(() =>
-				{
-					if (_popupLabel != null)
-						Destroy(_popupLabel.gameObject);
-					Destroy(gameObject);
-				});
-
-		lifeTime = -1f;
+		transform.DOScale(0f, .2f).OnComplete(() => Deallocate());
 	}
 
     protected override void OnDrawGizmosSelected()

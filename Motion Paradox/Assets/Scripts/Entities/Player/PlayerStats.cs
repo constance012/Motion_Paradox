@@ -1,7 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Events;
+using UnityRandom = UnityEngine.Random;
 
-public sealed class PlayerStats : EntityStats, IHealable
+public sealed class PlayerStats : EntityStats, IHealable, IUpgradeApplicationReceiver
 {
 	[Header("Events"), Space]
 	public UnityEvent onPlayerDies;
@@ -21,13 +23,21 @@ public sealed class PlayerStats : EntityStats, IHealable
 	protected override void Start()
 	{
 		base.Start();
-		_invincibilityTime = stats.GetStaticStat(Stat.InvincibilityTime);
 	}
 
 	private void Update()
 	{
 		if (_invincibilityTime > 0f)
 			_invincibilityTime -= Time.deltaTime;
+	}
+
+	public void OnUpgradeApplied(Type type, UpgradeBase upgrade)
+	{
+		if (type == typeof(StatsUpgrade))
+		{
+			_currentHealth = stats.GetDynamicStat(Stat.MaxHealth);
+			healthBar.SetMaxHealth(_currentHealth);
+		}
 	}
 
 	public override void TakeDamage(Stats attackerStats, Vector3 attackerPos, float scaleFactor)
@@ -38,9 +48,9 @@ public sealed class PlayerStats : EntityStats, IHealable
 
 			CameraShaker.Instance.ShakeCamera(2.5f, .3f);
 			AudioManager.Instance.PlayWithRandomPitch("Taking Damage", .7f, 1.2f);
-			EffectInstantiator.Instance.Instantiate<ParticleSystem>(EffectType.CreatureImpact, transform.position, Random.insideUnitCircle.normalized);
+			EffectInstantiator.Instance.Instantiate<ParticleSystem>(EffectType.CreatureImpact, transform.position, UnityRandom.insideUnitCircle.normalized);
 
-			_invincibilityTime = stats.GetStaticStat(Stat.InvincibilityTime);
+			_invincibilityTime = stats.GetDynamicStat(Stat.InvincibilityTime);
 		}
 	}
 

@@ -386,7 +386,7 @@ MonoBehaviour:
   stats: {fileID: 11400000, guid: 1c5d917191258ba4983fcb98bc18bc67, type: 2}
   attackRadius: 8
   recoverTime: 0.5
-  projectilePrefab: {fileID: 1290809677474094872, guid: 1c3032dc90a286b448595534a02a13d5, type: 3}
+  projectileType: 2
   allocateAmount: 5
   firePoint: {fileID: 4829636697879189175}
   verticalSpread: 0.15
@@ -396,7 +396,6 @@ MonoBehaviour:
   muzzleEffect: {fileID: 8321371222090004859}
   shotsPerVolleyRange: {x: 2, y: 5}
   angleBetweenShots: 20
-  missilePrefab: {fileID: 1290809677474094872, guid: 75f11106efaeafd41ab47c0a53314e43, type: 3}
   launchPods:
   - {fileID: 6104428256095650501}
   - {fileID: 993706854399944433}

@@ -311,15 +311,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 1
   inputSource: 1
-  spriteRenderer: {fileID: 0}
+  spriteRenderer: {fileID: 2882555156833473682}
   popupLabelPrefab: {fileID: 8135185957320462521, guid: 7b9c3367d5571964c838fcce2ca218d7, type: 3}
   interactDistance: 1
-  hasInteracted: 0
-  itemSO: {fileID: 0}
   rb2D: {fileID: 6994718978722962409}
-  lifeTime: -1
-  flyDistance: 2
-  flySpeed: 7
+  lifeTime: 10
+  flyDistance: 5
+  flySpeed: 10
   pickUpMinDistance: 0.5
   pickUpFailDelay: 2
 --- !u!1 &7252024639186917218

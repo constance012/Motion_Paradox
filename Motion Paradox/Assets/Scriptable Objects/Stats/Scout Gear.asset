@@ -24,9 +24,9 @@ MonoBehaviour:
       Value: 8
   staticStats:
     _serializedList:
-    - Key: 4
-      Value: 3
     - Key: 5
+      Value: 3
+    - Key: 6
       Value: 0.1
     - Key: 7
       Value: 13

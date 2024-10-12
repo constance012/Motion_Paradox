@@ -1,8 +1,5 @@
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UI;
-using TMPro;
-using DG.Tweening;
 
 public sealed class PlayerLeveling : EntityLeveling
 {
@@ -10,7 +7,7 @@ public sealed class PlayerLeveling : EntityLeveling
 	[SerializeField] private LevelSlider slider;
 
 	[Header("Events"), Space]
-	public UnityEvent onPlayerLeveledUp;
+	public UnityEvent<int> onPlayerLeveledUp;
 
 	protected override void Start()
 	{		
@@ -21,7 +18,7 @@ public sealed class PlayerLeveling : EntityLeveling
 	public override void LevelUp()
 	{
 		base.LevelUp();
-		onPlayerLeveledUp?.Invoke();
+		onPlayerLeveledUp?.Invoke(CurrentLevel);
 
 		slider.SetLevelRange(CurrentLevel, CurrentExperience, levelingCurve.GetRequirementForLevel(CurrentLevel - 1), _currentLevelRequirement);
 	}

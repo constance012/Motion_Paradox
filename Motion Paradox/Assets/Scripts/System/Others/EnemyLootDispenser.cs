@@ -5,10 +5,21 @@ using System.Collections.Generic;
 public sealed class EnemyLootDispenser : Singleton<EnemyLootDispenser>
 {
 	[Header("Loot Pool"), Space]
-	[SerializeField] private SerializedDictionary<LootType, GameObject> lootPrefabs;
+	[SerializeField] private SerializedDictionary<LootType, Item> lootScriptableObjects;
 
-	[Header("Loot Container"), Space]
+	[Header("Pool Settings"), Space]
+	[SerializeField] private GameObject prefab;
 	[SerializeField] private Transform container;
+	[SerializeField] private int prefillAmount;
+
+	// Private fields.
+	private ObjectPool<PickableItem> _pool;
+
+	protected override void Awake()
+	{
+		base.Awake();
+		_pool = new ObjectPool<PickableItem>(prefab, prefillAmount, container);
+	}
 
 	public void Dispense(IEnumerable<KeyValuePair<LootType, LootInfo>> lootTable, Vector2 position)
 	{
@@ -17,12 +28,12 @@ public sealed class EnemyLootDispenser : Singleton<EnemyLootDispenser>
 			LootInfo info = loot.Value;
 			if (Random.value <= info.chance)
 			{
-				if (lootPrefabs.TryGetValue(loot.Key, out GameObject prefab))
+				if (lootScriptableObjects.TryGetValue(loot.Key, out Item itemSO))
 				{
-					Debug.Log($"Dropping {prefab.name}...");
-					GameObject lootObject = Instantiate(prefab, position + Random.insideUnitCircle.normalized, Quaternion.identity);
-					lootObject.transform.SetParent(container);
-					lootObject.GetComponent<PickableItem>().ItemQuantity = info.quantityRange.RandomBetweenEnds();
+					Debug.Log($"Dropping {itemSO.name}...");
+
+					PickableItem droppedItem = _pool.Spawn(position + Random.insideUnitCircle.normalized, Quaternion.identity);
+					droppedItem.Initialize(itemSO, info.quantityRange.RandomBetweenEnds());
 				}
 			}
 		}

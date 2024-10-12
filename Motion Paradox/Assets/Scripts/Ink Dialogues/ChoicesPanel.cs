@@ -3,7 +3,7 @@ using UnityEngine;
 using Ink.Runtime;
 using TMPro;
 
-public sealed class DialogueChoicesPanel : MonoBehaviour
+public sealed class ChoicesPanel : MonoBehaviour
 {
 	[Header("References"), Space]
 	[SerializeField] private CanvasGroup canvasGroup;

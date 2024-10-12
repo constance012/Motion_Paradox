@@ -7,8 +7,8 @@ using UnityEngine.SceneManagement;
 public sealed class MainMenu : MonoBehaviour
 {
 	[Header("Menu References"), Space]
-	[SerializeField] private TweenableUIElement mainMenu;
-	[SerializeField] private TweenableUIElement settingsMenu;
+	[SerializeField] private TweenableUIMaster mainMenu;
+	[SerializeField] private TweenableUIMaster settingsMenu;
 
 	[Header("Audio Mixer"), Space]
 	[SerializeField] private AudioMixer mixer;

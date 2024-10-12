@@ -96,10 +96,10 @@ public class DialogueTrigger : MonoBehaviour
 		if (playFromBeginning)
 			_story.ResetState();
 		
-		if (!DialogueManager.IsPlaying)
+		if (!DialogueSystem.IsPlaying)
 		{
 			Debug.Log($"Trigger dialogue of {gameObject.name}");
-			DialogueManager.Instance.PlayDialogue(_story);
+			DialogueSystem.Instance.PlayDialogue(_story);
 		}
 
 		if (destroyAfterTrigger)

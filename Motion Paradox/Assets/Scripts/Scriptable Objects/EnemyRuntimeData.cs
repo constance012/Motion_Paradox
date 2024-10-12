@@ -43,7 +43,7 @@ public enum EnemyType
 public enum LootType
 {
 	HealingHeart,
-	Coin,
+	MetalScrap,
 	Experience
 }
 

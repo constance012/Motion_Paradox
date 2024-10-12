@@ -14,7 +14,7 @@ public class Stats : ScriptableObject
 	public SerializedDictionary<Stat, float> staticStats = new SerializedDictionary<Stat, float>();
 
 	// Private fields.
-	private readonly List<StatsUpgrade> _appliedUpgrades = new List<StatsUpgrade>();
+	private readonly HashSet<StatsUpgrade> _appliedUpgrades = new HashSet<StatsUpgrade>();
 	private readonly HashSet<Stat> _toStringIgnoreStats = new HashSet<Stat>()
 	{
 		Stat.InvincibilityTime,
@@ -82,7 +82,7 @@ public class Stats : ScriptableObject
 			if (!upgrade.affectedStats.TryGetValue(stat, out float upgradeValue))
 				continue;
 			
-			if (upgrade.isPercentageUpgrade)
+			if (upgrade.type == UpgradeValueType.Percentage)
 				baseValue *= 1f + upgradeValue;
 			else
 				baseValue += upgradeValue;
@@ -116,11 +116,11 @@ public enum Stat
 	Damage,
 	AttackSpeed,
 	MoveSpeed,
+	InvincibilityTime,
 
 	// Static.
 	KnockBackStrength,
 	KnockBackRes,
-	InvincibilityTime,
 	ProjectileSpeed,
 	ProjectileTrackingRigidity,
 	ProjectileLifeTime

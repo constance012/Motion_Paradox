@@ -1,9 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using DG.Tweening;
 using UnityEngine;
+using DG.Tweening;
 
-public class HandheldWeapon : MonoBehaviour
+public class HandheldWeapon : MonoBehaviour, IUpgradeApplicationReceiver
 {
 	[Header("Weapon SO"), Space]
 	[SerializeField] private Gun weaponSO;
@@ -28,16 +29,18 @@ public class HandheldWeapon : MonoBehaviour
 
 	private void Start()
 	{
-		_gun = Instantiate(weaponSO);
-		_gun.name = weaponSO.name;
-		_gun.Initialize();
-
-		_baseSpread = _gun.verticalSpread;
-		ammoHUD.Initialize(_gun.maxAmmo, _gun.piercingShotFrequency);
-		crosshair.ChangeBaseExpansion(_baseSpread);
-		
-		_firedShots = new Queue<bool>();
+		_firedShots ??= new Queue<bool>();
 		_tweenPool = new TweenPool();
+		Initialize();
+	}
+
+	public void OnUpgradeApplied(Type type, UpgradeBase upgrade)
+	{
+		if (upgrade is FirearmUpgradeBase)
+		{
+			Debug.Log("Re-initializing rifle attributes...");
+			Initialize();
+		}
 	}
 
 	public void ToggleAiming(bool isAiming)
@@ -70,6 +73,19 @@ public class HandheldWeapon : MonoBehaviour
 			_reloadCoroutine.StartNew(this, PerformReload());
 	}
 
+	private void Initialize()
+	{
+		if (_gun == null)
+			_gun = weaponSO;
+
+		_gun.Initialize();
+		_baseSpread = _gun.verticalSpread;
+		_firedShots?.Clear();
+
+		ammoHUD.Initialize(_gun.maxAmmo, _gun.piercingShotFrequency);
+		crosshair.ChangeBaseExpansion(_baseSpread);
+	}
+
 	private IEnumerator PerformReload()
 	{
 		while (_gun.SingleCartridgeReload())
@@ -94,6 +110,8 @@ public class HandheldWeapon : MonoBehaviour
 			muzzleClimbAngle *= 1.5f;
 			recoilStrength *= 1.5f;
 		}
+
+		InputManager.Instance.WarpCursor(Vector2.up * Mathf.Abs(muzzleClimbAngle), isLocal: true);
 
 		Sequence sequence = DOTween.Sequence();
 		sequence.Append(transform.DOLocalRotate(Vector3.forward * muzzleClimbAngle, _gun.recoilDuration))

@@ -306,7 +306,7 @@ MonoBehaviour:
   stats: {fileID: 11400000, guid: 5e0ce508a9a3f564fa3e08a532f55562, type: 2}
   attackRadius: 7
   recoverTime: 0.2
-  projectilePrefab: {fileID: 1290809677474094872, guid: 1c3032dc90a286b448595534a02a13d5, type: 3}
+  projectileType: 2
   allocateAmount: 4
   firePoint: {fileID: 4829636697879189175}
   verticalSpread: 0.1

@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Events;
 
-public sealed class SliderGroup : MonoBehaviour
+public sealed class AudioSlider : MonoBehaviour
 {
 	[Header("References"), Space]
 	[SerializeField] private Slider slider;
@@ -31,6 +31,7 @@ public sealed class SliderGroup : MonoBehaviour
 	}
 
 	public float CurrentRange => slider.maxValue - slider.minValue;
+	public float ValueAsMixerDecibel => UserSettings.ToMixerDecibel(slider.value);
 
 	public string DisplayText
 	{

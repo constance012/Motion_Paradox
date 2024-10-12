@@ -5,7 +5,7 @@ using DG.Tweening;
 public sealed class CartridgeUI : MonoBehaviour, IPoolable
 {
 	[Header("References"), Space]
-	[SerializeField] private TweenableUIElement loadTween;
+	[SerializeField] private TweenableUIMaster loadTween;
 	[SerializeField] private Image graphic;
 
 	// Private fields.
@@ -16,6 +16,11 @@ public sealed class CartridgeUI : MonoBehaviour, IPoolable
 	{
 		_rectTransform = transform as RectTransform;
 		_tweenPool = new TweenPool();
+	}
+
+	private void OnDestroy()
+	{
+		_tweenPool.KillActiveTweens(true);
 	}
 
 	public void Allocate()
@@ -44,8 +49,10 @@ public sealed class CartridgeUI : MonoBehaviour, IPoolable
 
 	public void ChamberRound()
 	{
+		AudioManager.Instance.PlayWithRandomPitch("Chambering Round", .7f, 1.2f);
 		_tweenPool.Add(_rectTransform.DOAnchorPosX(-20, .2f, true)
 			 		  				 .SetRelative(true)
+									 .SetUpdate(true)
 			 		  				 .SetEase(Ease.OutSine));
 	}
 
@@ -56,6 +63,7 @@ public sealed class CartridgeUI : MonoBehaviour, IPoolable
 		sequence.Append(_rectTransform.DOAnchorPosX(-70f, .2f, true).SetRelative(true))
 				.Join(graphic.DOFade(0f, .2f))
 				.SetEase(Ease.OutSine)
+				.SetUpdate(true)
 		   		.OnComplete(() => Deallocate());
 
 		_tweenPool.Add(sequence);
@@ -74,6 +82,7 @@ public sealed class CartridgeUI : MonoBehaviour, IPoolable
 	{
 		Tween tween = _rectTransform.DOAnchorPosY(spacing, .2f, true)
 									.SetRelative(true)
+									.SetUpdate(true)
 									.SetEase(Ease.OutCubic);
 		
 		_tweenPool.Add(tween);

@@ -9,7 +9,6 @@ public sealed class DestroyerGearAction : RangedEnemyAction
 	[SerializeField] private float angleBetweenShots;
 
 	[Header("Missiles"), Space]
-	[SerializeField] private GameObject missilePrefab;
 	[SerializeField] private Transform[] launchPods;
 	[SerializeField, Tooltip("Launch a missile every nth shot.")] private float missileFrequency;
 	[SerializeField] private float missileTrackingRigidity;
@@ -60,11 +59,10 @@ public sealed class DestroyerGearAction : RangedEnemyAction
 		Vector3 launchPos = launchPods[index].position;
 		Vector3 launchDir = launchPods[index].right;
 
-		GameObject missile = Instantiate(missilePrefab, launchPos, Quaternion.identity);
+		ProjectileBase missile = ProjectilePool.Instance.Spawn(ProjectileType.MetalMissile, launchPos, Quaternion.identity);
 		missile.transform.right = launchDir;
-		
-		ProjectileBase projectile = missile.GetComponent<ProjectileBase>();
-		projectile.Initialize(transform, stats, _player);
-		projectile.trackingRigidity = missileTrackingRigidity;
+	
+		missile.Initialize(transform, stats, _player);
+		missile.trackingRigidity = missileTrackingRigidity;
 	}
 }

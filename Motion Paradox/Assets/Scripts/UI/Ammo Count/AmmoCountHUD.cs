@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using DG.Tweening;
 using UnityEngine;
 
@@ -27,6 +26,9 @@ public sealed class AmmoCountHUD : MonoBehaviour
 
 	public void Initialize(int maxAmmo, int piercingShotFrequency)
 	{
+		_magazine.Clear();
+		_bulletUIPool.Empty();
+
 		transform.DestroyAllChildren(Destroy);
 
 		float spacing = 0f;
@@ -49,7 +51,7 @@ public sealed class AmmoCountHUD : MonoBehaviour
 		CartridgeUI bulletUI = _bulletUIPool.Spawn(bullet => bullet.name.Equals(bulletName) && !bullet.gameObject.activeInHierarchy);
 
 		bulletUI.Initialize(_magazine.Count * -bulletSpacing);
-		bulletUI.LoadRound();
+		bulletUI.LoadRound(chamber: _magazine.Count == 0);
 
 		_magazine.Enqueue(bulletUI);
 	}

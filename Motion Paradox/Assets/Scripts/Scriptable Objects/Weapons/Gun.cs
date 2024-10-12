@@ -16,8 +16,8 @@ public class Gun : IdentifiableSO
 	public Ease recoilEase;
 
 	[Header("Ammunition"), Space]
-	public int maxAmmo;
-	public int piercingShotFrequency;
+	[Min(2)] public int maxAmmo;
+	[Min(0)] public int piercingShotFrequency;
 	public float fireRate;
 	public float reloadInterval;
 	[HideInInspector] public bool _isReloading;
@@ -27,20 +27,16 @@ public class Gun : IdentifiableSO
 	public int CurrentAmmo => _currentAmmo;
 
 	// Private fields.
-	private ObjectPool<ProjectileBase> _normalBulletPool;
-	private ObjectPool<ProjectileBase> _piercingBulletPool;
 	private int _currentAmmo;
 	private int _shotIndex = 0;
 
 	public void Initialize()
 	{
-		Transform bulletParent = new GameObject(displayName).transform;
-		bulletParent.SetParent(GameObject.FindWithTag("ProjectileContainer").transform);
-
-		_normalBulletPool = new ObjectPool<ProjectileBase>(normalBulletPrefab, 8, bulletParent);
-		_piercingBulletPool = new ObjectPool<ProjectileBase>(piercingBulletPrefab, 2, bulletParent);
+		if (piercingShotFrequency == 0)
+			piercingShotFrequency = int.MaxValue;
 		
 		_currentAmmo = maxAmmo;
+		_shotIndex = 0;
 	}
 
 	public bool CanShoot()
@@ -61,7 +57,7 @@ public class Gun : IdentifiableSO
 		_shotIndex = (_shotIndex + 1) % piercingShotFrequency;
 		isPiercingShot = _shotIndex == 0;
 		
-		InstantiateBullet(firePoint, stats, isPiercingShot);
+		SpawnBullet(firePoint, stats, isPiercingShot);
 
 		_currentAmmo--;
 	}
@@ -81,10 +77,10 @@ public class Gun : IdentifiableSO
 		return _isReloading;
 	}
 
-	private void InstantiateBullet(Transform firePoint, Stats stats, bool isPiercingShot)
+	private void SpawnBullet(Transform firePoint, Stats stats, bool isPiercingShot)
 	{
-		ProjectileBase bullet = isPiercingShot ? _piercingBulletPool.Spawn(firePoint.position, Quaternion.identity) :
-												 _normalBulletPool.Spawn(firePoint.position, Quaternion.identity);
+		ProjectileBase bullet = isPiercingShot ? ProjectilePool.Instance.Spawn(ProjectileType.PiercingBullet, firePoint.position, Quaternion.identity) :
+												 ProjectilePool.Instance.Spawn(ProjectileType.NormalBullet, firePoint.position, Quaternion.identity);
 		
 		bullet.transform.right = CalculateBulletDirection(firePoint.right);
 		bullet.Initialize(firePoint, stats, null);
@@ -92,8 +88,8 @@ public class Gun : IdentifiableSO
 		EffectInstantiator.Instance.Instantiate<ParticleSystem>(EffectType.MuzzleFlash, firePoint);
 		CameraShaker.Instance.ShakeCamera(isPiercingShot ? 4f : 2f, .3f);
 
-		AudioManager.Instance.SetVolume("Gunshot", .5f, isPiercingShot);
-		AudioManager.Instance.PlayWithRandomPitch("Gunshot", .3f, .5f);
+		AudioManager.Instance.SetVolume("Gunshot", .8f, isPiercingShot);
+		AudioManager.Instance.PlayWithRandomPitch("Gunshot", .9f, 1.1f);
 	}
 
 	private Vector2 CalculateBulletDirection(Vector2 initalDirection)

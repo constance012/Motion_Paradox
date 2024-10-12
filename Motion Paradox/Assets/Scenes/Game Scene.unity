@@ -133,7 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 101065209}
   m_Layer: 0
-  m_Name: ----- MANAGERS -----
+  m_Name: ----- SYSTEMS -----
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10357,13 +10357,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f52d713e95a7e040b49106b45282dcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lootPrefabs:
+  lootScriptableObjects:
     _serializedList:
     - Key: 0
-      Value: {fileID: 8900462208824625809, guid: 3c09505c8353f3d4089a8c2831afb454, type: 3}
+      Value: {fileID: 11400000, guid: d4671dd7634712543a3b25fee77f8468, type: 2}
+    - Key: 1
+      Value: {fileID: 11400000, guid: 5c43c96b7dd7a104ea6b5c77a61cd083, type: 2}
     - Key: 2
-      Value: {fileID: 8900462208824625809, guid: efc15b6901b7a6a4c9a0eea42166b379, type: 3}
+      Value: {fileID: 11400000, guid: 985b90ac3f4180a45bfd7d118ff21ee0, type: 2}
+  prefab: {fileID: 6994718978722962414, guid: e0fe46e87b4b7c549b29e5cb988ea38b, type: 3}
   container: {fileID: 843295122}
+  prefillAmount: 20
 --- !u!1 &843295121
 GameObject:
   m_ObjectHideFlags: 0
@@ -50380,7 +50384,6 @@ MonoBehaviour:
   spriteRenderer: {fileID: 689791346}
   popupLabelPrefab: {fileID: 8135185957320462521, guid: 7b9c3367d5571964c838fcce2ca218d7, type: 3}
   interactDistance: 1.5
-  hasInteracted: 0
   animator: {fileID: 845376820}
   countdownText: {fileID: 550471149}
   worldCanvas: {fileID: 1246972991}

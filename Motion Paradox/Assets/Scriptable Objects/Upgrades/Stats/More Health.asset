@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86faf841440decc428eefb31ef9583bb, type: 3}
+  m_Name: More Health
+  m_EditorClassIdentifier: 
+  id: 
+  displayName: Move Faster
+  description: +2 Max health.
+  icon: {fileID: 1417559452, guid: 219bcde5f58202c439fb9eee426b725a, type: 3}
+  rarity:
+    title: Upgrade
+    icon: {fileID: 0}
+    color: {r: 0.764151, g: 0.49762204, b: 0.19103774, a: 0}
+  type: 0
+  baseCost: 50
+  exponent: 1.5
+  unitsToApply:
+  - {fileID: 11400000, guid: 274c26ecbe1f26842a68504e168fcdc6, type: 2}
+  affectedStats:
+    _serializedList:
+    - Key: 0
+      Value: 2

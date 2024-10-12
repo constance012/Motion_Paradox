@@ -36,11 +36,10 @@ public abstract class Interactable : MonoBehaviour
 	[Header("Interaction Radius"), Space]
 	[SerializeField, Tooltip("The distance required for the player to interact with this object.")]
 	protected float interactDistance;
-	
-	[SerializeField, ReadOnly] protected bool hasInteracted;
 
 	// Protected fields.
 	protected static Transform _player;
+	protected bool _isInteracted;
 	protected Transform _worldCanvas;
 	protected Material _mat;
 	protected InteractionPopupLabel _popupLabel;

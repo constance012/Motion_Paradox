@@ -149,9 +149,18 @@ MonoBehaviour:
   - name: Gunshot
     audioType: 0
     clips:
-    - {fileID: 8300000, guid: 1007ce5beb39bf74ebbba56cc75a205c, type: 3}
+    - {fileID: 8300000, guid: 173afa72c8c2aed4cbe1ca5be33be836, type: 3}
     mixerGroup: {fileID: -5071581020908855552, guid: 401043ebed57e5741be2dc4b91eca06f, type: 2}
-    volume: 0.7
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Chambering Round
+    audioType: 0
+    clips:
+    - {fileID: 8300000, guid: 05faca8091977b841be0bf02e3ca6b5e, type: 3}
+    mixerGroup: {fileID: -5071581020908855552, guid: 401043ebed57e5741be2dc4b91eca06f, type: 2}
+    volume: 1
     pitch: 1
     loop: 0
     source: {fileID: 0}

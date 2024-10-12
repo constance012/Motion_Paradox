@@ -123,7 +123,7 @@ GameObject:
   - component: {fileID: 4666462375517540566}
   - component: {fileID: 2581483537401580479}
   m_Layer: 5
-  m_Name: Tweening Animation
+  m_Name: Load Tweenable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -143,10 +143,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 875407096903809242}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2581483537401580479
 MonoBehaviour:
@@ -180,6 +180,7 @@ MonoBehaviour:
     period: 0
     updateType: 0
     ignoreTimeScale: 0
+    fromTweenType: 0
     tweenInRelativeSpace: 1
     playAlongPreviousTweener: 0
   disableOnStart: 0
@@ -195,6 +196,7 @@ MonoBehaviour:
   tweenInRelativeSpace: 0
   tweenOnEnable: 0
   tweenOnMouseHover: 0
+  resetValueOnDestroyOrDisable: 0
   onCompleteCallback:
     m_PersistentCalls:
       m_Calls: []

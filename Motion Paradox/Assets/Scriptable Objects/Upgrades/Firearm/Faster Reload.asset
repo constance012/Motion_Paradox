@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 027b617326f0d0344b78fa076bf2b5fe, type: 3}
+  m_Name: Faster Reload
+  m_EditorClassIdentifier: 
+  id: 
+  displayName: Faster Fire Rate
+  description: -40% Reload time for each cartridge.
+  icon: {fileID: 1213745610, guid: 219bcde5f58202c439fb9eee426b725a, type: 3}
+  rarity:
+    title: Upgrade
+    icon: {fileID: 0}
+    color: {r: 0.764151, g: 0.49762204, b: 0.19103774, a: 0}
+  type: 1
+  baseCost: 65
+  exponent: 1.5
+  unitsToApply:
+  - {fileID: 11400000, guid: bb87e9c6ec8c0074a9e89c16fd6219e9, type: 2}
+  maxAmmo: 0
+  piercingShotFrequency: 0
+  fireRate: 0
+  reloadInterval: -0.4

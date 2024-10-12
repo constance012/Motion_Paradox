@@ -501,7 +501,7 @@ TextureImporter:
         width: 8
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -509,6 +509,27 @@ TextureImporter:
       bones: []
       spriteID: b688cc27d59b55a409695d5413d4441e
       internalID: -303953437
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Metal Scrap
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 0
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 03007794352e8ae4b8f2946bfb252d25
+      internalID: -114406429
       vertices: []
       indices: 
       edges: []
@@ -534,6 +555,7 @@ TextureImporter:
       Enemy_5: -841231189
       Energy_Capsule: -303953437
       Health_Heart: -212875952
+      Metal Scrap: -114406429
       Normal_Bullet: 897531370
       Piercing_Bullet: -2084195456
       Pistol: 158930573

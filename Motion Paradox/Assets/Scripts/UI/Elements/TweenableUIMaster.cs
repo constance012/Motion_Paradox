@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using DG.Tweening;
 
-public sealed class TweenableUIElement : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public sealed class TweenableUIMaster : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
 	[Header("GameObject to Tween (Override Self)"), Space]
 	[SerializeField] private GameObject gameObjectToTween;

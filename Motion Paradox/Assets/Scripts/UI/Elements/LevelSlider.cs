@@ -12,7 +12,7 @@ public sealed class LevelSlider : MonoBehaviour
 	[SerializeField] private Image fillImage;
 
 	[Header("Tweenable"), Space]
-	[SerializeField] private TweenableUIElement showTweenable;
+	[SerializeField] private TweenableUIMaster showTweenable;
 	[SerializeField] private float onScreenTime;
 
 	[Header("Fill Colors"), Space]
@@ -26,13 +26,14 @@ public sealed class LevelSlider : MonoBehaviour
 	private void Start()
 	{
 		fillImage.color = defaultFillColor;
+		slider.onValueChanged.AddListener((value) => xpText.text = $"{value}/{slider.maxValue}");
 	}
 
 	private void Update()
 	{
 		if (_onScreenTime > 0f)
 		{
-			_onScreenTime -= Time.deltaTime;
+			_onScreenTime -= Time.unscaledDeltaTime;
 
 			if (_onScreenTime <= 0f)
 			{
@@ -49,7 +50,6 @@ public sealed class LevelSlider : MonoBehaviour
 		_onScreenTime = onScreenTime;
 
 		TweenSliderValue(xp);
-		xpText.text = $"{xp}/{slider.maxValue}";
 	}
 
 	public void SetLevelRange(int level, int xp, int min, int max)
@@ -63,7 +63,6 @@ public sealed class LevelSlider : MonoBehaviour
 			slider.minValue--;
 		
 		TweenSliderValue(xp);
-		xpText.text = $"{xp}/{slider.maxValue}";
 	}
 
 	public void TweenSliderValue(int xp)

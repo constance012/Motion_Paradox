@@ -50,7 +50,7 @@ public class UITweener
 	public bool tweenInRelativeSpace;
 	public bool playAlongPreviousTweener;
 
-	public TweenableUIElement TweenableUI { get; set; }
+	public TweenableUIMaster TweenableUI { get; set; }
 
 	private TweenPool _tweenPool;
 

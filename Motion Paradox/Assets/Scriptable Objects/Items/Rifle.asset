@@ -27,8 +27,8 @@ MonoBehaviour:
   recoilStrength: 0.2
   recoilDuration: 0.1
   recoilEase: 9
-  maxAmmo: 8
-  piercingShotFrequency: 4
-  fireRate: 1.5
-  reloadInterval: 0.3
+  maxAmmo: 4
+  piercingShotFrequency: 2147483647
+  fireRate: 1.1
+  reloadInterval: 0.5
   _isReloading: 0

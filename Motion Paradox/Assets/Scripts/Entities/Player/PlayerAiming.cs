@@ -36,7 +36,7 @@ public class PlayerAiming : MonoBehaviour
 
 	private void FixedUpdate()
 	{
-		if (DialogueManager.IsPlaying)
+		if (TimeManager.GloballyPaused)
 			return;
 			
 		HandleAiming();

@@ -21,6 +21,9 @@ public sealed class TimeManager : Singleton<TimeManager>
 			Time.timeScale = value;
 		}
 	}
+
+	public static bool GloballyPaused => Time.timeScale == 0f;
+	public static bool LocallyPaused => Instance._localTimeScale == 0f;
 	
 	public static float PortalTimerDuration => Instance.portalActivationTimer;
 	public static TimeSpan PortalTimerLeft => Instance._portalTimer;

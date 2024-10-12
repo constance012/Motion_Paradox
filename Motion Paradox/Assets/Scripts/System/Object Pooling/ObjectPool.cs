@@ -5,26 +5,23 @@ using UnityEngine;
 
 public sealed class ObjectPool<TObject> where TObject : MonoBehaviour, IPoolable
 {
-	private List<TObject> _pool;
+	private HashSet<TObject> _pool;
 	private GameObject _prefab;
 	private Transform _parent;
 
 	public ObjectPool(Transform parent = null)
 	{
-		_pool = new List<TObject>();
+		_pool = new HashSet<TObject>();
 		_parent = parent;
 	}
 
 	public ObjectPool(GameObject prefab, int prefillAmount, Transform parent = null)
 	{
-		_pool = new List<TObject>();
+		_pool = new HashSet<TObject>();
 		_prefab = prefab;
 		_parent = parent;
 
-		for (int i = 0; i < prefillAmount; i++)
-		{
-			Prefill(_prefab);
-		}
+		Prefill(prefab, prefillAmount);
 	}
 
 	#region Spawn Overloads.
@@ -63,14 +60,30 @@ public sealed class ObjectPool<TObject> where TObject : MonoBehaviour, IPoolable
 	}
 	#endregion
 
+	#region Control Methods.
+	public void Empty()
+	{
+		_pool.Clear();
+	}
+
 	public TObject Prefill(GameObject prefab)
 	{
 		TObject obj = GameObject.Instantiate(prefab, _parent).GetComponent<TObject>();
+		obj.name = prefab.name.TrimStart('_');
 		obj.Deallocate();
 		_pool.Add(obj);
 
 		return obj;
 	}
+
+	public void Prefill(GameObject prefab, int amount)
+	{
+		for (int i = 0; i < amount; i++)
+		{
+			Prefill(prefab);
+		}
+	}
+	#endregion
 
 	private TObject TrySpawnObject(Func<TObject, bool> predicate)
 	{

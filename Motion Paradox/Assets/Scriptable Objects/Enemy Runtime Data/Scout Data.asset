@@ -23,8 +23,8 @@ MonoBehaviour:
         quantityRange: {x: 1, y: 1}
     - Key: 1
       Value:
-        chance: 0
-        quantityRange: {x: 0, y: 0}
+        chance: 1
+        quantityRange: {x: 30, y: 50}
     - Key: 2
       Value:
         chance: 1

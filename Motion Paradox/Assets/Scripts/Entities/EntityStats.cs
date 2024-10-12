@@ -26,6 +26,7 @@ public abstract class EntityStats : MonoBehaviour, IDamageable
 
 	protected virtual void Start()
 	{
+		stats.ClearUpgrades();
 		_currentHealth = stats.GetDynamicStat(Stat.MaxHealth);
 		healthBar.SetMaxHealth(_currentHealth);
 	}
