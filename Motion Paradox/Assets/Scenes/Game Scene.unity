@@ -50449,7 +50449,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19e1aa2cbcbf3bf48acf0f04086f2389, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  container: {fileID: 1128985513}
+  markAsSingleton: 0
+  poolSettings:
+    _serializedList:
+    - Key: 4
+      Value:
+        prefab: {fileID: 4033956132377798079, guid: 28adaaa58ad6c294380eae4ff371751d, type: 3}
+        prefillAmount: 6
+    - Key: 0
+      Value:
+        prefab: {fileID: 1066786834159097837, guid: 08eb008b3106132439cd04b3e1082459, type: 3}
+        prefillAmount: 6
+    - Key: 3
+      Value:
+        prefab: {fileID: 4033956132377798079, guid: 98b8cd27b579e214b95748333aee43c5, type: 3}
+        prefillAmount: 6
+    - Key: 2
+      Value:
+        prefab: {fileID: 4033956132377798079, guid: 1208e9e49349bed40b16a15cf4c0cccc, type: 3}
+        prefillAmount: 6
+    - Key: 1
+      Value:
+        prefab: {fileID: 76702012230458035, guid: be6d59a8dc5e73e4eae70a8d7b38e6f0, type: 3}
+        prefillAmount: 6
+  sharedParent: {fileID: 1128985513}
   enemyRuntimeData:
   - {fileID: 11400000, guid: 4c64ec0a33fd62e45aba4c9aa791c9e3, type: 2}
   - {fileID: 11400000, guid: ef3d63263ce77f640b37030709ae08e4, type: 2}

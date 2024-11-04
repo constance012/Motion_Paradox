@@ -15,7 +15,7 @@ public sealed class DialogueSystem : Singleton<DialogueSystem>
 	[SerializeField] private AnimatedDialogueText dialogueText;
 	[SerializeField] private SpeakerPortraits portrait;
 	[SerializeField] private TextMeshProUGUI speakerNameText;
-	[SerializeField] private GameObject continueCue;
+	[SerializeField] private CanvasGroup continueCue;
 
 	[Header("Choices Panel"), Space]
 	[SerializeField] private ChoicesPanel choicesPanel;
@@ -119,7 +119,7 @@ public sealed class DialogueSystem : Singleton<DialogueSystem>
 				if (choicesPanel.TryDisplayChoices(_currentStory.currentChoices))
 				{
 					// Hide the continue cue if there are choices to be displayed.
-					continueCue.SetActive(false);
+					continueCue.alpha = 0f;
 				}
 				else
 				{

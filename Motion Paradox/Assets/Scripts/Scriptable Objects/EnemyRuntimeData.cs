@@ -7,7 +7,6 @@ public sealed class EnemyRuntimeData : ScriptableObject
 {
 	[Header("Type"), Space]
 	public EnemyType type;
-	public GameObject prefab;
 
 	[Header("Spawn Data"), Space]
 	public Vector2 spawnLimitRange;

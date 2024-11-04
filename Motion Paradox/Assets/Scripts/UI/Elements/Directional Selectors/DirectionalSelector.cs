@@ -5,20 +5,20 @@ using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
 
-public sealed class DirectionalSelector : MonoBehaviour
+public abstract class DirectionalSelector<TObject> : MonoBehaviour
 {
 	[Header("References"), Space]
-	[SerializeField] private Button previousButton;
-	[SerializeField] private Button nextButton;
-	[SerializeField] private TextMeshProUGUI selectedText;
+	[SerializeField] protected Button previousButton;
+	[SerializeField] protected Button nextButton;
+	[SerializeField] protected TextMeshProUGUI selectedText;
 
 	[Header("Options"), Space]
-	[SerializeField] private string[] options;
-	[SerializeField] private int defaultOptionIndex;
+	[SerializeField] protected TObject[] options;
+	[SerializeField] protected int defaultOptionIndex;
 	
 	[Header("On Value Changed Event"), Space]
 	public UnityEvent<int> onIndexChanged;
-	public UnityEvent<string> onValueChanged;
+	public UnityEvent<TObject> onValueChanged;
 
 	public int Index
 	{
@@ -26,15 +26,17 @@ public sealed class DirectionalSelector : MonoBehaviour
 		set { SetIndex(value); }
 	}
 
-	public string Value
+	public TObject Value
 	{
 		get { return _selected; }
 		set { SetValue(value); }
 	}
 
+	// Protected fields.
+	protected TObject _selected;
+	protected int _currentIndex;
+
 	// Private fields.
-	private string _selected;
-	private int _currentIndex;
 	private TweenPool _tweenPool = new TweenPool();
 
 	private void Start()
@@ -61,7 +63,7 @@ public sealed class DirectionalSelector : MonoBehaviour
 		_tweenPool.KillActiveTweens(false);
 
 		_selected = options[_currentIndex];
-		selectedText.text = _selected;
+		SetDisplayText();
 
 		_tweenPool.Add(selectedText.transform.DOScale(1f, .2f)
 							  				 .From(1.2f)
@@ -70,6 +72,8 @@ public sealed class DirectionalSelector : MonoBehaviour
 		onIndexChanged?.Invoke(_currentIndex);
 		onValueChanged?.Invoke(_selected);
 	}
+
+	protected abstract void SetDisplayText();
 
 	private void SetIndex(int index)
 	{
@@ -85,7 +89,7 @@ public sealed class DirectionalSelector : MonoBehaviour
 		}
 	}
 
-	private void SetValue(string value)
+	private void SetValue(TObject value)
 	{
 		int index = Array.IndexOf(options, value);
 		

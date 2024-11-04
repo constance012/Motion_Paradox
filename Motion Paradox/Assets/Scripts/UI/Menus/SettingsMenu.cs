@@ -12,17 +12,17 @@ public sealed class SettingsMenu : MonoBehaviour
 	[SerializeField] private AudioMixer mixer;
 
 	[Header("Slider Groups"), Space]
-	[SerializeField] private AudioSlider masterSlider;
-	[SerializeField] private AudioSlider musicSlider;
-	[SerializeField] private AudioSlider soundSlider;
-	[SerializeField] private AudioSlider ambienceSlider;
-	[SerializeField] private AudioSlider aimSpeedSlider;
-	[SerializeField] private AudioSlider dialogueSpeedSlider;
+	[SerializeField] private SliderGroup masterSlider;
+	[SerializeField] private SliderGroup musicSlider;
+	[SerializeField] private SliderGroup soundSlider;
+	[SerializeField] private SliderGroup ambienceSlider;
+	[SerializeField] private SliderGroup aimSpeedSlider;
+	[SerializeField] private SliderGroup dialogueSpeedSlider;
 
 	[Header("Directional Selectors"), Space]
-	[SerializeField] private DirectionalSelector qualitySelector;
-	[SerializeField] private DirectionalSelector framerateSelector;
-	[SerializeField] private DirectionalSelector vsyncSelector;
+	[SerializeField] private StringSelector qualitySelector;
+	[SerializeField] private StringSelector framerateSelector;
+	[SerializeField] private StringSelector vsyncSelector;
 
 	private void OnEnable()
 	{

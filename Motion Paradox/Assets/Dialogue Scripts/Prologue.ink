@@ -346,9 +346,9 @@ She's a bit old now, but with bullets loaded, she still performs really well.
 ~ ResumePlayable()
 \--breakpoint--
 
-// Pause at: 44.0s
+// Pause at: 43.0s
 # layout: narrator
-You load 8 new catridges into the rifle, chamber the round and closely inspect the rifle. Get ready for anything that might go out.
+You load 4 new catridges into the rifle, chamber the round and closely inspect the rifle. Get ready for anything that might go out.
 # speaker: Emit
 # portrait: dr_emit
 # layout: speaker_left

@@ -23,6 +23,7 @@ public abstract class EntityStats : MonoBehaviour, IDamageable
 	// Protected fields.
 	protected Material _mat;
 	protected float _currentHealth;
+	protected float _invincibilityTime;
 
 	protected virtual void Start()
 	{
@@ -31,22 +32,32 @@ public abstract class EntityStats : MonoBehaviour, IDamageable
 		healthBar.SetMaxHealth(_currentHealth);
 	}
 
+	private void Update()
+	{
+		if (_invincibilityTime > 0f)
+			_invincibilityTime -= Time.deltaTime;
+	}
+
 	public virtual void TakeDamage(Stats attackerStats, Vector3 attackerPos, float scaleFactor = 1f)
 	{
-		float damage = attackerStats.GetDynamicStat(Stat.Damage) * scaleFactor;
-		float knockBackStrength = attackerStats.GetStaticStat(Stat.KnockBackStrength) * scaleFactor;
+		if (_invincibilityTime <= 0f)
+		{
+			_invincibilityTime = stats.GetDynamicStat(Stat.InvincibilityTime);
+			float damage = attackerStats.GetDynamicStat(Stat.Damage) * scaleFactor;
+			float knockBackStrength = attackerStats.GetStaticStat(Stat.KnockBackStrength) * scaleFactor;
 
-		_currentHealth -= damage;
-		_currentHealth = Mathf.Max(0f, _currentHealth);
-		healthBar.SetCurrentHealth(_currentHealth);
+			_currentHealth -= damage;
+			_currentHealth = Mathf.Max(0f, _currentHealth);
+			healthBar.SetCurrentHealth(_currentHealth);
 
-		DamageText.Generate(dmgTextPrefab, dmgTextLoc.position, DamageTextStyle.Normal, damage.ToString());
+			DamageText.Generate(dmgTextPrefab, dmgTextLoc.position, DamageTextStyle.Normal, damage.ToString());
 
-		StartCoroutine(TriggerDamageFlash());
-		StartCoroutine(BeingKnockedBack(attackerPos, knockBackStrength));
+			StartCoroutine(TriggerDamageFlash());
+			StartCoroutine(BeingKnockedBack(attackerPos, knockBackStrength));
 
-		if (_currentHealth <= 0)
-			Die();
+			if (_currentHealth <= 0)
+				Die();
+		}
 	}
 
 	public abstract void Die();

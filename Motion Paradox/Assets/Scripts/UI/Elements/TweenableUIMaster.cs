@@ -145,7 +145,7 @@ public sealed class TweenableUIMaster : MonoBehaviour, IPointerEnterHandler, IPo
 
 	public async Task AsyncStartTweening(bool forwards)
 	{
-		_tweenPool.KillActiveTweens(true);
+		StopAll(true);
 
 		bool applyCallback = (forwards && callbackPeriod == TweenCallbackPeriod.AfterForwardTween) ||
 							 (!forwards && callbackPeriod == TweenCallbackPeriod.AfterBackwardTween);
@@ -189,6 +189,11 @@ public sealed class TweenableUIMaster : MonoBehaviour, IPointerEnterHandler, IPo
 			_tweenPool.Add(sequence);
 			await sequence.AsyncWaitForCompletion();
 		}
+	}
+
+	public void StopAll(bool complete)
+	{
+		_tweenPool.KillActiveTweens(complete);
 	}
 
 	public Color Vector3ToColor(Vector3 vector, float alpha = 1f)

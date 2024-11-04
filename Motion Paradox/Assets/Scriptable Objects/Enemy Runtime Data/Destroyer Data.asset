@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: Destroyer Data
   m_EditorClassIdentifier: 
   type: 4
-  prefab: {fileID: 4033956132377798079, guid: 28adaaa58ad6c294380eae4ff371751d, type: 3}
-  spawnLimitRange: {x: 0, y: 0.4}
+  spawnLimitRange: {x: 0, y: 0.45}
   lootTable:
     _serializedList:
     - Key: 0
@@ -24,7 +23,7 @@ MonoBehaviour:
     - Key: 1
       Value:
         chance: 1
-        quantityRange: {x: 200, y: 350}
+        quantityRange: {x: 150, y: 300}
     - Key: 2
       Value:
         chance: 1

@@ -85,9 +85,10 @@ public class Gun : IdentifiableSO
 		bullet.transform.right = CalculateBulletDirection(firePoint.right);
 		bullet.Initialize(firePoint, stats, null);
 
-		EffectInstantiator.Instance.Instantiate<ParticleSystem>(EffectType.MuzzleFlash, firePoint);
-		CameraShaker.Instance.ShakeCamera(isPiercingShot ? 4f : 2f, .3f);
+		PoolableEffectBase muzzleFlash = EffectPool.Instance.Spawn(EffectType.MuzzleFlash, firePoint.position, firePoint.forward, rotateAxis: firePoint.up);
+		(muzzleFlash as PoolableParticleSystem).SetCustomSimulationSpace(firePoint);
 
+		CameraShaker.Instance.ShakeCamera(isPiercingShot ? 4f : 2f, .3f);
 		AudioManager.Instance.SetVolume("Gunshot", .8f, isPiercingShot);
 		AudioManager.Instance.PlayWithRandomPitch("Gunshot", .9f, 1.1f);
 	}

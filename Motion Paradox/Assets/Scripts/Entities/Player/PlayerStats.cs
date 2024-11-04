@@ -11,9 +11,6 @@ public sealed class PlayerStats : EntityStats, IHealable, IUpgradeApplicationRec
 	public static bool IsDeath { get; set; }
 	public bool CanBeHealed => _currentHealth < stats.GetDynamicStat(Stat.MaxHealth);
 
-	// Private fields.
-	private float _invincibilityTime;
-
 	private void Awake()
 	{
 		_mat = this.GetComponentInChildren<SpriteRenderer>("Graphic/Player Sprite").material;
@@ -23,12 +20,6 @@ public sealed class PlayerStats : EntityStats, IHealable, IUpgradeApplicationRec
 	protected override void Start()
 	{
 		base.Start();
-	}
-
-	private void Update()
-	{
-		if (_invincibilityTime > 0f)
-			_invincibilityTime -= Time.deltaTime;
 	}
 
 	public void OnUpgradeApplied(Type type, UpgradeBase upgrade)
@@ -42,15 +33,13 @@ public sealed class PlayerStats : EntityStats, IHealable, IUpgradeApplicationRec
 
 	public override void TakeDamage(Stats attackerStats, Vector3 attackerPos, float scaleFactor)
 	{
-		if (_currentHealth > 0 && _invincibilityTime <= 0f)
+		if (_currentHealth > 0)
 		{
 			base.TakeDamage(attackerStats, attackerPos, scaleFactor);
 
 			CameraShaker.Instance.ShakeCamera(2.5f, .3f);
 			AudioManager.Instance.PlayWithRandomPitch("Taking Damage", .7f, 1.2f);
-			EffectInstantiator.Instance.Instantiate<ParticleSystem>(EffectType.CreatureImpact, transform.position, UnityRandom.insideUnitCircle.normalized);
-
-			_invincibilityTime = stats.GetDynamicStat(Stat.InvincibilityTime);
+			EffectPool.Instance.Spawn(EffectType.CreatureImpact, transform.position, UnityRandom.insideUnitCircle.normalized);
 		}
 	}
 
@@ -69,7 +58,7 @@ public sealed class PlayerStats : EntityStats, IHealable, IUpgradeApplicationRec
 
 	public override void Die()
 	{
-		EffectInstantiator.Instance.Instantiate<ParticleSystem>(EffectType.CreatureDeath, transform.position, Quaternion.identity);
+		EffectPool.Instance.Spawn(EffectType.CreatureDeath, transform.position, Quaternion.identity);
 
 		IsDeath = true;
 		onPlayerDies?.Invoke();

@@ -25,6 +25,7 @@ public sealed class UpgradeSystem : Singleton<UpgradeSystem>
 	// Private fields.
 	private HashSet<int> _rerollIndices = new HashSet<int>();
 	private HashSet<IUpgradeApplicationReceiver> _receivers;
+	private BetterCoroutine _toggleCoroutine = new();
 	private int _currentLevel;
 
 	protected override void Awake()
@@ -37,20 +38,25 @@ public sealed class UpgradeSystem : Singleton<UpgradeSystem>
 	public void PlayerLeveling_LeveledUp(int currentLevel)
 	{
 		_currentLevel = currentLevel;
+		rerollLimit += (_currentLevel - 1) % 2 == 0 ? 1 : 0;
+
 		titleText.text = $"<color=#BC712E>Level {_currentLevel} reached!</color>\nChoose an overdrive";
 		storedScrapText.text = ScrapCollector.Instance.Amount.ToString();
 		
-		ToggleState(true);
+		if (!GameManager.GameDone)
+			_toggleCoroutine.StartNew(this, ToggleState(true, .5f), true);
 	}
 
-	public void ToggleState(bool state)
+	public System.Collections.IEnumerator ToggleState(bool state, float delay)
 	{
+		yield return new WaitForSecondsRealtime(delay);
+
 		canvasGroup.ToggleAnimated(state, .3f);
 		TimeManager.GlobalTimeScale = 1 - Convert.ToInt32(state);
 		CursorManager.Instance.SwitchCursorTexture(state ? CursorTextureType.Default : CursorTextureType.Crosshair);
 
 		if (state)
-			Reroll(false);
+			Reroll(consumeAttempt: false);
 	}
 
 	// Callback method for the reroll button.
@@ -119,7 +125,7 @@ public sealed class UpgradeSystem : Singleton<UpgradeSystem>
 			receiver.OnUpgradeApplied(upgrade.GetType(), upgrade);
 		}
 
-		ToggleState(false);
+		_toggleCoroutine.StartNew(this, ToggleState(false, .2f), true);
 	}
 
 	private void SceneLoader_Loaded(object sender, SceneLoadEventArgs e)

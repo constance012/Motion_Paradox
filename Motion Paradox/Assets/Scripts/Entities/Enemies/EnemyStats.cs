@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityRandom = UnityEngine.Random;
 
-public sealed class EnemyStats : EntityStats
+public sealed class EnemyStats : EntityStats, IPoolable
 {
 	[Header("Dropped Loots"), Space]
 	[SerializeField] private EnemyLootTrigger lootTrigger;
@@ -21,8 +21,30 @@ public sealed class EnemyStats : EntityStats
 
 	protected override void Start()
 	{
-		base.Start();
+		Allocate();
 		healthBar.name = $"{gameObject.name} Health Bar";
+	}
+
+	public void Allocate()
+	{
+		gameObject.SetActive(true);
+		healthBar.gameObject.SetActive(true);
+
+		stats.ClearUpgrades();
+		_currentHealth = stats.GetDynamicStat(Stat.MaxHealth);
+		healthBar.SetMaxHealth(_currentHealth);
+	}
+
+	public void Deallocate()
+	{
+		onDied?.Invoke();
+
+		StopAllCoroutines();
+		_mat.SetFloat("_FlashIntensity", 0f);
+		movementScript.enabled = true;
+
+		healthBar.gameObject.SetActive(false);
+		gameObject.SetActive(false);
 	}
 
 	public override void TakeDamage(Stats attackerStats, Vector3 attackerPos, float scaleFactor)
@@ -30,24 +52,17 @@ public sealed class EnemyStats : EntityStats
 		base.TakeDamage(attackerStats, attackerPos, scaleFactor);
 
 		AudioManager.Instance.PlayWithRandomPitch("Metal Impact", .5f, 8f);
-		EffectInstantiator.Instance.Instantiate<ParticleSystem>(EffectType.SolidImpact, rb2D.position, UnityRandom.insideUnitCircle.normalized);
+		EffectPool.Instance.Spawn(EffectType.SolidImpact, rb2D.position, UnityRandom.insideUnitCircle.normalized);
 	}
 
 	public override void Die()
 	{
-		EffectInstantiator.Instance.Instantiate<ParticleSystem>(EffectType.Explosion, transform.position, Quaternion.identity);
+		EffectPool.Instance.Spawn(EffectType.Explosion, transform.position, Quaternion.identity);
 		AudioManager.Instance.Play("Explosion");
 		CameraShaker.Instance.ShakeCamera(4f, .2f);
 
 		lootTrigger.DispenseLoots();
 
-		DestroyGameObject();
-	}
-
-	public void DestroyGameObject()
-	{
-		onDied?.Invoke();
-		Destroy(healthBar.gameObject);
-		Destroy(gameObject);
+		Deallocate();
 	}
 }

@@ -1794,8 +1794,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 35.4, y: -369.8}
-  m_SizeDelta: {x: 150, y: 30}
+  m_AnchoredPosition: {x: 27.4, y: -367.2}
+  m_SizeDelta: {x: 132.7148, y: 21.0786}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &600019329
 MonoBehaviour:
@@ -1880,7 +1880,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 5, y: 0, z: 0, w: 5}
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -4926,6 +4926,7 @@ MonoBehaviour:
     period: 0
     updateType: 0
     ignoreTimeScale: 0
+    fromTweenType: 0
     tweenInRelativeSpace: 0
     playAlongPreviousTweener: 0
   disableOnStart: 0
@@ -4941,6 +4942,7 @@ MonoBehaviour:
   tweenInRelativeSpace: 0
   tweenOnEnable: 0
   tweenOnMouseHover: 0
+  resetValueOnDestroyOrDisable: 0
   onCompleteCallback:
     m_PersistentCalls:
       m_Calls:
@@ -5193,6 +5195,10 @@ PrefabInstance:
     - target: {fileID: 1416545873772083113, guid: eb2d53be4f16fab4b91c35cc6d15c140, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1576899275305289367, guid: eb2d53be4f16fab4b91c35cc6d15c140, type: 3}
+      propertyPath: m_text
+      value: 'vsync:'
       objectReference: {fileID: 0}
     - target: {fileID: 2619695695010219750, guid: eb2d53be4f16fab4b91c35cc6d15c140, type: 3}
       propertyPath: m_AnchorMax.y
@@ -5910,6 +5916,7 @@ MonoBehaviour:
     period: 0
     updateType: 0
     ignoreTimeScale: 0
+    fromTweenType: 0
     tweenInRelativeSpace: 0
     playAlongPreviousTweener: 0
   disableOnStart: 1
@@ -5925,6 +5932,7 @@ MonoBehaviour:
   tweenInRelativeSpace: 0
   tweenOnEnable: 0
   tweenOnMouseHover: 0
+  resetValueOnDestroyOrDisable: 0
   onCompleteCallback:
     m_PersistentCalls:
       m_Calls:

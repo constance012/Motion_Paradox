@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Events;
 
-public sealed class AudioSlider : MonoBehaviour
+public sealed class SliderGroup : MonoBehaviour
 {
 	[Header("References"), Space]
 	[SerializeField] private Slider slider;

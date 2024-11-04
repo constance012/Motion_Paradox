@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: Scout Data
   m_EditorClassIdentifier: 
   type: 2
-  prefab: {fileID: 4033956132377798079, guid: 1208e9e49349bed40b16a15cf4c0cccc, type: 3}
-  spawnLimitRange: {x: 1, y: 0.2}
+  spawnLimitRange: {x: 0.9, y: 0.2}
   lootTable:
     _serializedList:
     - Key: 0

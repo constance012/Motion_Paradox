@@ -11,9 +11,10 @@ public static class CanvasGroupExtensions
 		canvasGroup.blocksRaycasts = state;
 	}
 
-	public static void ToggleAnimated(this CanvasGroup canvasGroup, bool state, float duration)
+	public static void ToggleAnimated(this CanvasGroup canvasGroup, bool state, float duration, float delay = 0f)
 	{
 		canvasGroup.DOFade(Convert.ToInt32(state), duration)
+				   .SetDelay(delay)
 				   .SetUpdate(true)
 				   .OnComplete(() => canvasGroup.Toggle(state));
 	}

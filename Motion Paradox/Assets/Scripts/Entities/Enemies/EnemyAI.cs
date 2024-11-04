@@ -32,7 +32,7 @@ public abstract class EnemyAI : MonoBehaviour
 
 	private void OnDestroy()
 	{
-		_alertedEnemies.Remove(rb2D);
+		_alertedEnemies?.Remove(rb2D);
 	}
 
 	private void Update()

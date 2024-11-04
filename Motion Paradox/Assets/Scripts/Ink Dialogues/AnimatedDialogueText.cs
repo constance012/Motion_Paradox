@@ -6,7 +6,7 @@ public sealed class AnimatedDialogueText : MonoBehaviour
 {
 	[Header("References"), Space]
 	[SerializeField] private TextMeshProUGUI dialogueText;
-	[SerializeField] private GameObject continueCue;
+	[SerializeField] private CanvasGroup continueCue;
 
 	[Header("Animation"), Space]
 	[SerializeField] private float dialogueSpeed;
@@ -46,7 +46,7 @@ public sealed class AnimatedDialogueText : MonoBehaviour
 		_animateCoroutine.StopCurrent(this);
 		IsAnimating = false;
 		dialogueText.maxVisibleCharacters = _currentSentence.Length;
-		continueCue.SetActive(true);
+		continueCue.alpha = 1f;
 	}
 
 	private IEnumerator AnimateText()
@@ -55,7 +55,7 @@ public sealed class AnimatedDialogueText : MonoBehaviour
 
 		dialogueText.text = _currentSentence;
 		dialogueText.maxVisibleCharacters = 0;
-		continueCue.SetActive(false);
+		continueCue.alpha = 0f;
 
 		bool withinRichTextTags = false;
 
@@ -76,7 +76,7 @@ public sealed class AnimatedDialogueText : MonoBehaviour
 
 		yield return new WaitForEndOfFrame();
 
-		continueCue.SetActive(true);
+		continueCue.alpha = 1f;
 		IsAnimating = false;
 	}
 

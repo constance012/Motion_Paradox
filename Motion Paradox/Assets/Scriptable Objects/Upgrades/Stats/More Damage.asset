@@ -22,7 +22,7 @@ MonoBehaviour:
     color: {r: 0.764151, g: 0.49762204, b: 0.19103774, a: 0}
   type: 0
   baseCost: 75
-  exponent: 1.5
+  exponent: 1.8
   unitsToApply:
   - {fileID: 11400000, guid: 274c26ecbe1f26842a68504e168fcdc6, type: 2}
   affectedStats:

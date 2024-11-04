@@ -2,11 +2,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityRandom = UnityEngine.Random;
 
-public class EnemySpawner : MonoBehaviour
-{
-	[Header("References"), Space]
-	[SerializeField] private Transform container;
-	
+[AddComponentMenu("Object Pools/Enemy Spawner")]
+public class EnemySpawner : MultiplePrefabsPool<EnemySpawner, EnemyType, EnemyStats>
+{	
 	[Header("Enemy Runtime Data"), Space]
 	[SerializeField] private List<EnemyRuntimeData> enemyRuntimeData;
 	[SerializeField, Min(1)] private int maxEnemies;
@@ -28,7 +26,7 @@ public class EnemySpawner : MonoBehaviour
 
 		enemyRuntimeData.ForEach(data => data.Reset());
 		
-		GameManager.Instance.OnGameVictory += (sender, e) => DestroyAllEnemies();
+		GameManager.Instance.OnGameVictory += (sender, e) => DisableAllEnemies();
 		DifficultyScaler.Instance.OnNextDifficultyReached += NextDifficulty_Reached;
 	}
 
@@ -48,11 +46,11 @@ public class EnemySpawner : MonoBehaviour
 		_maxDelay = spawnDelayRange.Interpolate(e.curveValue);
 	}
 
-	private void DestroyAllEnemies()
+	private void DisableAllEnemies()
 	{
-		foreach (Transform enemy in container)
+		foreach (Transform enemy in sharedParent)
 		{
-			enemy.GetComponent<EnemyStats>().DestroyGameObject();
+			enemy.GetComponent<EnemyStats>().Deallocate();
 		}
 
 		gameObject.SetActive(false);
@@ -64,12 +62,10 @@ public class EnemySpawner : MonoBehaviour
 
 		foreach (var data in enemyRuntimeData)
 		{
-			if (spawnChance <= data.SpawnChance && container.childCount < maxEnemies)
+			if (spawnChance <= data.SpawnChance && sharedParent.childCount < maxEnemies)
 			{
 				Vector2 spawnPos = UnityRandom.insideUnitCircle.normalized * spawnRadius;
-
-				GameObject enemy = Instantiate(data.prefab, spawnPos, Quaternion.identity);
-				enemy.transform.SetParent(container);
+				Spawn(data.type, spawnPos, Quaternion.identity);
 			}
 		}
 		

@@ -36,19 +36,6 @@ public class HealthBar : MonoBehaviour
 		_tweenPool.KillActiveTweens(true);
 	}
 
-	public void SetCurrentHealthNoEffect(float current)
-	{
-		int currentInt = (int)current;
-
-		for (int i = 0; i < _segments.Length; i++)
-		{
-			if (i < currentInt)
-				_segments[i].sprite = (i % 2 == 0) ? evenSegmentSprite : oddSegmentSprite;
-			else
-				_segments[i].sprite = emptySegmentSprite;
-		}
-	}
-
 	public async void SetCurrentHealth(float current)
 	{
 		_tweenPool.KillActiveTweens(true);
@@ -77,26 +64,35 @@ public class HealthBar : MonoBehaviour
 
 	public void SetMaxHealth(float max)
 	{
-		segmentParent.DestroyAllChildren(Destroy);
-		
 		int maxInt = (int)max;
 		_previousHealth = maxInt;
-		_segments = new Image[maxInt];
 
-		for (int i = 0; i < _segments.Length; i++)
+		if (_segments == null || _segments.Length != max)
 		{
-			Image segment = Instantiate(segmentPrefab, segmentParent).GetComponent<Image>();
-			segment.sprite = (i % 2 == 0) ? evenSegmentSprite : oddSegmentSprite;
-			
-			_segments[i] = segment;
+			segmentParent.DestroyAllChildren(Destroy);
+			_segments = new Image[maxInt];
+
+			for (int i = 0; i < _segments.Length; i++)
+			{
+				Image segment = Instantiate(segmentPrefab, segmentParent).GetComponent<Image>();
+				segment.sprite = (i % 2 == 0) ? evenSegmentSprite : oddSegmentSprite;
+				
+				_segments[i] = segment;
+			}
+		}
+		else
+		{
+			for (int i = 0; i < _segments.Length; i++)
+			{
+				_segments[i].sprite = (i % 2 == 0) ? evenSegmentSprite : oddSegmentSprite;
+			}
 		}
 	}
 
 	private async Task EmptyingSegment(int index)
 	{
 		Tween tween = PerformEffect(index, emptyingColor)
-			 		 .OnComplete(() => _segments[index].sprite = emptySegmentSprite)
-			 		 .OnKill(() => _segments[index].sprite = emptySegmentSprite);
+			 		 .OnComplete(() => _segments[index].sprite = emptySegmentSprite);
 		
 		_tweenPool.Add(tween);
 

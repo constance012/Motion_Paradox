@@ -12,7 +12,7 @@ public sealed class MetalMissile : ScalableProjectile
 	{
 		DamageTarget(other, damageScaleFactor);
 
-		EffectInstantiator.Instance.Instantiate<ParticleSystem>(EffectType.Explosion, transform.position, Quaternion.identity);
+		EffectPool.Instance.Spawn(EffectType.Explosion, transform.position, Quaternion.identity);
 		AudioManager.Instance.Stop("Missile Fuel Burning");
 		AudioManager.Instance.Play("Explosion");
 		CameraShaker.Instance.ShakeCamera(5f, .3f);

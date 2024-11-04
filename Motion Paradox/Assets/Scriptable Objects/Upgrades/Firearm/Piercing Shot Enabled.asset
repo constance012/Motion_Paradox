@@ -23,7 +23,7 @@ MonoBehaviour:
     color: {r: 0.764151, g: 0.49762204, b: 0.19103774, a: 0}
   type: 0
   baseCost: 110
-  exponent: 1.5
+  exponent: 1.8
   unitsToApply:
   - {fileID: 11400000, guid: bb87e9c6ec8c0074a9e89c16fd6219e9, type: 2}
   maxAmmo: 0

@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: Interceptor Data
   m_EditorClassIdentifier: 
   type: 3
-  prefab: {fileID: 4033956132377798079, guid: 98b8cd27b579e214b95748333aee43c5, type: 3}
-  spawnLimitRange: {x: 0.01, y: 0.5}
+  spawnLimitRange: {x: 0.05, y: 0.6}
   lootTable:
     _serializedList:
     - Key: 0

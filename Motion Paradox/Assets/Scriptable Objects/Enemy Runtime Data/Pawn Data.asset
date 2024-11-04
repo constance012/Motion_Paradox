@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: Pawn Data
   m_EditorClassIdentifier: 
   type: 0
-  prefab: {fileID: 1066786834159097837, guid: 08eb008b3106132439cd04b3e1082459, type: 3}
-  spawnLimitRange: {x: 1, y: 0.2}
+  spawnLimitRange: {x: 0.9, y: 0.2}
   lootTable:
     _serializedList:
     - Key: 0

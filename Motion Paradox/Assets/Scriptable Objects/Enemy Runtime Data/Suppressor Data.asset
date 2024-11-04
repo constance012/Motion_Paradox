@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: Suppressor Data
   m_EditorClassIdentifier: 
   type: 1
-  prefab: {fileID: 76702012230458035, guid: be6d59a8dc5e73e4eae70a8d7b38e6f0, type: 3}
-  spawnLimitRange: {x: 0.01, y: 0.5}
+  spawnLimitRange: {x: 0.05, y: 0.6}
   lootTable:
     _serializedList:
     - Key: 0
