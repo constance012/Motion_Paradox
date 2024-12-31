@@ -250,18 +250,30 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 5e0ce508a9a3f564fa3e08a532f55562, type: 2}
     - target: {fileID: 8722517551982384071, guid: 10e87f7b5ac7ea04ab4c3062109bb575, type: 3}
       propertyPath: onDied.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8722517551982384071, guid: 10e87f7b5ac7ea04ab4c3062109bb575, type: 3}
       propertyPath: onDied.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8722517551982384071, guid: 10e87f7b5ac7ea04ab4c3062109bb575, type: 3}
+      propertyPath: onDied.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8722517551982384071, guid: 10e87f7b5ac7ea04ab4c3062109bb575, type: 3}
       propertyPath: onDied.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 3391313144773642410}
     - target: {fileID: 8722517551982384071, guid: 10e87f7b5ac7ea04ab4c3062109bb575, type: 3}
+      propertyPath: onDied.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 5058440771947302658}
+    - target: {fileID: 8722517551982384071, guid: 10e87f7b5ac7ea04ab4c3062109bb575, type: 3}
       propertyPath: onDied.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8722517551982384071, guid: 10e87f7b5ac7ea04ab4c3062109bb575, type: 3}
+      propertyPath: onDied.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8722517551982384071, guid: 10e87f7b5ac7ea04ab4c3062109bb575, type: 3}
@@ -269,11 +281,23 @@ PrefabInstance:
       value: EnemyStats_Died
       objectReference: {fileID: 0}
     - target: {fileID: 8722517551982384071, guid: 10e87f7b5ac7ea04ab4c3062109bb575, type: 3}
+      propertyPath: onDied.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: SetActive
+      objectReference: {fileID: 0}
+    - target: {fileID: 8722517551982384071, guid: 10e87f7b5ac7ea04ab4c3062109bb575, type: 3}
       propertyPath: onDied.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: RangedEnemyAction, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8722517551982384071, guid: 10e87f7b5ac7ea04ab4c3062109bb575, type: 3}
+      propertyPath: onDied.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: UnityEngine.GameObject, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 8722517551982384071, guid: 10e87f7b5ac7ea04ab4c3062109bb575, type: 3}
       propertyPath: onDied.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 8722517551982384071, guid: 10e87f7b5ac7ea04ab4c3062109bb575, type: 3}
+      propertyPath: onDied.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -307,7 +331,6 @@ MonoBehaviour:
   attackRadius: 7
   recoverTime: 0.2
   projectileType: 2
-  allocateAmount: 4
   firePoint: {fileID: 4829636697879189175}
   verticalSpread: 0.1
   recoilTransform: {fileID: 8911792990733839156}
@@ -318,6 +341,11 @@ MonoBehaviour:
 --- !u!4 &4829636697879189175 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7517072422948584292, guid: 10e87f7b5ac7ea04ab4c3062109bb575, type: 3}
+  m_PrefabInstance: {fileID: 3122210010465807827}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5058440771947302658 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7883375649086120657, guid: 10e87f7b5ac7ea04ab4c3062109bb575, type: 3}
   m_PrefabInstance: {fileID: 3122210010465807827}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &5392362637876431596 stripped

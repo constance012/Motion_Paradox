@@ -3,7 +3,7 @@ guid: 41abcd8661679fe4ea54edad15339095
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 12
+  serializedVersion: 13
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -534,6 +534,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Enemy_Indicator
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 1
+        width: 5
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e6286de589cce58459fd74e57c06e205
+      internalID: 1240567936
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -553,6 +574,7 @@ TextureImporter:
       Enemy_3: -1425493931
       Enemy_4: -1121843378
       Enemy_5: -841231189
+      Enemy_Indicator: 1240567936
       Energy_Capsule: -303953437
       Health_Heart: -212875952
       Metal Scrap: -114406429

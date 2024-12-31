@@ -38,7 +38,9 @@ public sealed class UpgradeSystem : Singleton<UpgradeSystem>
 	public void PlayerLeveling_LeveledUp(int currentLevel)
 	{
 		_currentLevel = currentLevel;
-		rerollLimit += (_currentLevel - 1) % 2 == 0 ? 1 : 0;
+
+		// Reward the player with 1 reroll chance every 2 levels.
+		rerollLimit += _currentLevel % 2 != 0 ? 1 : 0;
 
 		titleText.text = $"<color=#BC712E>Level {_currentLevel} reached!</color>\nChoose an overdrive";
 		storedScrapText.text = ScrapCollector.Instance.Amount.ToString();
