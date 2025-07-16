@@ -38,7 +38,6 @@ public class HandheldWeapon : MonoBehaviour, IUpgradeApplicationReceiver
 	{
 		if (upgrade is FirearmUpgradeBase)
 		{
-			Debug.Log("Re-initializing rifle attributes...");
 			Initialize();
 		}
 	}

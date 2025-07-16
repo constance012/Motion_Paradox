@@ -30,8 +30,6 @@ public sealed class EnemyLootDispenser : Singleton<EnemyLootDispenser>
 			{
 				if (lootScriptableObjects.TryGetValue(loot.Key, out Item itemSO))
 				{
-					Debug.Log($"Dropping {itemSO.name}...");
-
 					PickableItem droppedItem = _pool.Spawn(position + Random.insideUnitCircle.normalized, Quaternion.identity);
 					droppedItem.Initialize(itemSO, info.quantityRange.RandomBetweenEnds());
 				}

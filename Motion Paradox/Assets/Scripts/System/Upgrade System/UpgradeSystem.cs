@@ -132,7 +132,6 @@ public sealed class UpgradeSystem : Singleton<UpgradeSystem>
 
 	private void SceneLoader_Loaded(object sender, SceneLoadEventArgs e)
 	{
-		Debug.Log("Fetching receivers...");
 		IEnumerable<IUpgradeApplicationReceiver> receivers = FindObjectsOfType<MonoBehaviour>(true).OfType<IUpgradeApplicationReceiver>();
 		_receivers = new HashSet<IUpgradeApplicationReceiver>(receivers);
 	}

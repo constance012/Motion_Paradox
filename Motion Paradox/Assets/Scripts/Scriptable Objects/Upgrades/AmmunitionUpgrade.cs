@@ -13,7 +13,6 @@ public class AmmunitionUpgrade : FirearmUpgradeBase
 	{
 		if (!IsApplied)
 		{
-			Debug.Log($"Applying \"{this.displayName}\" upgrade...");
 			ApplyChanges(1);
 		}
 	}
@@ -22,7 +21,6 @@ public class AmmunitionUpgrade : FirearmUpgradeBase
 	{
 		if (IsApplied)
 		{
-			Debug.Log($"Removing \"{this.displayName}\" upgrade...");
 			ApplyChanges(-1);
 		}
 	}

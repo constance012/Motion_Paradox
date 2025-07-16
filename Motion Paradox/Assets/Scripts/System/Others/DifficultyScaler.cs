@@ -36,7 +36,6 @@ public sealed class DifficultyScaler : Singleton<DifficultyScaler>
 			_currentDifficultyLevel++;
 			_nextDifficultyMark += difficultyLength;
 
-			Debug.Log($"Next difficulty mark: {_nextDifficultyMark}");
 			OnNextDifficultyReached?.Invoke(this, new DifficultyReachedEventArgs(_elapsedTime, _totalTime, difficultyCurve));
 		}
 	}

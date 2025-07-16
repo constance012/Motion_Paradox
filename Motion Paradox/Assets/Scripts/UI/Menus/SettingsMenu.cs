@@ -91,7 +91,6 @@ public sealed class SettingsMenu : MonoBehaviour
 
 	public void SetVsync(int useVsync)
 	{
-		Debug.Log($"Use Vsync: {Convert.ToBoolean(useVsync)}.");
 		QualitySettings.vSyncCount = useVsync;
 		UserSettings.UseVsync = useVsync;
 	}

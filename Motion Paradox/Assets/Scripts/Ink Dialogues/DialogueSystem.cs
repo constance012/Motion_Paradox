@@ -97,8 +97,6 @@ public sealed class DialogueSystem : Singleton<DialogueSystem>
 			}
 			else if (_currentStory.canContinue)
 			{
-				Debug.Log("Continuing story...");
-
 				string nextSentence = _currentStory.Continue().Trim('\n', '\r');
 				if (string.IsNullOrEmpty(nextSentence))
 				{
