@@ -2279,6 +2279,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameObjectToTween: {fileID: 1580483898}
   tweeners:
+  - name: Fade In
+    tweenType: 3
+    endValue: {x: 1, y: 0, z: 0}
+    duration: 0.3
+    startValue: {x: 0, y: 0, z: 0}
+    useCurrentValueAsStart: 0
+    overrideStartValue: 1
+    rotateMode: 0
+    snapToInteger: 0
+    isSpeedBased: 0
+    loopType: 0
+    loopCount: 0
+    easeType: 3
+    delay: 0
+    overshoot: 1.70158
+    period: 0
+    updateType: 0
+    ignoreTimeScale: 1
+    fromTweenType: 0
+    tweenInRelativeSpace: 0
+    playAlongPreviousTweener: 0
   - name: Move Down
     tweenType: 1
     endValue: {x: 0, y: -35, z: 0}
@@ -2299,7 +2320,7 @@ MonoBehaviour:
     ignoreTimeScale: 1
     fromTweenType: 0
     tweenInRelativeSpace: 1
-    playAlongPreviousTweener: 0
+    playAlongPreviousTweener: 1
   disableOnStart: 0
   dontSetStartValuesOnAwake: 0
   loopType: 0
@@ -2310,7 +2331,7 @@ MonoBehaviour:
   period: 0
   updateType: 0
   ignoreTimeScale: 1
-  tweenInRelativeSpace: 1
+  tweenInRelativeSpace: 0
   tweenOnEnable: 0
   tweenOnMouseHover: 0
   resetValueOnDestroyOrDisable: 0
@@ -5064,6 +5085,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1580483899}
   - component: {fileID: 1580483902}
+  - component: {fileID: 1580483904}
   - component: {fileID: 1580483901}
   - component: {fileID: 1580483900}
   - component: {fileID: 1580483903}
@@ -5174,6 +5196,18 @@ MonoBehaviour:
   countText: {fileID: 1167796940}
   showTweenable: {fileID: 671580859}
   onScreenTime: 3
+--- !u!225 &1580483904
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1580483898}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1001 &1584216392
 PrefabInstance:
   m_ObjectHideFlags: 0
