@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -43,22 +44,32 @@ public sealed class UpgradeSystem : Singleton<UpgradeSystem>
 		rerollLimit += _currentLevel % 2 != 0 ? 1 : 0;
 
 		titleText.text = $"<color=#BC712E>Level {_currentLevel} reached!</color>\nChoose an overdrive";
-		storedScrapText.text = ScrapCollector.Instance.Amount.ToString();
-		
+
 		if (!GameManager.GameDone)
-			_toggleCoroutine.StartNew(this, ToggleState(true, .5f), true);
+		{
+			_toggleCoroutine.StartNew(this, ToggleStateDelayed(true, .5f), true);
+		}
 	}
 
-	public System.Collections.IEnumerator ToggleState(bool state, float delay)
+	public void Close()
+	{
+		_toggleCoroutine.StartNew(this, ToggleStateDelayed(false, .2f), true);
+	}
+
+	public IEnumerator ToggleStateDelayed(bool isActive, float delay)
 	{
 		yield return new WaitForSecondsRealtime(delay);
 
-		canvasGroup.ToggleAnimated(state, .3f);
-		TimeManager.GlobalTimeScale = 1 - Convert.ToInt32(state);
-		CursorManager.Instance.SwitchCursorTexture(state ? CursorTextureType.Default : CursorTextureType.Crosshair);
+		canvasGroup.ToggleAnimated(isActive, .3f);
+		storedScrapText.text = ScrapCollector.Instance.Amount.ToString();
 
-		if (state)
+		TimeManager.GlobalTimeScale = 1 - Convert.ToInt32(isActive);
+		CursorManager.Instance.SwitchCursorTexture(isActive ? CursorTextureType.Default : CursorTextureType.Crosshair);
+
+		if (isActive)
+		{
 			Reroll(consumeAttempt: false);
+		}
 	}
 
 	// Callback method for the reroll button.
@@ -127,7 +138,7 @@ public sealed class UpgradeSystem : Singleton<UpgradeSystem>
 			receiver.OnUpgradeApplied(upgrade.GetType(), upgrade);
 		}
 
-		_toggleCoroutine.StartNew(this, ToggleState(false, .2f), true);
+		Close();
 	}
 
 	private void SceneLoader_Loaded(object sender, SceneLoadEventArgs e)
