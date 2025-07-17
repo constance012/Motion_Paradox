@@ -1,6 +1,5 @@
 using UnityEngine;
 using DG.Tweening;
-using Unity.VisualScripting;
 
 public sealed class PickableItem : Interactable, IPoolable
 {
