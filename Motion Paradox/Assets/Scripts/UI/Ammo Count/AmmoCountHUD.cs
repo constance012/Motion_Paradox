@@ -84,7 +84,7 @@ public sealed class AmmoCountHUD : MonoBehaviour
 	{
 		GameObject prefab = isPiercingShot ? piercingBulletUIPrefab : normalBulletUIPrefab;
 		
-		CartridgeUI bullet = _bulletUIPool.Prefill(prefab);
+		CartridgeUI bullet = _bulletUIPool.AddToPool(prefab);
 		bullet.name = isPiercingShot ? PIERCING_BULLET_NAME : NORMAL_BULLET_NAME;
 		
 		_magazine.Enqueue(bullet);

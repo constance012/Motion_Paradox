@@ -1,6 +1,5 @@
 using UnityEngine;
 using DG.Tweening;
-using Unity.VisualScripting;
 
 public sealed class PickableItem : Interactable, IPoolable
 {
@@ -93,8 +92,6 @@ public sealed class PickableItem : Interactable, IPoolable
 	{
 		if (!_isInteracted)
 		{
-			Debug.Log($"You're picking up a(n) {_currentItem.displayName}");
-			
 			if (_currentItem.autoUse && _currentItem.Use(_player, forced: _delay > 0f))
 			{
 				_isInteracted = true;

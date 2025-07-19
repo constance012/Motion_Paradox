@@ -22,7 +22,6 @@ public class EnemyIndicator : MonoBehaviour
 
 	private void LateUpdate()
 	{
-		Debug.Log(spriteRenderer.isVisible);
 		if (!spriteRenderer.isVisible)
 		{
 			indicator.gameObject.SetActive(true);

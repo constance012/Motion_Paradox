@@ -51,7 +51,6 @@ public sealed class UpgradeSlot : MonoBehaviour
 	{
 		if (!currentUpgrade.IsApplied && costText.IsSufficient)
 		{
-			Debug.Log($"You've chosen {currentUpgrade.displayName}.");
 			UpgradeSystem.Instance.ApplyChosenUpgrade(currentUpgrade);
 			ScrapCollector.Instance.UpdateAmount(-_currentCost);
 		}

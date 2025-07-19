@@ -12,7 +12,6 @@ public class StatsUpgrade : GenericUpgradeBase<Stats>
 	{
 		if (!IsApplied)
 		{
-			Debug.Log($"Applying \"{this.displayName}\" upgrade...");
 			unitsToApply.ForEach(unit => unit.AddUpgrade(this));
 			IsApplied = true;
 		}
@@ -22,7 +21,6 @@ public class StatsUpgrade : GenericUpgradeBase<Stats>
 	{
 		if (IsApplied)
 		{
-			Debug.Log($"Removing \"{this.displayName}\" upgrade...");
 			unitsToApply.ForEach(unit => unit.RemoveUpgrade(this));
 			IsApplied = false;
 		}

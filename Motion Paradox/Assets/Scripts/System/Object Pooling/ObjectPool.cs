@@ -66,7 +66,7 @@ public sealed class ObjectPool<TObject> where TObject : MonoBehaviour, IPoolable
 		_pool.Clear();
 	}
 
-	public TObject Prefill(GameObject prefab)
+	public TObject AddToPool(GameObject prefab)
 	{
 		TObject obj = GameObject.Instantiate(prefab, _parent).GetComponent<TObject>();
 		obj.name = prefab.name.TrimStart('_');
@@ -80,25 +80,32 @@ public sealed class ObjectPool<TObject> where TObject : MonoBehaviour, IPoolable
 	{
 		for (int i = 0; i < amount; i++)
 		{
-			Prefill(prefab);
+			AddToPool(prefab);
 		}
 	}
 	#endregion
 
 	private TObject TrySpawnObject(Func<TObject, bool> predicate)
 	{
-		TObject newObject;
-		
+		TObject newObject = null;
+
 		if (_pool.Count == 0)
 		{
 			Debug.LogWarning($"The pool of {typeof(TObject)} is empty, spawning a new one.");
-			newObject = GameObject.Instantiate(_prefab, _parent).GetComponent<TObject>();
-			newObject.Allocate();
+			newObject = AddToPool(_prefab);
 		}
 		else
 		{
-			newObject = _pool.First(predicate);
-			newObject.Allocate();
+			try
+			{
+				newObject = _pool.First(predicate);
+				newObject.Allocate();
+			}
+			catch (InvalidOperationException)
+			{
+				Debug.LogWarning($"No available object found in the pool of {typeof(TObject)}. Spawning a new one.");
+				newObject = AddToPool(_prefab);
+			}
 		}
 		
 		return newObject;

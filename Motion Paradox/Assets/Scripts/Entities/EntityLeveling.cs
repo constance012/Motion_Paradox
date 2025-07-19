@@ -34,7 +34,6 @@ public abstract class EntityLeveling : MonoBehaviour, ILevelable
 
 	public virtual void LevelUp()
 	{
-		Debug.Log($"{gameObject.name} leveled up!");
 		_currentLevelRequirement = levelingCurve.GetRequirementForLevel(++CurrentLevel);
 
 		if (CurrentExperience > _currentLevelRequirement)

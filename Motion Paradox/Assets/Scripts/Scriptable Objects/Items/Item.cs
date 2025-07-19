@@ -19,7 +19,6 @@ public class Item : IdentifiableSO
 
 	public virtual bool Use(Transform target, bool forced = false)
 	{
-		Debug.Log($"Using {displayName}...");
 		return canBeUsed;
 	}
 

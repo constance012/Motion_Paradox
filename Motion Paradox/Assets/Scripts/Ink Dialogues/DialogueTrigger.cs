@@ -98,7 +98,6 @@ public class DialogueTrigger : MonoBehaviour
 		
 		if (!DialogueSystem.IsPlaying)
 		{
-			Debug.Log($"Trigger dialogue of {gameObject.name}");
 			DialogueSystem.Instance.PlayDialogue(_story);
 		}
 
