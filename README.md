@@ -45,3 +45,5 @@ Play both versions directly or download for your current platform [__HERE__](htt
 ![Capture_4](Ingame_Captures/Capture_4.png)
 
 ![Capture_5](Ingame_Captures/Capture_5.png)
+
+_© 2022-2025 CST Games, all rights reserved._
